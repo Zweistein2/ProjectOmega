@@ -13,7 +13,7 @@ pipeline {
                sh """
                   #!/bin/bash
                   whoami
-                  cp -r * /var/www/html/
+                  cp -r * /var/www/html/jenkins/
                """
             }
         }
