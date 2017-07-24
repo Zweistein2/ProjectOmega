@@ -8,15 +8,16 @@ pipeline {
             echo 'Building..'
          }
       }
-      stage('Deploy') {
-         
+      stage('Deploy') { 
          def matcher = env.BRANCH_NAME =~ /^.*_(.*)$/
          String branch = matcher[0][1]
-         sh """
-            #!/bin/bash
-            mkdir -r /var/www/html/cd/${branch}/
-            cp -r * /var/www/html/cd/${branch}/
-         """
+         steps {
+            sh """
+               #!/bin/bash
+               mkdir -r /var/www/html/cd/${branch}/
+               cp -r * /var/www/html/cd/${branch}/
+            """
+         }
       }
    }
 }
