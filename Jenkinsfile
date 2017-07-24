@@ -12,6 +12,7 @@ pipeline {
             steps {
                sh """
                   #!/bin/bash
+                  whoami
                   cp -r * /var/www/html/
                """
             }
