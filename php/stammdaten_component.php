@@ -1,5 +1,8 @@
 <html>
-<?php include("template/head.template.php"); ?>
+<head>
+    <title>Stammdaten</title>
+    <?php include("template/head.template.php"); ?>
+</head>
 <body>
 <div class="container">
     <div class="row" style="margin-bottom:30px;">

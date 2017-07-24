@@ -1,12 +1,15 @@
 <html>
 <head>
-    <title>Eintrag lösschen</title>
+    <title>Eintrag bearbeiten</title>
     <?php include("template/head.template.php"); ?>
 </head>
 <div class="container">
-    <h2>Eintrag löschen</h2>
+    <h2>Eintrag bearbeiten - Raum R001</h2>
     <div class="panel panel-default">
-        <div class="panel-body">Möchten Sie den Raum R001 wirklich löschen?
+        <div class="panel-body">
+            <p>Raum Nummer: <input id="r_nr"></p>
+            <p>Raum Bezeichung: <input id="r_bezeichung"></p>
+            <p>Raum Notiz: <input id="r_notiz"></p>
         </div>
         <div class="panel-footer"><a href="#" class="btn btn-danger">Löschen</a>&nbsp;&nbsp;<a href="#"
                                                                                                class="btn btn-primary">Abbrechen</a>
