@@ -2,7 +2,16 @@
 
 <html>
 <header>
+    <style>
+        input[type='checkbox'] {
+            width:30px;
+            height:30px;
+            border-radius:5px;
+            border:2px solid #555;
+        }
+    </style>
     <?php include("template/head.template.php"); ?>
+
     <title>Ausmusterung</title>
 </header>
 <body>
@@ -19,7 +28,7 @@
 </div>
 
 <div class="col-sm-6">
-    <table class="table table-bordered">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>ID</th>
