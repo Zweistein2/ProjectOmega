@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="row" style="margin-bottom:30px;">
+    <div class="row pull-left" style="margin-bottom:30px;">
         <button class="btn btn-primary">Neu</button>
     </div>
     <div class="row">
