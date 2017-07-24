@@ -1,6 +1,14 @@
-.bootstrap-select {
-    margin-bottom: 20px;
-    padding-top: 20px;
+.body .btn {
+    margin-top: 20px;
+}
+
+.table .checkbox {
+    top: -8px;
+    left: 23px;
+}
+
+.table .glyphicon {
+    top: -4px;
 }
 
 .panel {
@@ -60,4 +68,3 @@
 .panel-table .panel-body .table-bordered > tbody > tr > td{
     line-height: 34px;
 }
-

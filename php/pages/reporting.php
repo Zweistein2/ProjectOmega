@@ -1,24 +1,20 @@
 <html>
     <head>
         <title>Reporting</title>
-        <?php include("template/head.template.php"); ?>
-        <link href="../css/reporting.css" rel="stylesheet">
+        <?php include("../template/head.template.php"); ?>
+        <link href="../../css/reporting.css" rel="stylesheet">
     </head>
     <body>
+        <?php include("../template/sidebar.template.php"); ?>
         <div class="container">
             <h2>Reporting</h2>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Wähle die Stammdaten zum filtern
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Räume</a></li>
-                            <li><a href="#">Lieferanten</a></li>
-                            <li><a href="#">Komponenten</a></li>
-                        </ul>
-                    </div>
+                <div class="col-md-3">
+                    <select class="selectpicker" data-style="btn-info">
+                        <option>Räume</option>
+                        <option>Lieferanten</option>
+                        <option>Komponenten</option>
+                    </select>
                     <div>
                         <div class="list-group">
                             <button type="button" class="list-group-item" data-toggle="modal" data-target="#AusstattungModal">nach Ausstattung...</button>
@@ -26,12 +22,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <div class="panel panel-default panel-table">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col col-xs-12">
-                                    <h3 class="panel-title">PCs gefiltert nach Komponentenattribute: Hersteller = Dell, Acer</h3>
+                                    <h3 class="panel-title">Komponenten gefiltert nach Komponentenattribute: Art = PC; Hersteller = Dell, Acer</h3>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +66,7 @@
                         </div>
                         <div class="panel-footer">
                             <div class="row">
-                                <div class="col col-xs-4">Page 3 of 5
-                                </div>
+                                <div class="col col-xs-4"></div>
                                 <div class="col col-xs-8">
                                     <ul class="pagination hidden-xs pull-right">
                                         <li><a href="#"><<</a></li>
@@ -87,6 +82,7 @@
                 </div>
             </div>
         </div>
+
         <div id="AusstattungModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">

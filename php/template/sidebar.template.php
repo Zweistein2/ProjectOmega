@@ -23,11 +23,11 @@
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-tag"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="#">Lieferanten</a></li>
-                        <li><a href="#">Räume</a></li>
-                        <li><a href="#">Benutzer</a></li>
-                        <li><a href="#">Komponentenarten</a></li>
-                        <li><a href="#">Komponentenattribute</a></li>
+                        <li><a href="./stammdaten_komponenten.php">Lieferanten</a></li>
+                        <li><a href="./stammdaten_komponenten.php">Räume</a></li>
+                        <li><a href="./stammdaten_komponenten.php">Benutzer</a></li>
+                        <li><a href="./stammdaten_komponenten.php">Komponenten</a></li>
+                        <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -35,14 +35,14 @@
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-list"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="#">Neu</a></li>
-                        <li><a href="#">Ausmusterung</a></li>
+                        <li><a href="./verwaltung_neuanlage.php">Neuanlage</a></li>
+                        <li><a href="./verwaltung_ausmusterung.php">Ausmusterung</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Reporting<span style="font-size:16px;"
+                <li><a href="./reporting.php">Reporting<span style="font-size:16px;"
                                                class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a>
                 </li>
-                <li><a href="#">Logout<span style="font-size:16px;"
+                <li><a href="./login.php">Logout<span style="font-size:16px;"
                                             class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a>
                 </li>
             </ul>
