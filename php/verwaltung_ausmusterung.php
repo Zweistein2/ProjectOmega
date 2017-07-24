@@ -28,7 +28,6 @@
         </thead>
         <tbody>
         <?php
-
             $string = "<tr>
             <td>1</td>
             <td>I7 4770</td>
