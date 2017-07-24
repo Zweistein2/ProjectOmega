@@ -89,7 +89,7 @@ nav.sidebar, .main {
     }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
 
     .main {
         width: calc(100% - 200px);
