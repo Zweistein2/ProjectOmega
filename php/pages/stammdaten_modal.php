@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_GET["operation"]) && isset($_GET["type"]) && isset($_GET["id"])) {
+if (isset($_GET["operation"]) && isset($_GET["id"])) {
     $operation = $_GET["operation"];
     $id = $_GET["id"];
     $htmlOutput = "";

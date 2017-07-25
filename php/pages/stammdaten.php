@@ -16,7 +16,7 @@ if (isset($_GET["type"])) {
         die();
     }
 } else {
-    $type = "lieferant";
+    die();
 }
 
 include("stammdaten_modal.php");
