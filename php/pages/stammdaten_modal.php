@@ -1,15 +1,19 @@
 <?php
 
-if (isset($_GET["operation"]) && isset($_GET["id"])) {
+if (isset($_GET["operation"])) {
     $operation = $_GET["operation"];
-    $id = $_GET["id"];
     $htmlOutput = "";
-
-    if ($operation == "delete") {
-        $htmlOutput = deleteEntry($id);
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+        if ($operation == "delete") {
+            $htmlOutput = deleteEntry($id);
+        }
+        if ($operation == "edit") {
+            $htmlOutput = editEntry($id);
+        }
     }
-    if ($operation == "edit") {
-        $htmlOutput = editEntry($id);
+    if ($operation == "new") {
+        $htmlOutput = newEntry();
     }
 
     echo $htmlOutput;
@@ -43,8 +47,6 @@ function generateDiag($title, $btnTitle, $html, $href)
 
 function deleteEntry($id)
 {
-    global $dbAlias;
-    global $type;
     $returnHtml = "";
     $title = "Eintrag löschen";
     $html = "Möchten Sie den den Eintrag " . $id . " wirklich löschen?";
@@ -54,9 +56,36 @@ function deleteEntry($id)
     return $returnHtml;
 }
 
-function editEntry()
+function editEntry($id)
 {
+    global $type;
+    global $dbElements;
+    $rowNames = $dbElements[$type];
+    $title = "Ändern";
+    $html = "";
+    $btnTitle = "Speichern";
+    $href = "#";
+    $query = getOneByTableAndID($type, $id);
+    foreach ($rowNames as $i) {
+        $html = $html . "<p>$i:<input type='text' name='$i' value='$query[$i]'</p>";
+    }
+    return generateDiag($title, $btnTitle, $html, $href);
+}
 
+function newEntry()
+{
+    global $type;
+    global $dbElements;
+    $rowNames = $dbElements[$type];
+    $title = "Neu";
+    $html = "";
+    $btnTitle = "Speichern";
+    $href = "#";
+    $query = getEntriesByTable($type);
+    foreach ($rowNames as $i) {
+        $html = $html . "<p>$i:<input type='text' name='$i'</p>";
+    }
+    return generateDiag($title, $btnTitle, $html, $href);
 }
 
 ?>
