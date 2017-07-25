@@ -68,9 +68,9 @@
                                         echo '<td>'.$data['k_notiz'].'</td>';
                                         echo '<td>'.$data['k_hersteller'].'</td>';
                                         echo '<td>'.$data['komponentenarten_ka_id'].'</td>'; //TODO: Name der Komponentenart
-                                        echo '<td><div class="checkbox"><input type="checkbox" value=""></div></td>';
-                                        echo '<td><div class="checkbox"><input type="checkbox" value=""></div></td>';
-                                        echo '<td><div class="checkbox"><input type="checkbox" value=""></div></td>';
+                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenAendern">Ändern</button></td>';
+                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenCopy">Copy</button></td>';
+                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenLoeschen">x</button></td>';
                                         echo '</tr>';
                                     }
                                     ?>
@@ -91,6 +91,58 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="StammdatenAendern" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ändern</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Wirklich ändern?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-success">Löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="StammdatenCopy" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Copy</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Wirklich kopieren?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-success">Löschen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="StammdatenLoeschen" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Loeschen</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Wirklich löschen?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-success">Löschen</button>
                     </div>
                 </div>
             </div>
