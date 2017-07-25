@@ -6,8 +6,8 @@
  * Time: 08:49
  */
 
-require_once("./helpers/redirect.php");
-require_once ("./authentication/UserPrivliges.class.php");
+require_once("../helpers/redirect.php");
+require_once ("../authentication/UserPrivliges.class.php");
 
 
 function checkForValidSessionInArea($area)
