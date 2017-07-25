@@ -5,6 +5,10 @@
  * Date: 25.07.2017
  * Time: 09:34
  */
+
+//TODO
+$connection = mysqli_connect('192.168.20.1', 'dev', 'dev', 'softwareTest');
+
 function getComponents(){
     global $connection;
     $query = 'SELECT * FROM komponenten';
@@ -103,5 +107,27 @@ function deleteKindByID($ka_id){
     global $connection;
     $query = 'DELETE FROM komponentenarten WHERE ka_id='.$ka_id;
     mysqli_query($connection, $query);
+}
+function deleteEntryByTableAndID($tabname, $id){
+    global $connection;
+    switch($tabname){
+        case 'komponenten':
+            deleteComponentByID($id);
+            break;
+        case 'lieferant':
+            deleteSupplierByID($id);
+            break;
+        case 'raeume':
+            deleteRoomByID($id);
+            break;
+        case 'komponentenarten':
+            deleteKindByID($id);
+            break;
+        case 'komponentenattribute':
+            deleteAttributeByID($id);
+            break;
+        default:
+            break;
+    }
 }
 
