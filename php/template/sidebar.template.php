@@ -23,10 +23,10 @@
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-tag"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="./stammdaten_komponenten.php">Lieferanten</a></li>
-                        <li><a href="./stammdaten_komponenten.php">Räume</a></li>
-                        <li><a href="./stammdaten_komponenten.php">Benutzer</a></li>
-                        <li><a href="./stammdaten_komponenten.php">Komponenten</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=lieferant">Lieferanten</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=raeume">Räume</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=benutzer">Benutzer</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=hardware">Komponenten</a></li>
                         <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
                     </ul>
                 </li>
