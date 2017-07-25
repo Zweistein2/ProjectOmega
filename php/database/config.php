@@ -2,7 +2,6 @@
 
 require_once("cryption.php");
 
-$file = "../database/pass.enc";
 $db = "softwareTest";
 $user = "dev";
 $pass = "dev";
