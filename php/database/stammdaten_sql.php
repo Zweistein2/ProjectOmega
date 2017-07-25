@@ -24,6 +24,19 @@ function getAttributesByKaID($ka_id){
             .'WHERE bes.komponenten_ka_id = ' . $ka_id;
     return mysqli_query($connection, $query);
 }
+function getOneByTableAndID($tabname, $id){
+    global $connection;
+    $prim = [
+        'komponenten' => 'k_id',
+        'raeume' => 'r_id',
+        'lieferant' => 'l_id',
+        'komponentenarten' => 'ka_id',
+        'komponentenattribute' => 'kat_id'
+    ];
+    $query = 'SELECT * FROM '.$tabname.' WHERE '.$prim[$tabname].'='.$id;
+    $results = mysqli_query($connection, $query);
+    return mysqli_fetch_assoc($results);
+}
 function getRooms(){
     global $connection;
     $query = 'SELECT * FROM raeume';
@@ -34,12 +47,14 @@ function getSuppliers(){
     $query = 'SELECT * FROM lieferant';
     return mysqli_query($connection, $query);
 }
+/*
 function getComponentByID($k_id){
     global $connection;
     $query = 'SELECT * FROM komponenten WHERE k_id = ' . $k_id;
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($result);
 }
+*/
 function copyComponent($k_id, $count){
     global $connection;
     if($count < 1) return;
@@ -57,3 +72,30 @@ function copyComponent($k_id, $count){
     }
     mysqli_query($connection, $query);
 }
+function deleteRoomByID($r_id){
+    global $connection;
+    $query = 'DELETE FROM raeume WHERE r_id='.$r_id;
+    mysqli_query($connection, $query);
+}
+function deleteSupplierByID($l_id){
+    global $connection;
+    $query = 'DELETE FROM lieferant WHERE l_id='.$l_id;
+    mysqli_query($connection, $query);
+}
+function deleteComponentByID($k_id){
+    global $connection;
+    $query = 'DELETE FROM komponenten WHERE k_id='.$k_id;
+    mysqli_query($connection, $query);
+}
+//TODO: Löschweitergabe??
+function deleteAttributeByID($kat_id){
+    global $connection;
+    $query = 'DELETE FROM komponentenattribute WHERE kat_id='.$kat_id;
+    mysqli_query($connection, $query);
+}
+function deleteKindByID($ka_id){
+    global $connection;
+    $query = 'DELETE FROM komponentenarten WHERE ka_id='.$ka_id;
+    mysqli_query($connection, $query);
+}
+
