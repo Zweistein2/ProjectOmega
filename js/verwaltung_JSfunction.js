@@ -43,8 +43,6 @@ function renderSelectbox() {
         htmlString += "<option \"+ selected +\"><a href='../php/pages/verwaltung_ausmusterung.php?art="+item+"'>"+item+"</a></option>"
     }
     $(".selectPicker").html(htmlString);
-
-
 }
 
 //Funktionen die das blättern in der Tabelle ermöglichen
@@ -64,14 +62,11 @@ function bindPaginationFunctions(page) {
     $("#lastPage").click(function () {
         var bigPage = hardwareArray.length/10;
         renderTable(Math.round( bigPage+0.4));
-
     });
 
     $("#firstPage").click(function () {
         renderTable(1);
     });
-
-
 }
 
 //Muss immer aufgeruden werden wenn die Tabelle neu gerendert wird
