@@ -3,7 +3,7 @@
         <title>Stammdaten</title>
         <?php
         include("../template/head.template.php");
-        include("stammdaten_modal.php");
+        include("stammdaten.php");
         ?>
         <link href="../../css/stammdaten.css" rel="stylesheet">
     </head>

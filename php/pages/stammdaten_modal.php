@@ -1,13 +1,5 @@
 <?php
 
-$dbAlias = [
-    "raeume" => true,
-    "lieferant" => true,
-    "komponenten" => true,
-    "komponentenarten" => true,
-    "komponentenattribute" => true
-];
-
 if (isset($_GET["operation"]) && isset($_GET["type"]) && isset($_GET["id"])) {
     $operation = $_GET["operation"];
     $type = $_GET["type"];
@@ -30,15 +22,15 @@ function generateDiag($title, $btnTitle, $message, $href)
     <div class=\"modal-dialog\">
         <div class=\"modal-content\">
             <div class=\"modal-header\">
-                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+                <a class=\"close\" href='?'>&times;</a>
                 <h4 class=\"modal-title\">$title</h4>
             </div>
             <div class=\"modal-body\">
                 <p>$message</p>
             </div>
             <div class=\"modal-footer\">
-                <a href=\"$href\" type=\"button\" class=\"btn btn-primary\">$btnTitle</a>
-                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Abbrechen</button>
+                <a href=\"$href\" class=\"btn btn-primary\">$btnTitle</a>
+                <a href='' class=\"btn btn-default\">Abbrechen</a>
             </div>
         </div>
 
