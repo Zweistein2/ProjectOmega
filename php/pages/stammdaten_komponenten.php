@@ -71,9 +71,9 @@
                                         echo '<td>'.$data['k_notiz'].'</td>';
                                         echo '<td>'.$data['k_hersteller'].'</td>';
                                         echo '<td>'.$data['komponentenarten_ka_id'].'</td>'; //TODO: Name der Komponentenart
-                                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-pencil"></span></a></td>';
-                                        echo '<td><a class="btn btn-warning" href="?operation=copy&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-copy"></span></a></td>';
-                                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-remove"></span></a></td>';
+                                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=' . $type . '&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-pencil"></span></a></td>';
+                                        echo '<td><a class="btn btn-warning" href="?operation=copy&type=' . $type . '&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-copy"></span></a></td>';
+                                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=' . $type . '&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-remove"></span></a></td>';
                                         echo '</tr>';
                                     }
                                     ?>
@@ -94,58 +94,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="StammdatenAendern" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ändern</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Wirklich ändern?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" class="btn btn-success">Löschen</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="StammdatenCopy" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Copy</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Wirklich kopieren?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" class="btn btn-success">Löschen</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="StammdatenLoeschen" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Loeschen</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Wirklich löschen?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                        <button type="submit" class="btn btn-success">Löschen</button>
                     </div>
                 </div>
             </div>

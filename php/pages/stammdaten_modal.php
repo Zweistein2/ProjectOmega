@@ -2,35 +2,35 @@
 
 if (isset($_GET["operation"]) && isset($_GET["type"]) && isset($_GET["id"])) {
     $operation = $_GET["operation"];
-    $type = $_GET["type"];
     $id = $_GET["id"];
     $htmlOutput = "";
 
     if ($operation == "delete") {
-        $htmlOutput = deleteEntry($type, $id);
+        $htmlOutput = deleteEntry($id);
     }
     if ($operation == "edit") {
-        $htmlOutput = editEntry($type, $id);
+        $htmlOutput = editEntry($id);
     }
 
     echo $htmlOutput;
 }
 
-function generateDiag($title, $btnTitle, $message, $href)
+function generateDiag($title, $btnTitle, $html, $href)
 {
+    global $type;
     $modalHtml = "<div id=\"modal\" class=\"modal show\" role=\"dialog\">
     <div class=\"modal-dialog\">
         <div class=\"modal-content\">
             <div class=\"modal-header\">
-                <a class=\"close\" href='?'>&times;</a>
+                <a class=\"close\" href=\"?type=$type\">&times;</a>
                 <h4 class=\"modal-title\">$title</h4>
             </div>
             <div class=\"modal-body\">
-                <p>$message</p>
+                $html
             </div>
             <div class=\"modal-footer\">
                 <a href=\"$href\" class=\"btn btn-primary\">$btnTitle</a>
-                <a href='' class=\"btn btn-default\">Abbrechen</a>
+                <a class=\"btn btn-default\" href=\"?type=$type\">Abbrechen</a>
             </div>
         </div>
 
@@ -41,21 +41,20 @@ function generateDiag($title, $btnTitle, $message, $href)
 
 }
 
-function deleteEntry($type, $id)
+function deleteEntry($id)
 {
     global $dbAlias;
+    global $type;
     $returnHtml = "";
-    if (isset($dbAlias[$type])) {
-        $title = "Eintrag löschen";
-        $message = "Möchten Sie den den Eintrag " . $id . " wirklich löschen?";
-        $btnTitle = "Löschen";
-        $href = "#";
-        $returnHtml = generateDiag($title, $btnTitle, $message, $href);
-    }
+    $title = "Eintrag löschen";
+    $html = "Möchten Sie den den Eintrag " . $id . " wirklich löschen?";
+    $btnTitle = "Löschen";
+    $href = "#";
+    $returnHtml = generateDiag($title, $btnTitle, $html, $href);
     return $returnHtml;
 }
 
-function changeEntry()
+function editEntry()
 {
 
 }

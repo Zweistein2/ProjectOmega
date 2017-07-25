@@ -1,5 +1,6 @@
 <?php
 
+$type = "";
 $dbAlias = [
     "raeume" => true,
     "lieferant" => true,
@@ -8,6 +9,15 @@ $dbAlias = [
     "benutzer" => true,
     "komponentenattribute" => true
 ];
+
+if (isset($_GET["type"])) {
+    $type = $_GET["type"];
+    if (!isset($dbAlias[$type])) {
+        die();
+    }
+} else {
+    $type = "lieferant";
+}
 
 include("stammdaten_modal.php");
 
