@@ -24,6 +24,12 @@ function getAttributesByKaID($ka_id){
             .'WHERE bes.komponenten_ka_id = ' . $ka_id;
     return mysqli_query($connection, $query);
 }
+function getEntriesByTable($tabname){
+    global $connection;
+    $query = 'SELECT * FROM '.$tabname;
+    return mysqli_query($connection, $query);
+}
+
 function getOneByTableAndID($tabname, $id){
     global $connection;
     $prim = [
