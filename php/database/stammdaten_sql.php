@@ -84,13 +84,7 @@ function getEntriesByTable($tabname){
 
 function getOneByTableAndID($tabname, $id){
     global $connection;
-    $prim = [
-        HARDWARE => H_ID,
-        ROOMS => R_ID,
-        SUPPLIERS => L_ID,
-        KINDS => K_ID,
-        ATTRIBUTES => A_ID
-    ];
+    global $prim;
     $query = 'SELECT * FROM '.$tabname.' WHERE '.$prim[$tabname].'='.$id;
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
@@ -191,8 +185,9 @@ function insertIntoTable($tabname, $data){
     global $connection;
     $keys = array_keys($data);
     $count = count($data);
+    echo $count;
     $query = 'INSERT INTO '.$tabname.' (';
-    for($i = 0; $i < $count; $i){
+    for ($i = 0; $i < $count; $i++) {
         $query .= $keys[$i];
         if($i == $count-1){
             $query .= ')';
@@ -202,13 +197,15 @@ function insertIntoTable($tabname, $data){
     }
     $query .= ' VALUES (';
     for($i = 0; $i < $count; $i++){
-        $query .= '"' . mysqli_real_escape_string($data[$keys[$i]]) . '"';
+        echo $data[$keys[$i]];
+        $query .= '"' . mysqli_real_escape_string($connection, $data[$keys[$i]]) . '"';
         if($i == $count-1){
             $query .= ')';
         }else{
             $query .= ',';
         }
     }
+    echo $query;
     mysqli_query($connection, $query);
 }
 
