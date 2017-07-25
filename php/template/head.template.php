@@ -5,3 +5,4 @@
     <link href="../../css/bootstrap.css" rel="stylesheet">
     <link href="../../css/bootstrap-select.css" rel="stylesheet">
     <link href="../../css/navbar.css" rel="stylesheet">
+    <?php require_once('../database/database.php'); ?>

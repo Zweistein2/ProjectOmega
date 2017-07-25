@@ -2,18 +2,31 @@
     <head>
         <title>Reporting</title>
         <?php include("../template/head.template.php"); ?>
+        <?php include("../functions/reporting_PHPfunction.php"); ?>
         <link href="../../css/reporting.css" rel="stylesheet">
+        <script type='text/javascript' src="../../js/reporting_JSfunction.js"></script>
     </head>
     <body>
+        <script type='text/javascript'>
+        </script>
         <?php include("../template/sidebar.template.php"); ?>
         <div class="container">
             <h2>Reporting</h2>
             <div class="row">
                 <div class="col-md-3">
                     <select class="selectpicker" data-style="btn-info">
-                        <option>Räume</option>
-                        <option>Lieferanten</option>
-                        <option>Komponenten</option>
+                        <?php
+                            $result = getHardwareTypes();
+
+                            foreach($result as $array)
+                            {
+                                foreach($array as $value)
+                                {
+                                    echo "<option>".$value."</option>";
+                                }
+                            }
+                        ?>
+                        <option>Raum</option>
                     </select>
                     <div>
                         <div class="list-group">
@@ -34,33 +47,23 @@
                         <div class="panel-body">
                             <table class="table table-striped table-list">
                                 <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Hersteller</th>
-                                        <th>CPU</th>
-                                    </tr>
+                                    <td>Raumnummer</td>
+                                    <td>Raumbezeichnung</td>
+                                    <td>Notiz</td>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>HorstBox</td>
-                                        <td>Dell</td>
-                                        <td>i5-4460</td>
-                                    </tr>
-                                    <tr>
-                                        <td>HorstBox 2</td>
-                                        <td>Dell</td>
-                                        <td>i7-6400</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dell Gaming RGB 9000</td>
-                                        <td>Dell</td>
-                                        <td>i7-7700K</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Acer Aspire</td>
-                                        <td>Acer</td>
-                                        <td>i5-4460</td>
-                                    </tr>
+                                <?php
+                                    $result = getRoomsByComponentType("PC");
+                                    foreach($result as $array)
+                                    {
+                                        echo "<tr>";
+                                        foreach($array as $value)
+                                        {
+                                            echo "<td>".$value."</td>";
+                                        }
+                                        echo "</tr>";
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -69,11 +72,11 @@
                                 <div class="col col-xs-4"></div>
                                 <div class="col col-xs-8">
                                     <ul class="pagination hidden-xs pull-right">
-                                        <li><a href="#"><<</a></li>
-                                        <li><a href="#"><</a></li>
-                                        <li class="active"><a href="#">3</a></li>
-                                        <li><a href="#">></a></li>
-                                        <li><a href="#">>></a></li>
+                                        <li class="" id="firstPage"><a href="#"><<</a></li>
+                                        <li class="" id="backward"><a href="#"><</a></li>
+                                        <li class="active" id="currentPage"><a href="#">3</a></li>
+                                        <li class="" id="forward"><a href="#">></a></li>
+                                        <li class="" id="lastPage"><a href="#">>></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -118,3 +121,6 @@
         </div>
     </body>
 </html>
+<script>
+    Init();
+</script>
