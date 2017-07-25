@@ -7,8 +7,8 @@
             require_once('../database/database.php');
         ?>
         <link href="../../css/reporting.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../../css/datatables.min.css"/>
-        <script type="text/javascript" src="../../js/datatables.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../css/frameworks/datatables.min.css"/>
+        <script type="text/javascript" src="../../js/frameworks/datatables.js"></script>
     </head>
     <body>
         <script type='text/javascript'>
@@ -33,6 +33,12 @@
                         ?>
                         <option>Raum</option>
                     </select>
+                    <form action="#">
+                        <div class="form-group invisible" id="form">
+                            <label for="roomNumber">Raumnummer:</label>
+                            <input type="text" class="form-control" id="roomNumber" value="001" onchange="changeRoomNumber()">
+                        </div>
+                    </form>
                 </div>
                 <div class="col-md-7">
                     <div class="panel panel-default panel-table">
@@ -51,16 +57,25 @@
                                             var inputValue = $(this).val();
                                             if(inputValue == "Raum")
                                             {
-                                                var roomNumber = "001";
+                                                $(table.column(0).header()).html("Name");
+                                                $(table.column(1).header()).html("Bezeichner");
+                                                $(table.column(2).header()).html("Typ");
+
+                                                var roomNumber = $('#roomNumber').val();
+                                                $('#form').toggleClass("invisible", false);
                                                 $('#panelTitle').html("Ausstattung von Raum " + roomNumber);
-                                                //TODO
 
                                                 //Ajax um die PHP-Funktion aufzurufen
-                                                $.post('../functions/reporting_table.php', { dropdownValue: inputValue, roomNumber: roomNumber }, function(data){
+                                                $.post('../functions/reporting_table.php', { dropdownValue: "Raum", roomNumber: roomNumber }, function(data){
                                                     table.ajax.reload();
                                                 });
                                             }else
                                             {
+                                                $(table.column(0).header()).html("Raumnummer");
+                                                $(table.column(1).header()).html("Raumbezeichner");
+                                                $(table.column(2).header()).html("Notiz");
+
+                                                $('#form').toggleClass("invisible", true);
                                                 $('#panelTitle').html("Räume mit " + inputValue);
 
                                                 //Ajax um die PHP-Funktion aufzurufen
@@ -94,7 +109,7 @@
                                             columns: [
                                                 { title: "Raumnummer" },
                                                 { title: "Raumbezeichner" },
-                                                { title: "Notiz" },
+                                                { title: "Notiz" }
                                             ]
                                         });
                                     </script>
@@ -109,4 +124,19 @@
 </html>
 <script>
     $('.selectpicker').val("PC");
+
+    $.post('../functions/reporting_table.php', { dropdownValue: "PC" }, function(data){
+        table.ajax.reload();
+    });
+
+    function changeRoomNumber() {
+        var roomNumber = $('#roomNumber').val();
+        $('#form').toggleClass("invisible", false);
+        $('#panelTitle').html("Ausstattung von Raum " + roomNumber);
+
+        //Ajax um die PHP-Funktion aufzurufen
+        $.post('../functions/reporting_table.php', { dropdownValue: "Raum", roomNumber: roomNumber }, function(data){
+            table.ajax.reload();
+        });
+    }
 </script>

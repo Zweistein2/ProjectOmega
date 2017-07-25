@@ -12,12 +12,10 @@ function getRoomsByComponentType($type) {
 }
 
 function getComponentsByRoomNumber($number) {
-    //TODO
     global $connection;
-    $query = 'SELECT hardware.*, hardwareattribute.*
-              FROM hardware LEFT JOIN hardware_hat_attribute ON hardware.h_id = hardware_hat_attribute.hardware_h_id
-              LEFT JOIN hardwareattribute ON hardware_hat_attribute.hardwareattribute_hat_id = hardwareattribute.hat_id
-              LEFT JOIN raeume ON hardware.raeume_r_id = raeume.r_id
+    $query = 'SELECT hardware.h_name, hardware.h_bez, hardwarearten.ha_hardwareart
+              FROM hardware LEFT JOIN raeume ON hardware.raeume_r_id = raeume.r_id
+              LEFT JOIN hardwarearten ON hardware.hardwarearten_ha_id = hardwarearten.ha_id
               WHERE raeume.r_nr = "'. $number .'"
               GROUP BY hardware.h_id';
     $result = mysqli_query($connection, $query);
