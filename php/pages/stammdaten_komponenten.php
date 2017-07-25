@@ -1,7 +1,10 @@
 <html>
     <head>
         <title>Stammdaten</title>
-        <?php include("../template/head.template.php"); ?>
+        <?php
+        include("../template/head.template.php");
+        include("stammdaten_modal.php");
+        ?>
         <link href="../../css/stammdaten.css" rel="stylesheet">
     </head>
     <body>
@@ -68,9 +71,9 @@
                                         echo '<td>'.$data['k_notiz'].'</td>';
                                         echo '<td>'.$data['k_hersteller'].'</td>';
                                         echo '<td>'.$data['komponentenarten_ka_id'].'</td>'; //TODO: Name der Komponentenart
-                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenAendern">Ändern</button></td>';
-                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenCopy">Copy</button></td>';
-                                        echo '<td><button type="button" class="list-group-item" data-toggle="modal" data-target="#StammdatenLoeschen">x</button></td>';
+                                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-pencil"></span></a></td>';
+                                        echo '<td><a class="btn btn-warning" href="?operation=copy&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-copy"></span></a></td>';
+                                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=raeume&id=' . $data['k_id'] . '"><span class="glyphicon glyphicon-remove"></span></a></td>';
                                         echo '</tr>';
                                     }
                                     ?>
