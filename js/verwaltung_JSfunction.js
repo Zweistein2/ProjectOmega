@@ -34,13 +34,11 @@ function Init() {
         renderTable(page);
     });
 
-    $("#nextBig").click(function () {
-        page += 10;
-        renderTable(page);
+    $("#lastPage").click(function () {
+        renderTable(javascript_array.length/10);
     });
 
-    $("#prevBig").click(function () {
-        page -= 10;
-        renderTable(page);
+    $("#firstPage").click(function () {
+        renderTable(1);
     });
 }
