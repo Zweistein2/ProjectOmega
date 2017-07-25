@@ -2,28 +2,27 @@
 <head>
     <title>Verwaltung - Ausmusterung</title>
     <?php include("../template/head.template.php");
-    include("../functions/verwaltung_PHPfunction.php")
-    ?>
+    include("../functions/verwaltung_PHPfunction.php"); ?>
     <link href="../../css/verwaltung.css" rel="stylesheet">
-    <link href="" rel="script">
-    <script type='text/javascript' src="../../js/verwaltung_JSfunction.js"/>
-
-
+    <script type='text/javascript' src="../../js/verwaltung_JSfunction.js"></script>
 </head>
 <body>
-<script type='text/javascript'>
 
-</script>
 <?php include("../template/sidebar.template.php"); ?>
 <div class="container">
     <h2>Verwaltung - Ausmusterung</h2>
     <div class="row">
         <div class="col-md-3">
             <select class="selectpicker" data-style="btn-info">
-                <option>PC</option>
-                <option>Switch</option>
-                <option>Router</option>
-                <option>Drucker</option>
+
+                <!--                <option -->
+                <?php //if($_GET["art"] == "pc"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=pc">PC</option>-->
+                <!--                <option -->
+                <?php //if($_GET["art"] == "switch"){echo " selected ";} ?><!-- value="verwaltung_ausmusterung.php?art=switch">Switch</option>-->
+                <!--                <option -->
+                <?php //if($_GET["art"] == "router"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=router">Router</option>-->
+                <!--                <option -->
+                <?php //if($_GET["art"] == "drucker"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=drucker">Drucker</option>-->
             </select>
         </div>
         <div class="col-md-7">
@@ -39,15 +38,13 @@
                         </tr>
                         </thead>
                         <tbody>
-
-
                         </tbody>
                     </table>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col col-xs-4">
-                            <button type="submit" class="btn btn-danger">Löschen</button>
+                            <button type="submit" class="btn btn-danger">Ausmustern</button>
                         </div>
                         <div class="col col-xs-8">
                             <ul class="pagination hidden-xs pull-right">
