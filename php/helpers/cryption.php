@@ -43,3 +43,11 @@ function encrypt_pass($source, $destination, $passphrase, $stream=NULL) {
     fwrite($fp, $contents) or die("Could not write to file.");
     fclose($fp);
 }
+
+/**
+ * @param $password
+ * @return bool|string
+ */
+function getPasswordHash($password){
+    return md5($password);
+}
