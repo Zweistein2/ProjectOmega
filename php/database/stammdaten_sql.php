@@ -92,9 +92,21 @@ $prims = [
  */
 function getComponentsPlus(){
     global $connection;
-    $query = 'SElECT comp.*, rooms.'.R_NR.' AS raumnummer, supp.'.L_COMPANY_NAME.' AS firmenname FROM '.HARDWARE.' AS comp '
+    $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR.', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME.' FROM '.HARDWARE.' AS comp '
             .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.H_ROOM_ID.' '
             .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.H_SUPPLIER_ID;
+    return mysqli_query($connection, $query);
+}
+
+/**
+ * Softwarekomponenten für die Tabellenanzeige
+ * @return bool|mysqli_result
+ */
+function getSoftwarePlus(){
+    global $connection;
+    $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR.', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME.' FROM '.SOFTWARE.' AS comp '
+        .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.S_ROOM_ID.' '
+        .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.S_SUPPLIER_ID;
     return mysqli_query($connection, $query);
 }
 
@@ -118,10 +130,13 @@ function getAttributesByKindID($ka_id){
 function getEntriesByTable($tabname){
     if($tabname == HARDWARE){
         return getComponentsPlus();
+    }else if($tabname == SOFTWARE){
+        return getSoftwarePlus();
+    }else {
+        global $connection;
+        $query = 'SELECT * FROM ' . $tabname;
+        return mysqli_query($connection, $query);
     }
-    global $connection;
-    $query = 'SELECT * FROM '.$tabname;
-    return mysqli_query($connection, $query);
 }
 
 /**
