@@ -137,11 +137,16 @@ function updateUser($username,$password,$role){
     $userId = getUserIdByName($username);
     $roleId = getRoleIdByName($role);
     $query = "UPDATE users SET password = '.$hashedPassword.' WHERE username ='.$username.';";
-    global $connection_userDatabase;
-    mysqli_query($connection_userDatabase, $query);
     $queryRole = "UPDATE user_has_roles SET id_roles = $roleId WHERE id_users = $userId;";
     global $connection_userDatabase;
+    mysqli_query($connection_userDatabase, $query);
     mysqli_query($connection_userDatabase, $queryRole);
 }
 
-//UPDATE `nutzer`.`user_has_roles` SET `id_roles` = 2 WHERE `id` = 6
+function deleteUserById($id){
+    $userQuery = "DELETE FROM users WHERE id = $id;";
+    $roleQuery = "DELETE FROM user_has_roles WHERE id_users = $id;";
+    $query = $userQuery.$roleQuery;
+    global $connection_userDatabase;
+    mysqli_query($connection_userDatabase, $query);
+}
