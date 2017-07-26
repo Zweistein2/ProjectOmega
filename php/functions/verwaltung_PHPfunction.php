@@ -9,7 +9,11 @@ if(isset($_GET["del"])){
     header("Location: verwaltung_ausmusterung.php?art=pc", true, 301);
     exit();
 }
-$art = $_GET["art"];
+$art = "";
+if(isset($_GET["art"])){
+    $art = $_GET["art"];
+}
+if($art == ""){$art = "pc";}
 $hardwareArtenArray = getHardwarearten();
 $hardwareArray = getHardware($art);
 ?>
