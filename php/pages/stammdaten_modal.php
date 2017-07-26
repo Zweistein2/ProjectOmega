@@ -112,7 +112,7 @@ function generateModal($formName, $title, $btnTitle, $html)
             </form>
         </div>
     </div>
-</div>";
+    </div>";
 
     return $modalHtml;
 
