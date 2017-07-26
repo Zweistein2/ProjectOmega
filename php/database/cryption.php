@@ -1,4 +1,8 @@
 <?php
+// * Created by PhpStorm.
+// * Author: Fabian Karolat
+// * Date: 24.07.2017
+// * Time: 13:27
 
 function decrypt_pass($file, $passphrase) {
     $iv = substr(md5("\x1B\x3C\x58".$passphrase, true), 0, 8);
