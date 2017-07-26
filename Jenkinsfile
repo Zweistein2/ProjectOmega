@@ -7,7 +7,10 @@ node {
 
    stage('config')  {
         echo "config"
-        sh "sed -i -e 's/192.168.20.1/localhost/g' php/database/*"
+        sh """
+            #!/bin/bash
+            sed -i -e 's/192.168.20.1/localhost/g' php/database/*
+        """
    }
 
     stage('Deploy') {
