@@ -40,11 +40,19 @@
                         </thead>
                         <tbody>
                         <?php
-
+                        $selected = "";
                         $query = getEntriesByTable($type);
+                        if (isset($_GET["selected"])) {
+                            $selected = $_GET["selected"];
+                        }
                         while ($result = mysqli_fetch_assoc($query)) {
+                            $highlighter = "";
                             $id = $result[$idColumn];
                             $name = $result[$nameColumn];
+                            if ($selected == $id) {
+                                $highlighter = "style=\"background-color:#00FF00;\"";
+                            }
+                            echo "<tr $highlighter>";
                             foreach ($columnNames as $i) {
                                 echo '<td>' . $result[$i] . '</td>';
                             }

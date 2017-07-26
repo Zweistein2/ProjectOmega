@@ -96,12 +96,12 @@ function executeOperation($formName)
  * Ausgabe: Das gesamte Modal in html
  */
 
-function generateModal($formName, $title, $btnTitle, $html)
+function generateModal($formName, $title, $btnTitle, $html, $id = "")
 {
     global $type;
     $modalHtml = "<div id=\"modal\" class=\"modal show\" role=\"dialog\">
     <div class=\"modal-dialog\">
-    <form method=\"post\">
+    <form method=\"post\" action='?type=$type&selected=$id'>
         <div class=\"modal-content\">
             <div class=\"modal-header\">
                 <a class=\"close\" href=\"?type=$type\">&times;</a>
@@ -165,22 +165,64 @@ function copyEntry($id, $name)
 function editEntry($id, $name)
 {
     global $type;
-    $columnNames = getColumnNames($type, false);
-    $idColumn = getIDColumn($type);
-    $columnText = getColumnText($type, false);
     $typeName = getTypeName($type, false);
     $title = "$typeName $name bearbeiten";
     $formName = "editEntry";
     $btnTitle = "Speichern";
     $query = getOneByTableAndID($type, $id);
-    $html = "<p><input type='hidden' name='$idColumn' value='$query[$idColumn]'></p>";
+    $html = generateHtml($query, $type);
+
+    return generateModal($formName, $title, $btnTitle, $html, $id);
+}
+
+function generateHtml($query, $type)
+{
+    global $type;
+    $columnNames = getColumnNames($type, false);
+    $idColumn = getIDColumn($type);
+    $html = "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
+    $columnText = getColumnText($type, false);
+
     for ($i = 0; $i < sizeof($columnNames); $i++) {
         $columnName = $columnNames[$i];
         $modalText = $columnText[$i];
-        $html = $html . "<p>$modalText<input type='text' name='$columnName' value='$query[$columnName]'</p>";
-    }
+        $special = getSpecialAttributes($type, $columnName);
 
-    return generateModal($formName, $title, $btnTitle, $html);
+        if ($special == "room") {
+            $roomList = getRoomOptions($query[$idColumn]);
+            $html .= "<p>$modalText:<select name=\"" . H_ROOM_ID . "\">";
+            foreach ($roomList as $j) {
+                $selectedTag = "";
+                $roomObj = $j["Elem"];
+                $roomNr = $roomObj[R_NR];
+                $roomId = $roomObj[R_ID];
+                if ($roomId == $query[H_ROOM_ID]) {
+                    $selectedTag = "selected";
+                }
+                $html .= "<option $selectedTag value=\"$roomId\">$roomNr</option>";
+            }
+            $html .= "</select></p>";
+        } elseif ($special == "supplier") {
+            $supplierList = getSupplierOptions($query[$idColumn]);
+            $html .= "<p>$modalText:<select name=\"" . H_SUPPLIER_ID . "\">";
+            foreach ($supplierList as $j) {
+                $selectedTag = "";
+                $supplierObj = $j["Elem"];
+                $supplierNr = $supplierObj[L_COMPANY_NAME];
+                $supplierId = $supplierObj[L_ID];
+                if ($supplierId == $query[H_SUPPLIER_ID]) {
+                    $selectedTag = "selected";
+                }
+                $html .= "<option $selectedTag value=\"$supplierId\">$supplierNr</option>";
+            }
+            $html .= "</select></p>";
+        } elseif ($special == "id") {
+            $html .= "<p><input type='hidden' name='$columnName' value='$query[$columnName]'></p>";
+        } else {
+            $html .= "<p>$modalText:<input type='text' name='$columnName' value='$query[$columnName]'</p>";
+        }
+    }
+    return $html;
 }
 
 /**

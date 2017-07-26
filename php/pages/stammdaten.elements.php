@@ -63,7 +63,7 @@ function dbElements()
         "TABLE_NAME" => "software",
         "ID_COLUMN" => S_ID,
         "NAME_COLUMN" => S_NAME,
-        "HIDDEN_COLUMNS" => array(S_ROOM_ID, S_SUPPLIER_ID),
+        "HIDDEN_COLUMNS" => array(S_ROOM_ID),
         S_ID => "#",
         S_NAME => "Name",
         R_NR => "Raumnummer",
