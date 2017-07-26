@@ -29,7 +29,7 @@
                         {
                             $dbElements = dbElements();
                             foreach ($dbElements as $i) {
-                                $name = $i["NAME"];
+                                $name = $i["NAME_PLURAL"];
                                 $tableName = $i["TABLE_NAME"];
                                 echo "<li><a href=\"./stammdaten_komponenten.php?type=$tableName\">$name</a></li>";
                             }
