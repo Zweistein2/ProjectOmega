@@ -19,7 +19,8 @@
     <body>
         <script type='text/javascript'>
         </script>
-        <?php include_once("../template/sidebar.template.php"); ?>
+        <?php include_once("../template/sidebar.template.php");
+        echo ($_SERVER['DOCUMENT_ROOT']);?>
         <div class="container">
             <h2>Reporting</h2>
             <div class="row">

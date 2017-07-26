@@ -6,8 +6,7 @@
 
 require_once("../helpers/cryption.php");
 
-$file = "../database/pass.enc";
-$db = "nutzer";
+$db = "softwareTest";
 $user = "dev";
 $pass = "dev";
 $ip = "192.168.20.1";

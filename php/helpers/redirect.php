@@ -6,14 +6,16 @@
  * Time: 09:40
  */
 
+$root = "http://localhost/ProjectOmega/php/pages/"; //$_SERVER['DOCUMENT_ROOT'];
+
 function redirectToLogin(){
-    $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-    header("Location: ".$rootURL."pages/login.php");
+    global $root;
+    header("Location: ".$root."login.php");
     exit();
 }
 
 function redirectTo($page){
-    $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/pages/'.$page;
-    header("Location: ".$rootURL);
+    global $root;
+    header("Location: ".$root.$page);
     exit();
 }
