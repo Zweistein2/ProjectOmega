@@ -10,7 +10,10 @@
 <body>
 <?php include("../template/sidebar.template.php"); ?>
 <div class="container">
-    <h2>Stammdaten</h2>
+    <?php
+    $typeName = getTypeName($type, true);
+    echo "<h2>$typeName</h2>";
+    ?>
     <div class="row">
         <div class="col col-md-10">
             <?php
