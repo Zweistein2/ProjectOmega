@@ -328,18 +328,15 @@ function updateEntry($tabname, $data){
     global $prims;
     $primcol = $prims[$tabname];
     $query = 'UPDATE ' . $tabname . ' SET ';
-    $count = count($data);
-    $index = 1;
+    $index = 0;
     foreach($data as $col => $val){
+        $index++;
         if($col == $primcol){
-            $index++;
             continue;
         }
         $query .= $col . '="' . mysqli_real_escape_string($connection, $val) . '"';
-        if($index < $count){
+        if($index < count($data)){
             $query .= ', ';
-        }else{
-            $index++;
         }
     }
     $query .= ' WHERE ' . $primcol . ' = ' . $data[$primcol];
