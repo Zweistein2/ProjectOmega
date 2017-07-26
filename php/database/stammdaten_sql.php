@@ -9,13 +9,12 @@ define("ROOMS", 'raeume');
 define("ATTRIBUTES", 'hardwareattribute');
 define("DESCRIBED", 'wird_beschrieben_durch');
 define("SOFTWARE", 'software');
-define("SOFTWARE_ROOMS", 'software_in_raum');
+define("SOFTWARE_ROOM", 'software_in_raum');
 
 //--hardware
 define("H_ID", 'h_id');
 define("H_ROOM_ID", 'raeume_r_id');
 define("H_SUPPLIER_ID", 'lieferant_l_id');
-define("H_STATUS", 'h_status');
 define("H_NAME", 'h_name');
 define("H_DESC", 'h_bez');
 define("H_BUY_DATE", 'h_einkaufsdatum');
@@ -61,8 +60,6 @@ define("HA_VALUE", 'hhhat_wert');
 //--software
 define("S_ID", 's_id');
 define("S_ROOM_ID", 'raeume_r_id');
-define("S_SUPPLIER_ID", 'lieferant_l_id');
-define("S_STATUS", 's_status');
 define("S_NAME", 's_name');
 define("S_DESC", 's_bez');
 define("S_BUY_DATE", 's_einkaufsdatum');
@@ -74,6 +71,10 @@ define("S_LICENCE_TYPE", 's_lizenztyp');
 define("S_COUNT", 's_anzahl');
 define("S_LICENCE_INFO", 's_lizenzinformation');
 define("S_INSTALL", 's_installhinweis');
+
+//--software in raum
+define("SR_R_ID", 'sir_r_id');
+define("SR_S_ID", 'sir_h_id');
 
 
 $prims = [
@@ -109,8 +110,7 @@ function getHardwarePlus(){
 function getSoftwarePlus(){
     global $connection;
     $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR.', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME.' FROM '.SOFTWARE.' AS comp '
-        .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.S_ROOM_ID.' '
-        .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.S_SUPPLIER_ID;
+        .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.S_ROOM_ID;
     return mysqli_query($connection, $query);
 }
 
