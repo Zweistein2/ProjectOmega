@@ -4,7 +4,6 @@
 //Kopfdatei für stammdaten_komponenten.php
 
 include("stammdaten.elements.php");
-include("stammdaten_modal.php");
 
 $dbElements = dbElements();
 
@@ -95,10 +94,12 @@ function getStammdatenType()
             die();
         }
     } else {
-        //header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
         die();
     }
     return $returnType;
 }
+
+include("stammdaten_modal.php");
 
 ?>

@@ -70,7 +70,6 @@ function executeOperation($formName)
     if ($formName == "newEntry") {
         $data = $_POST;
         unset($data["formName"]);
-        $data = excludeIdColumn($data);
         insertIntoTable($type, $data);
     }
 
