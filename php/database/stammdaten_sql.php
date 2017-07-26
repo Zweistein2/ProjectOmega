@@ -81,7 +81,8 @@ $prims = [
     ROOMS => R_ID,
     SUPPLIERS => L_ID,
     HARDWARE_KINDS => K_ID,
-    ATTRIBUTES => A_ID
+    ATTRIBUTES => A_ID,
+    SOFTWARE => S_ID
 ];
 
 
@@ -132,15 +133,6 @@ function getEntriesByTable($tabname){
 function getOneByTableAndID($tabname, $id){
     global $connection;
     global $prims;
-    /*
-    $prim = [
-        HARDWARE => H_ID,
-        ROOMS => R_ID,
-        SUPPLIERS => L_ID,
-        HARDWARE_KINDS => K_ID,
-        ATTRIBUTES => A_ID
-    ];
-    */
     $query = 'SELECT * FROM '.$tabname.' WHERE '.$prims[$tabname].'='.$id;
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
