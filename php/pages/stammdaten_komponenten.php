@@ -27,8 +27,8 @@
                                             echo "<th>$i</th>";
                                         }
                                         ?>
-                                        <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
-                                        <th><span class="glyphicon glyphicon-copy"></span></th><!--Copy -->
+                                        <th><span class="glyphicon glyphicon-pencil"></span></th><!--Ändern -->
+                                        <th><span class="glyphicon glyphicon-duplicate"></span></th><!--Copy -->
                                         <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
                                     </tr>
                                 </thead>
@@ -41,7 +41,7 @@
                                             echo '<td>' . $result[$i] . '</td>';
                                         }
                                         echo '<td><a class="btn btn-primary" href="?operation=edit&type=' . $type . '&id=' . $result[$rowNames[0]] . '"><span class="glyphicon glyphicon-pencil"></span></a></td>';
-                                        echo '<td><a class="btn btn-warning" href="?operation=copy&type=' . $type . '&id=' . $result[$rowNames[0]] . '"><span class="glyphicon glyphicon-copy"></span></a></td>';
+                                        echo '<td><a class="btn btn-warning" href="?operation=copy&type=' . $type . '&id=' . $result[$rowNames[0]] . '"><span class="glyphicon glyphicon-duplicate"></span></a></td>';
                                         echo '<td><a class="btn btn-danger" href="?operation=delete&type=' . $type . '&id=' . $result[$rowNames[0]] . '"><span class="glyphicon glyphicon-remove"></span></a></td>';
                                         echo '</tr>';
                                     }

@@ -68,3 +68,16 @@
 .panel-table .panel-body .table-bordered > tbody > tr > td{
     line-height: 34px;
 }
+
+td > .btn {
+    padding: 6px !important;
+}
+
+td > .btn > .glyphicon {
+    padding: 1px !important;
+    top: 0px !important;
+}
+
+th > .glyphicon {
+    left: 7px;
+}

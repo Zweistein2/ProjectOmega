@@ -1,4 +1,9 @@
 <?php
+// * Created by PhpStorm.
+// * Author: Fabian Karolat
+// * Date: 25.07.2017
+// * Time: 13:49
+
 session_start();
 
 require_once('../database/reporting_sql.php');
