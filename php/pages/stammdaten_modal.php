@@ -180,7 +180,7 @@ function generateHtml($query, $type)
     global $type;
     $columnNames = getColumnNames($type, false);
     $idColumn = getIDColumn($type);
-    $html = "";
+    $html = "<table>";
     if ($query != null) {
         $html .= "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
     }
@@ -193,7 +193,7 @@ function generateHtml($query, $type)
 
         if ($options != null) {
             $optionList = getOptions($options["table"], $query[$idColumn]);
-            $html .= "<p>$modalText:<select name=\"" . $options["id"] . "\">";
+            $html .= "<tr><td>$modalText</td><td><select class=\"form-control\" name=\"" . $options["id"] . "\">";
             foreach ($optionList as $j) {
                 $selectedTag = "";
                 $optionObj = $j["Elem"];
@@ -204,11 +204,12 @@ function generateHtml($query, $type)
                 }
                 $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
             }
-            $html .= "</select></p>";
+            $html .= "</select></td></tr>";
         } else {
-            $html .= "<p>$modalText:<input type='text' name='$columnName' value='$query[$columnName]'</p>";
+            $html .= "<tr><td>$modalText</td><td><input type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
         }
     }
+    $html .= "</table>";
     return $html;
 }
 
