@@ -1,6 +1,6 @@
 <?php
 
-require_once("cryption.php");
+require_once("../helpers/cryption.php");
 
 $file = "../database/pass.enc";
 $db = "nutzer";
