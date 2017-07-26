@@ -130,3 +130,18 @@ function getAllRoleNames(){
     $result = mysqli_query($connection_userDatabase, $query);
     return mysqli_fetch_all($result, MYSQLI_BOTH);
 }
+
+
+function updateUser($username,$password,$role){
+    $hashedPassword = getPasswordHash($password);
+    $userId = getUserIdByName($username);
+    $roleId = getRoleIdByName($role);
+    $query = "UPDATE users SET password = '.$hashedPassword.' WHERE username ='.$username.';";
+    global $connection_userDatabase;
+    mysqli_query($connection_userDatabase, $query);
+    $queryRole = "UPDATE user_has_roles SET id_roles = $roleId WHERE id_users = $userId;";
+    global $connection_userDatabase;
+    mysqli_query($connection_userDatabase, $queryRole);
+}
+
+//UPDATE `nutzer`.`user_has_roles` SET `id_roles` = 2 WHERE `id` = 6
