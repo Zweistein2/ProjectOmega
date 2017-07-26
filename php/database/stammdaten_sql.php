@@ -90,11 +90,15 @@ $prims = [
  * Hardwarekomponenten für die Tabellenanzeige
  * @return bool|mysqli_result
  */
-function getComponentsPlus(){
+function getHardwarePlus(){
     global $connection;
-    $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR.', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME.' FROM '.HARDWARE.' AS comp '
+    $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR
+            .', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME
+            .', kinds.'.K_NAME.' AS '.K_NAME
+            .' FROM '.HARDWARE.' AS comp '
             .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.H_ROOM_ID.' '
-            .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.H_SUPPLIER_ID;
+            .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.H_SUPPLIER_ID.' '
+            .' INNER JOIN '.HARDWARE_KINDS.' AS kinds ON kinds.'.K_ID.'=comp.'.H_KIND_ID;
     return mysqli_query($connection, $query);
 }
 
@@ -129,10 +133,10 @@ function getAttributesByKindID($ka_id){
  */
 function getEntriesByTable($tabname){
     if($tabname == HARDWARE){
-        return getComponentsPlus();
+        return getHardwarePlus();
     }else if($tabname == SOFTWARE){
         return getSoftwarePlus();
-    }else {
+    }else{
         global $connection;
         $query = 'SELECT * FROM ' . $tabname;
         return mysqli_query($connection, $query);
@@ -151,6 +155,29 @@ function getOneByTableAndID($tabname, $id){
     $query = 'SELECT * FROM '.$tabname.' WHERE '.$prims[$tabname].'='.$id;
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
+}
+function getOptions($tabname, $id){
+    global $connection;
+    global $prims;
+    $options = array();
+    $query = 'SELECT * FROM '.$tabname;
+    $results = mysqli_query($connection, $query);
+    while($data = mysqli_fetch_assoc($results)){
+        $arr = array();
+        $arr['Elem'] = $data;
+        $arr['selected'] = $data[$prims[$tabname]] == $id;
+        $options[] = $arr;
+    }
+    return $options;
+}
+function getRoomOptions($id){
+    return getOptions(ROOMS, $id);
+}
+function getSupplierOptions($id){
+    return getOptions(SUPPLIERS, $id);
+}
+function getKindOptions($id){
+    return getOptions(HARDWARE_KINDS, $id);
 }
 
 /**
