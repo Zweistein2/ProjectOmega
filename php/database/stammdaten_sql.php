@@ -83,7 +83,7 @@ $prims = [
     HARDWARE_KINDS => K_ID,
     ATTRIBUTES => A_ID
 ];
-define("PRIMARIES", $prims);
+
 
 /**
  * Hardwarekomponenten für die Tabellenanzeige
@@ -131,6 +131,7 @@ function getEntriesByTable($tabname){
  */
 function getOneByTableAndID($tabname, $id){
     global $connection;
+    global $prims;
     /*
     $prim = [
         HARDWARE => H_ID,
@@ -140,7 +141,7 @@ function getOneByTableAndID($tabname, $id){
         ATTRIBUTES => A_ID
     ];
     */
-    $query = 'SELECT * FROM '.$tabname.' WHERE '.PRIMARIES[$tabname].'='.$id;
+    $query = 'SELECT * FROM '.$tabname.' WHERE '.$prims[$tabname].'='.$id;
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
 }
@@ -317,7 +318,8 @@ function insertIntoTable($tabname, $data){
  */
 function updateEntry($tabname, $data){
     global $connection;
-    $primcol = PRIMARIES[$tabname];
+    global $prims;
+    $primcol = $prims[$tabname];
     $query = 'UPDATE ' . $tabname . ' SET ';
     $count = count($data);
     $index = 1;
