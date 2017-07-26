@@ -16,9 +16,10 @@ function renderTable(page) {
         }
         var htmlString = "" +
             "<tr id='"+hardwareArray[i][0]+"'>\n" +
-            "<td>" + hardwareArray[i][0] + "</td>\n" +
             "<td>" + hardwareArray[i][1] + "</td>\n" +
             "<td>" + hardwareArray[i][2] + "</td>\n" +
+            "<td>" + hardwareArray[i][3] + "</td>\n" +
+            "<td>" + hardwareArray[i][4] + "</td>\n" +
             "<td>\n" +
             "<div class=\"checkbox\">\n" +
             "<input type=\"checkbox\" "+checked+" value=\"\">\n" +

@@ -25,6 +25,7 @@
                             <th>Name</th>
                             <th>Bezeichnung</th>
                             <th>Raum</th>
+                            <th>Raumbezeichnung</th>
                             <th></th>
                         </tr>
                         </thead>
