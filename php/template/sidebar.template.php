@@ -26,13 +26,15 @@
                         <?php
                         function loadComponents()
                         {
-                            
+                            $dbElements = dbElements();
                             foreach ($dbElements as $i) {
                                 $name = $i["NAME"];
                                 $tableName = $i["TABLE_NAME"];
                                 echo "<li><a href=\"./stammdaten_komponenten.php?type=$tableName\">$name</a></li>";
                             }
                         }
+
+                        loadComponents();
 
                         ?>
                         <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
