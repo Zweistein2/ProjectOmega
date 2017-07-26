@@ -5,6 +5,7 @@ node {
    }
 
     stage('Deploy') {
+        sed -i -e 's/192.168.20.1/localhost/g' php/database/*
          try{
              sh """
                 rm -r /var/www/html/master/
