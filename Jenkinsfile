@@ -9,7 +9,8 @@ node {
         echo "config"
         sh """
             #!/bin/bash
-            sed -i -e 's/192.168.20.1/localhost/g' php/database/*
+            sed -i -e 's/192.168.20.1/localhost/g' php/database/config.php
+            sed -i -e 's/local/server/g' php/database/config.php
         """
    }
 
