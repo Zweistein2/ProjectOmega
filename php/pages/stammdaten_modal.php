@@ -193,13 +193,13 @@ function generateHtml($query, $type)
 
         if ($options != null) {
             $optionList = getOptions($options["table"], $query[$idColumn]);
-            $html .= "<p>$modalText:<select name=\"" . $options["name"] . "\">";
+            $html .= "<p>$modalText:<select name=\"" . $options["id"] . "\">";
             foreach ($optionList as $j) {
                 $selectedTag = "";
                 $optionObj = $j["Elem"];
-                $optionNr = $optionObj[$options["number"]];
-                $optionId = $optionObj[$options["id"]];
-                if ($optionId == $query[$options["name"]]) {
+                $optionNr = $optionObj[$options["value"]];
+                $optionId = $optionObj[$options["originalId"]];
+                if ($optionId == $query[$options["id"]]) {
                     $selectedTag = "selected";
                 }
                 $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
@@ -225,7 +225,7 @@ function newEntry()
     $columnText = getColumnText($type, false);
     $typeName = getTypeName($type, false);
     $formName = "newEntry";
-    $title = "$typeName anlegen";
+    $title = "Neuer $typeName";
     $html = "";
     $btnTitle = "Speichern";
     $html = generateHtml(null, $type);

@@ -6,8 +6,8 @@ function dbElements()
 {
 
     $hardwareElementOptions = [
-        "ROOM_OPTIONS" => array("table" => ROOMS, "name" => H_ROOM_ID, "number" => R_NR, "id" => R_ID),
-        "SUPPLIER_OPTIONS" => array("table" => SUPPLIERS, "name" => H_SUPPLIER_ID, "number" => L_COMPANY_NAME, "id" => L_ID),
+        "ROOM_OPTIONS" => array("table" => ROOMS, "id" => H_ROOM_ID, "value" => R_NR, "originalId" => R_ID),
+        "SUPPLIER_OPTIONS" => array("table" => SUPPLIERS, "id" => H_SUPPLIER_ID, "value" => L_COMPANY_NAME, "originalId" => L_ID),
     ];
 
     $hardwareElement = [
