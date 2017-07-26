@@ -6,7 +6,13 @@
  * Time: 09:40
  */
 
-$root = "http://localhost/ProjectOmega/php/pages/"; //$_SERVER['DOCUMENT_ROOT'];
+require_once("../database/config.php");
+
+if($environment == "local") {
+    $root = "http://localhost/ProjectOmega/php/pages/";
+}else{
+    $root = $_SERVER['DOCUMENT_ROOT'];
+}
 
 function redirectToLogin(){
     global $root;

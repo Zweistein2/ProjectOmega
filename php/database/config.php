@@ -6,6 +6,8 @@
 
 require_once("../helpers/cryption.php");
 
+$environment = "local";
+
 $db = "softwareTest";
 $user = "dev";
 $pass = "dev";
