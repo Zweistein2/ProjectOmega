@@ -6,8 +6,8 @@ function dbElements()
 {
 
     $hardwareElement = [
-        "NAME" => "Software",
-        "NAME_PLURAL" => "Software",
+        "NAME" => "Hardware",
+        "NAME_PLURAL" => "Hardware",
         "TABLE_NAME" => "hardware",
         "ID_COLUMN" => H_ID,
         "NAME_COLUMN" => H_NAME,
@@ -51,10 +51,32 @@ function dbElements()
         L_EMAIL => "E-Mail"
     ];
 
+    $softwareElement = [
+        "NAME" => "Software",
+        "NAME_PLURAL" => "Software",
+        "TABLE_NAME" => "software",
+        "ID_COLUMN" => S_ID,
+        "NAME_COLUMN" => S_NAME,
+        S_ID => "#",
+        S_STATUS => "Status",
+        S_NAME => "Name",
+        S_DESC => "Beschreibung",
+        S_BUY_DATE => "Einkaufsdatum",
+        S_LICENCE_DURATION => "Lizenzlaufzeit",
+        S_NOTE => "Notiz",
+        S_DEV => "Hersteller",
+        S_VNR => "Versionsnummer",
+        S_LICENCE_TYPE => "Lizenztyp",
+        S_LICENCE_INFO => "Lizenzinformation",
+        S_INSTALL => "Installationshinweis"
+
+    ];
+
     $dbElements = [
         ROOMS => $roomElement,
         SUPPLIERS => $suppliersElement,
-        HARDWARE => $hardwareElement,
+        SOFTWARE => $softwareElement,
+        HARDWARE => $hardwareElement
     ];
 
     return $dbElements;
