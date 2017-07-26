@@ -26,7 +26,7 @@
                         <tr>
                             <?php
                             $columnText = getColumnText($type, false);
-                            $columnNamesWithoutID = getColumnNames($type, false);
+                            $columnNames = getColumnNames($type, false);
                             $idColumn = getIDColumn($type);
                             $nameColumn = getNameColumn($type);
                             foreach ($columnText as $i) {
@@ -45,7 +45,7 @@
                         while ($result = mysqli_fetch_assoc($query)) {
                             $id = $result[$idColumn];
                             $name = $result[$nameColumn];
-                            foreach ($columnNamesWithoutID as $i) {
+                            foreach ($columnNames as $i) {
                                 echo '<td>' . $result[$i] . '</td>';
                             }
                             echo "<td><a class=\"btn btn-primary\" href=\"?operation=edit&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
