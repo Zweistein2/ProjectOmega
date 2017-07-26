@@ -33,15 +33,60 @@ function getColumn($type, $value, $includeId)
     unset($element['NAME_COLUMN']);
     unset($element['TABLE_NAME']);
     if (!$includeId) {
+
+        if (isset($element['ROOM_OPTIONS'])) {
+            unset($element['ROOM_OPTIONS']);
+        }
+
+        if (isset($element['SUPPLIER_OPTIONS'])) {
+            unset($element['SUPPLIER_OPTIONS']);
+        }
+
+        if (isset($element['HIDDEN_COLUMNS'])) {
+            $hiddenList = $element['HIDDEN_COLUMNS'];
+            foreach ($hiddenList as $i) {
+                unset($element[$i]);
+            }
+        }
         $idColumn = $element["ID_COLUMN"];
         unset($element[$idColumn]);
     }
+    unset($element['HIDDEN_COLUMNS']);
     unset($element['ID_COLUMN']);
     if ($value) {
         return array_values($element);
     } else {
         return array_keys($element);
     }
+}
+
+function getSpecialAttributes($type, $attribute)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+
+    if (isset($element['ROOM_OPTIONS'])) {
+        $roomOptions = $element['ROOM_OPTIONS'];
+        foreach ($roomOptions as $i) {
+            if ($i == $attribute) {
+                return "room";
+            }
+        }
+    }
+
+    if (isset($element['SUPPLIER_OPTIONS'])) {
+        $roomOptions = $element['SUPPLIER_OPTIONS'];
+        foreach ($roomOptions as $i) {
+            if ($i == $attribute) {
+                return "supplier";
+            }
+        }
+    }
+
+    if ($attribute == getIDColumn($type)) {
+        return "id";
+    }
+
 }
 
 function tableExist($type)
