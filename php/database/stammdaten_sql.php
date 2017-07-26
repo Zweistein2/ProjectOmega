@@ -33,12 +33,14 @@ define("L_TEL", 'l_tel');
 define("L_MOBILE", 'l_mobil');
 define("L_FAX", 'l_fax');
 define("L_EMAIL", 'l_email');
+define("L_DELETED", 'l_ausgemustert');
 
 //--räume
 define("R_ID", 'r_id');
 define("R_NR", 'r_nr');
 define("R_DESC", 'r_bezeichnung');
 define("R_NOTE", 'r_notiz');
+define("R_DELETED", 'r_ausgemustert');
 
 //--arten
 define("K_ID", 'ha_id');
@@ -75,6 +77,10 @@ define("S_INSTALL", 's_installhinweis');
 define("SR_R_ID", 'sir_r_id');
 define("SR_S_ID", 'sir_h_id');
 
+//--ausgemustert flag
+define("FLAG_DELETED", 1);
+define("FLAG_UNDELETED", 0);
+define("DELETED_ROOM_ID", 1);
 
 $prims = [
     HARDWARE => H_ID,
@@ -98,7 +104,14 @@ function getHardwarePlus(){
             .' FROM '.HARDWARE.' AS comp '
             .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.H_ROOM_ID.' '
             .' INNER JOIN '.SUPPLIERS.' AS supp ON supp.'.L_ID.' = comp.'.H_SUPPLIER_ID.' '
-            .' INNER JOIN '.HARDWARE_KINDS.' AS kinds ON kinds.'.K_ID.'=comp.'.H_KIND_ID;
+            .' INNER JOIN '.HARDWARE_KINDS.' AS kinds ON kinds.'.K_ID.'=comp.'.H_KIND_ID
+            .' WHERE NOT rooms.'.R_ID.'='.DELETED_ROOM_ID;
+    return mysqli_query($connection, $query);
+}
+function getSoftwarePlus(){
+    global $connection;
+    $query = 'SELECT * FROM '.SOFTWARE.' WHERE '.S_ID
+            .' NOT IN (SELECT '.SR_S_ID.' FROM '.SOFTWARE_ROOM.' AS sr WHERE '.SR_R_ID.'='.DELETED_ROOM_ID.')';
     return mysqli_query($connection, $query);
 }
 function getKindAttributesByHardwareID($h_id){
@@ -162,9 +175,16 @@ function getAttributesByKindID($ka_id){
 function getEntriesByTable($tabname){
     if($tabname == HARDWARE){
         return getHardwarePlus();
+    }else if($tabname == SOFTWARE){
+        return getSoftwarePlus();
     }else{
         global $connection;
         $query = 'SELECT * FROM ' . $tabname;
+        if($tabname == ROOMS){
+            $query .= ' WHERE '.R_DELETED.'='.FLAG_UNDELETED;
+        }else if($tabname == SUPPLIERS){
+            $query .= ' WHERE '.L_DELETED.'='.FLAG_UNDELETED;
+        }
         return mysqli_query($connection, $query);
     }
 }
@@ -182,6 +202,14 @@ function getOneByTableAndID($tabname, $id){
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
 }
+
+/**
+ * Optionen für ein Dropdownmenü, damit die auswählbaren Werte vorgegeben werden können.
+ * Z.B. einer Hardwarekomponente wird soll nur ein exestierender Raum zugeordnet werden können.
+ * @param $tabname: Name der Datenbanktabelle
+ * @param $id: ID der  bereits ausgewählten Komponente
+ * @return array
+ */
 function getOptions($tabname, $id){
     global $connection;
     global $prims;
@@ -253,7 +281,8 @@ function copyComponent($k_id, $count){
  */
 function deleteRoomByID($r_id){
     global $connection;
-    $query = 'DELETE FROM '.ROOMS.' WHERE '.R_ID.'='.$r_id;
+    //$query = 'DELETE FROM '.ROOMS.' WHERE '.R_ID.'='.$r_id;
+    $query = 'UPDATE '.ROOMS.' SET '.R_DELETED.'='.FLAG_DELETED.' WHERE '.R_ID.'='.$r_id;
     mysqli_query($connection, $query);
 }
 
@@ -263,7 +292,8 @@ function deleteRoomByID($r_id){
  */
 function deleteSupplierByID($l_id){
     global $connection;
-    $query = 'DELETE FROM '.SUPPLIERS.' WHERE '.L_ID.'='.$l_id;
+    //$query = 'DELETE FROM '.SUPPLIERS.' WHERE '.L_ID.'='.$l_id;
+    $query = 'UPDATE '.SUPPLIERS.' SET '.L_DELETED.'='.FLAG_DELETED.' WHERE '.L_ID.'='.$l_id;
     mysqli_query($connection, $query);
 }
 
@@ -271,12 +301,19 @@ function deleteSupplierByID($l_id){
  * löscht eine Hardwarekomponente
  * @param $k_id: ID der zu löschenden Hardwarekomponente
  */
-function deleteComponentByID($k_id){
+function deleteHardwareByID($k_id){
     global $connection;
-    $query = 'DELETE FROM '.HARDWARE.' WHERE '.H_ID.'='.$k_id;
+    //$query = 'DELETE FROM '.HARDWARE.' WHERE '.H_ID.'='.$k_id;
+    $query = 'UPDATE '.HARDWARE.' SET '.H_ROOM_ID.'='.DELETED_ROOM_ID.' WHERE '.H_ID.'='.$k_id;
     mysqli_query($connection, $query);
 }
-//TODO: Löschweitergabe??
+function deleteSoftware($s_id){
+    global $connection;
+    $query = 'DELETE FROM '.SOFTWARE_ROOM.' WHERE '.SR_S_ID.'='.$s_id;
+    mysqli_query($connection, $query);
+    $query = 'INSERT INTO '.SOFTWARE_ROOM.' ('.SR_S_ID.','.SR_R_ID.') VALUES ('.$s_id.','.DELETED_ROOM_ID.')';
+    mysqli_query($connection, $query);
+}
 /**
  * löscht ein Hardwareattribut
  * @param $kat_id: ID des zu löschenden Attributs
@@ -286,7 +323,6 @@ function deleteAttributeByID($kat_id){
     $query = 'DELETE FROM '.ATTRIBUTES.' WHERE '.A_ID.'='.$kat_id;
     mysqli_query($connection, $query);
 }
-
 /**
  * löscht eine Hardwareart
  * @param $ka_id: ID der zu löschenden Hardwareart
@@ -306,7 +342,10 @@ function deleteEntryByTableAndID($tabname, $id){
     global $connection;
     switch($tabname){
         case HARDWARE:
-            deleteComponentByID($id);
+            deleteHardwareByID($id);
+            break;
+        case SOFTWARE:
+            deleteSoftware($id);
             break;
         case SUPPLIERS:
             deleteSupplierByID($id);
@@ -324,23 +363,6 @@ function deleteEntryByTableAndID($tabname, $id){
             break;
     }
 }
-/*
-function insertComponent($data){
-    global $connection;
-    $r_id = $data[H_R_ID];
-    $l_id = $data[H_L_ID];
-    $k_edate = mysqli_real_escape_string($connection, $data[H_BUY_DATE]);
-    $k_gwd = $data[H_WARRANTY];
-    $k_notiz = mysqli_real_escape_string($connection, $data[H_NOTE]);
-    $supp = mysqli_real_escape_string($connection, $data[H_SUPPLIER_ID]);
-    $kind = $data[H_KIND_ID];
-
-    $query = 'INSERT INTO '.HARDWARE
-        . '(raeume_id, lieferant_l_id, k_einkaufsdatum, k_gewaehrleistungsdauer, k_notiz, k_hersteller, k_komponentenarten_ka_id) '
-        . ' VALUES ('.$r_id.','.$l_id.','.$k_edate.','.$k_gwd.','.$k_notiz.','.$supp.','.$kind.')';
-    mysqli_query($connection, $query);
-}
-*/
 /**
  * fügt einen neuen Eintrag hinzu
  * @param $tabname: Name der Datenbanktabelle
