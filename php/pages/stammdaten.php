@@ -60,7 +60,7 @@ function getColumn($type, $value, $includeId)
     }
 }
 
-function getSpecialAttributes($type, $attribute)
+function getOptionAttributes($type, $attribute)
 {
     global $dbElements;
     $element = $dbElements[$type];

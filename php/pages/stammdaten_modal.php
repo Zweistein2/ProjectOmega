@@ -189,7 +189,7 @@ function generateHtml($query, $type)
     for ($i = 0; $i < sizeof($columnNames); $i++) {
         $columnName = $columnNames[$i];
         $modalText = $columnText[$i];
-        $options = getSpecialAttributes($type, $columnName);
+        $options = getOptionAttributes($type, $columnName);
 
         if ($options != null) {
             $optionList = getOptions($options["table"], $query[$idColumn]);
