@@ -1,3 +1,7 @@
+<?php
+require_once ("../authentication/auth_filter.php");
+checkForValidSessionInArea('reporting');
+?>
 <html>
     <head>
         <title>Reporting</title>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: schueler
+ * Author: Thomas Wolf
  * Date: 25.07.2017
  * Time: 10:04
  */
