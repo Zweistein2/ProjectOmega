@@ -29,6 +29,21 @@ function getUserWithRole($username, $password)
     return $userArray;
 }
 
+function getUserIdByName($username)
+{
+    $query = "SELECT
+            	users.id 
+              FROM
+              	users
+              WHERE
+              	users.username = '$username';";
+    global $connection_userDatabase;
+    $result = mysqli_query($connection_userDatabase, $query);
+    $userArray = mysqli_fetch_all($result, MYSQLI_BOTH);
+    $userId = $userArray[0];
+    return $userId["id"];
+}
+
 function getUserWithRoleById($id)
 {
     $query = "SELECT
@@ -65,5 +80,53 @@ function getAllUsersWithRoles()
     return $fetchedUsersArray;
 }
 
+function createUser($username,$password,$role){
+    $hashedPassword = getPasswordHash($password);
+    try {
+        $query = "INSERT INTO users (username,password) VALUES ('$username','$hashedPassword');";
+        global $connection_userDatabase;
+        mysqli_query($connection_userDatabase, $query);
+    } catch (Exception $e) {
+        echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+    }
+    assignUserToRoleByName($username,$role);
+}
 
 
+function assignUserToRoleByName($username,$role){
+    $userId = getUserIdByName($username);
+    $roleId = getRoleIdByName($role);
+    if($roleId != -1){
+        $queryForRole = "INSERT INTO user_has_roles (id_users,id_roles) VALUES ('$userId','$roleId');";
+        global $connection_userDatabase;
+        mysqli_query($connection_userDatabase, $queryForRole);
+    }
+}
+
+
+function getRoleIdByName($name){
+    $query = "SELECT
+            	user_roles.id 
+              FROM
+              	user_roles 
+              WHERE
+              	user_roles.role = '$name';";
+    global $connection_userDatabase;
+    $result = mysqli_query($connection_userDatabase, $query);
+    $fetchedRoleArray = mysqli_fetch_all($result, MYSQLI_BOTH);
+    if(empty($fetchedRoleArray)){
+        return -1;
+    }
+    $role = $fetchedRoleArray['0'];
+    return $role['id'];
+}
+
+function getAllRoleNames(){
+    $query = "SELECT
+            	user_roles.role
+              FROM
+              	user_roles;";
+    global $connection_userDatabase;
+    $result = mysqli_query($connection_userDatabase, $query);
+    return mysqli_fetch_all($result, MYSQLI_BOTH);
+}

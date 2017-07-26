@@ -24,7 +24,7 @@ function createSessionForUser($username, $password)
         deleteErrorMessage();
         redirectTo("help.php");
     } else {
-        createErrorMessage("Sie haben Falsche Anmeldeinformationen eingeben!");
+        createErrorMessage("Sie haben falsche Anmeldeinformationen eingeben!");
     }
 }
 
