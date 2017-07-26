@@ -22,7 +22,7 @@
                     <table class="table table-striped table-list">
                         <thead>
                         <tr>
-                            <th>Seriennummer</th>
+                            <th>Name</th>
                             <th>Bezeichnung</th>
                             <th>Raum</th>
                             <th></th>
