@@ -14,16 +14,7 @@
     <div class="row">
         <div class="col-md-3">
             <select class="selectpicker" data-style="btn-info">
-
-                <!--                <option -->
-                <?php //if($_GET["art"] == "pc"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=pc">PC</option>-->
-                <!--                <option -->
-                <?php //if($_GET["art"] == "switch"){echo " selected ";} ?><!-- value="verwaltung_ausmusterung.php?art=switch">Switch</option>-->
-                <!--                <option -->
-                <?php //if($_GET["art"] == "router"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=router">Router</option>-->
-                <!--                <option -->
-                <?php //if($_GET["art"] == "drucker"){echo " selected ";} ?><!--value="verwaltung_ausmusterung.php?art=drucker">Drucker</option>-->
-            </select>
+             </select>
         </div>
         <div class="col-md-7">
             <div class="panel panel-default panel-table">
@@ -44,7 +35,7 @@
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col col-xs-4">
-                            <button type="submit" class="btn btn-danger">Ausmustern</button>
+                            <button id="delButton" type="submit" class="btn btn-danger">Ausmustern</button>
                         </div>
                         <div class="col col-xs-8">
                             <ul class="pagination hidden-xs pull-right">

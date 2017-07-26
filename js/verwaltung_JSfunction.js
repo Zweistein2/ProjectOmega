@@ -2,21 +2,20 @@
 //0 -> ID
 //1 -> Bezeichnung
 //2 -> Raum
-//3 -> Checkbox true/false
 
-//TODO: Alles auf Datenbank umstellen
-//TODO: Löschen basierend darauf ob die Checkbox auf true oder false steht
+var toDelete = [];
 
 //Füllt die Tabelle mit Daten die durch die Page Variable eingegrenzt wurde
 function renderTable(page) {
     $("tbody").html("");
     for (var i = (page - 1) * 10; i < page * 10 && hardwareArray[i] != null; i++) {
         var checked = "";
-        if(hardwareArray[i][3]){
+        var id = hardwareArray[i][0];
+        if(toDelete[id] != null && toDelete[id][0]){
             checked = "checked";
         }
         var htmlString = "" +
-            "<tr id='"+i+"'>\n" +
+            "<tr id='"+hardwareArray[i][0]+"'>\n" +
             "<td>" + hardwareArray[i][0] + "</td>\n" +
             "<td>" + hardwareArray[i][1] + "</td>\n" +
             "<td>" + hardwareArray[i][2] + "</td>\n" +
@@ -32,6 +31,7 @@ function renderTable(page) {
     bindTableFunctions();
 }
 
+//Füllt die Selectbox mit option
 function renderSelectbox() {
 
     var htmlString = "";
@@ -40,7 +40,7 @@ function renderSelectbox() {
         var item = hardwareArtenArray[i];
         var selected = "";
         if(artParam == item.toLowerCase()){selected = "selected"}
-        htmlString += "<option \"+ selected +\"><a href='../php/pages/verwaltung_ausmusterung.php?art="+item+"'>"+item+"</a></option>"
+        htmlString += "<option "+ selected + "><a href='../php/pages/verwaltung_ausmusterung.php?art="+item+"'>"+item+"</a></option>"
     }
     $(".selectPicker").html(htmlString);
 }
@@ -73,19 +73,35 @@ function bindPaginationFunctions(page) {
 function bindTableFunctions() {
     $("input").click(function (args) {
         var trID = $(args.target).parents("tr")[0].id;
-        if(hardwareArray[trID][3]){
-            hardwareArray[trID][3] = false;
+        if(toDelete[trID] == null || toDelete[trID][0] == false ){
+            toDelete[trID] = [true,trID];
+
         }
         else{
-            hardwareArray[trID][3] = true;
+            if(args.currentTarget.checked){return;}
+            toDelete[trID] = null;
         }
     });
 }
 
+//Wird beim erstmaligen Aufruf der Seite ausgeführt
 function Init() {
     var page = 1;
     renderTable(page);
     renderSelectbox();
     bindPaginationFunctions(page);
     bindTableFunctions();
+
+    $("#delButton").click(function () {
+       var toDeleteArray = [];
+var delString = "";
+        toDelete.forEach(function (item, i) {
+          if(item != null){
+              delString += item[1] + "_";
+          }
+      })
+        if(confirm("taste drücken")){
+            window.document.location.href = "verwaltung_ausmusterung.php?del="+delString;
+        }
+    })
 }
