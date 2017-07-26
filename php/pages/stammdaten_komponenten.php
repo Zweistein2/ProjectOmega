@@ -26,7 +26,6 @@
                         <tr>
                             <?php
                             $columnText = getColumnText($type, false);
-                            $columnNames = getColumnNames($type, true);
                             $columnNamesWithoutID = getColumnNames($type, false);
                             $idColumn = getIDColumn($type);
                             $nameColumn = getNameColumn($type);
