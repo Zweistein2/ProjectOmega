@@ -9,8 +9,8 @@ include("stammdaten_modal.php");
 $type = "";
 
 /**
- * @dbAlias: Enthält die Tabellennamen für SQL-Operationen, richtige Anwendung von dbElements und translator und
- *           um den Type auf richtigkeit zu prüfen.
+ * @dbAlias: Enthält die Tabellennamen für SQL-Operationen, keys für dbElements und translator und
+ *           um den Type auf Richtigkeit zu prüfen.
  */
 
 $dbAlias = [
@@ -68,13 +68,13 @@ function getType()
 }
 
 /**
- * @excludeIdRow: Exkludiert die ID-Spalte aus einem Objekt.
+ * @excludeIdColumn: Exkludiert die ID-Spalte aus einem Objekt.
  * Da die ID in vielen Fällen nicht benötigt wird, soll diese ausgeschlossen werden.
  * Parameter data: Das zu bearbeitende Objekt
  * Ausgabe: Das über Parameter übergebene Objekt ohne die ID-Spalte.
  */
 
-function excludeIdRow($data)
+function excludeIdColumn($data)
 {
     //global $prim;
     //global $type;

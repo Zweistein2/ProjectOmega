@@ -28,8 +28,8 @@ checkTriggerPoints();
  * Sollte eine Operation (Erstellen, Ändern, Löschen oder Kopieren) ausgewählt sein,
  * wird diese mit dem GET-Parameter 'operation' übergeben und über eine If-Schleife
  * an die entsprechenden Funktion weitergeleitet, welche dann ein passendes Modal erzeugt.
- * Parameter formName: bestimmt die entsprechende Operation (newEntry, editEntry, copyEntry, deleteEntry)
- * Ausgabe: reines html des erzeugten Modals
+ * Parameter formName: Bestimmt die entsprechende Operation (newEntry, editEntry, copyEntry, deleteEntry)
+ * Ausgabe: Reines html des erzeugten Modals
  */
 
 function modalOperation($operation)
@@ -69,7 +69,7 @@ function executeOperation($formName)
     if ($formName == "newEntry") {
         $data = $_POST;
         unset($data["formName"]);
-        $data = excludeIdRow($data);
+        $data = excludeIdColumn($data);
         insertIntoTable($type, $data);
     }
 
@@ -87,7 +87,7 @@ function executeOperation($formName)
  * Parameter title: Bestimmt den Titel für das Modal
  * Parameter btnTitle: Bestimmt Text für den Submit-Button
  * Parameter html: Übergabe eines Textes oder Inputs
- * Ausgabe: das gesamte Modal in html
+ * Ausgabe: Das gesamte Modal in html
  */
 
 function generateModal($formName, $title, $btnTitle, $html)
@@ -136,7 +136,7 @@ function deleteEntry($id)
 }
 
 /**
- * @deleteEntry: Führt eine SQL-Operation durch,
+ * @copyEntry: Führt eine SQL-Operation durch,
  *               wenn ein Datensatz dupliziert werden soll.
  *               Achtung: Eine Ausnahme da beim Kopieren kein Modal erscheinen soll.
  * Ausgabe: Reines html einer Erfolgsmeldung
@@ -150,7 +150,7 @@ function copyEntry($id)
 /**
  * @editEntry: Setzt passende Parameter für die Funktion 'generateModal',
  *           wenn ein Datensatz geändert werden soll.
- *Ausgabe: Reines html des generierten Modals
+ * Ausgabe: Reines html des generierten Modals
  */
 
 function editEntry($id)
@@ -158,8 +158,8 @@ function editEntry($id)
     global $type;
     global $dbElements;
     global $translator;
-    $rowNames = excludeIdRow($dbElements[$type]);
-    $translate = excludeIdRow($translator[$type]);
+    $rowNames = excludeIdColumn($dbElements[$type]);
+    $translate = excludeIdColumn($translator[$type]);
     $title = "Eintrag ändern";
     $formName = "editEntry";
     $html = "";
@@ -186,8 +186,8 @@ function newEntry()
     global $type;
     global $dbElements;
     global $translator;
-    $rowNames = excludeIdRow($dbElements[$type]);
-    $translate = excludeIdRow($translator[$type]);
+    $rowNames = excludeIdColumn($dbElements[$type]);
+    $translate = excludeIdColumn($translator[$type]);
     $formName = "newEntry";
     $title = "Neuer Eintrag";
     $html = "";
