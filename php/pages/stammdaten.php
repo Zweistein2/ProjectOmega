@@ -39,7 +39,7 @@ $dbElements = [
 ];
 
 //translator: Anzeigenamen für die dbElements
-$translator = [
+$dbElementsTranslator = [
     "raeume" => array("#", "Nummer", "Bezeichnung", "Notiz"),
     "lieferant" => array("#", "Firmenname", "Strasse", "PLZ", "Ort", "Tel", "Mobil", "Fax", "E-Mail"),
     "hardware" => array("#", "Raum #", "Lieferant #", "Einkaufsdatum", "Gewaehrleistungsdauer", "Notiz", "Hersteller", "Komponentenarten #")
@@ -62,7 +62,9 @@ function getType()
             die();
         }
     } else {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
+        reset($dbAlias);
+        $first_key = key($dbAlias);
+        header("Location: " . $_SERVER['PHP_SELF'] . "?type=" . $first_key);
         die();
     }
 }

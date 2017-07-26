@@ -157,9 +157,9 @@ function editEntry($id)
 {
     global $type;
     global $dbElements;
-    global $translator;
+    global $dbElementsTranslator;
     $rowNames = excludeIdColumn($dbElements[$type]);
-    $translate = excludeIdColumn($translator[$type]);
+    $translate = excludeIdColumn($dbElementsTranslator[$type]);
     $title = "Eintrag ändern";
     $formName = "editEntry";
     $html = "";
@@ -185,9 +185,9 @@ function newEntry()
 {
     global $type;
     global $dbElements;
-    global $translator;
+    global $dbElementsTranslator;
     $rowNames = excludeIdColumn($dbElements[$type]);
-    $translate = excludeIdColumn($translator[$type]);
+    $translate = excludeIdColumn($dbElementsTranslator[$type]);
     $formName = "newEntry";
     $title = "Neuer Eintrag";
     $html = "";
