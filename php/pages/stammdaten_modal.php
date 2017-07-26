@@ -225,7 +225,7 @@ function newEntry()
     $columnText = getColumnText($type, false);
     $typeName = getTypeName($type, false);
     $formName = "newEntry";
-    $title = "Neuer $typeName";
+    $title = "$typeName anlegen";
     $html = "";
     $btnTitle = "Speichern";
     $html = generateHtml(null, $type);
