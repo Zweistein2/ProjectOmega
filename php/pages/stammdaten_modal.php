@@ -180,7 +180,10 @@ function generateHtml($query, $type)
     global $type;
     $columnNames = getColumnNames($type, false);
     $idColumn = getIDColumn($type);
-    $html = "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
+    $html = "";
+    if ($query != null) {
+        $html .= "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
+    }
     $columnText = getColumnText($type, false);
 
     for ($i = 0; $i < sizeof($columnNames); $i++) {
@@ -216,8 +219,6 @@ function generateHtml($query, $type)
                 $html .= "<option $selectedTag value=\"$supplierId\">$supplierNr</option>";
             }
             $html .= "</select></p>";
-        } elseif ($special == "id") {
-            $html .= "<p><input type='hidden' name='$columnName' value='$query[$columnName]'></p>";
         } else {
             $html .= "<p>$modalText:<input type='text' name='$columnName' value='$query[$columnName]'</p>";
         }
@@ -241,13 +242,7 @@ function newEntry()
     $title = "Neuer $typeName";
     $html = "";
     $btnTitle = "Speichern";
-
-    for ($i = 0; $i < sizeof($columnNames); $i++) {
-        $columnName = $columnNames[$i];
-        $modalText = $columnText[$i];
-        $html = $html . "<p>$modalText:<input type='text' name='$columnName'</p>";
-    }
-
+    $html = generateHtml(null, $type);
     return generateModal($formName, $title, $btnTitle, $html);
 }
 

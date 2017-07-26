@@ -11,7 +11,7 @@ function dbElements()
         "TABLE_NAME" => "hardware",
         "ID_COLUMN" => H_ID,
         "NAME_COLUMN" => H_NAME,
-        "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID),
+        "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID, HA_A_ID),
         "ROOM_OPTIONS" => array(R_NR),
         "SUPPLIER_OPTIONS" => array(L_COMPANY_NAME),
         H_ID => "#",
@@ -24,7 +24,6 @@ function dbElements()
         H_BUY_DATE => "Einkaufsdatum",
         H_WARRANTY => "Gewährleistungsdauer",
         H_NOTE => "Notiz",
-        H_DEV => "Hersteller"
 
     ];
 
@@ -63,11 +62,8 @@ function dbElements()
         "TABLE_NAME" => "software",
         "ID_COLUMN" => S_ID,
         "NAME_COLUMN" => S_NAME,
-        "HIDDEN_COLUMNS" => array(S_ROOM_ID),
         S_ID => "#",
         S_NAME => "Name",
-        R_NR => "Raumnummer",
-        L_COMPANY_NAME => "Firma",
         S_DESC => "Beschreibung",
         S_BUY_DATE => "Einkaufsdatum",
         S_LICENCE_DURATION => "Lizenzlaufzeit",
@@ -89,16 +85,6 @@ function dbElements()
 
     return $dbElements;
 
-}
-
-function getDBOptions($option)
-{
-    $optionsDefine = [
-        "ROOM_OPTIONS" => ROOMS,
-        "SUPPLIER_OPTIONS" => SUPPLIERS
-    ];
-
-    return $optionsDefine[$option];
 }
 
 ?>
