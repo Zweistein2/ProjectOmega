@@ -8,6 +8,8 @@ define("SUPPLIERS", 'lieferant');
 define("ROOMS", 'raeume');
 define("ATTRIBUTES", 'hardwareattribute');
 define("DESCRIBED", 'wird_beschrieben_durch');
+define("SOFTWARE", 'software');
+define("SOFTWARE_ROOMS", 'software_in_raum');
 
 //--hardware
 define("H_ID", 'h_id');
@@ -56,6 +58,32 @@ define("HA_ID", 'hardware_h_id');
 define("HA_A_ID", 'hardwareattribute_hat_id');
 define("HA_VALUE", 'hhhat_wert');
 
+//--software
+define("S_ID", 's_id');
+define("S_ROOM_ID", 'raeume_r_id');
+define("S_SUPPLIER_ID", 'lieferant_l_id');
+define("S_STATUS", 's_status');
+define("S_NAME", 's_name');
+define("S_DESC", 's_bez');
+define("S_BUY_DATE", 's_einkaufsdatum');
+define("S_LICENCE_DURATION", 's_lizenzlaufzeit');
+define("S_NOTE", 's_notiz');
+define("S_DEV", 's_hersteller');
+define("S_VNR", 's_vnr');
+define("S_LICENCE_TYPE", 's_lizenztyp');
+define("S_COUNT", 's_anzahl');
+define("S_LICENCE_INFO", 's_lizenzinformation');
+define("S_INSTALL", 's_installhinweis');
+
+
+$prim = [
+    HARDWARE => H_ID,
+    ROOMS => R_ID,
+    SUPPLIERS => L_ID,
+    HARDWARE_KINDS => K_ID,
+    ATTRIBUTES => A_ID
+];
+define("PRIMARIES", $prims);
 
 /**
  * Hardwarekomponenten für die Tabellenanzeige
@@ -103,6 +131,7 @@ function getEntriesByTable($tabname){
  */
 function getOneByTableAndID($tabname, $id){
     global $connection;
+    /*
     $prim = [
         HARDWARE => H_ID,
         ROOMS => R_ID,
@@ -110,7 +139,8 @@ function getOneByTableAndID($tabname, $id){
         HARDWARE_KINDS => K_ID,
         ATTRIBUTES => A_ID
     ];
-    $query = 'SELECT * FROM '.$tabname.' WHERE '.$prim[$tabname].'='.$id;
+    */
+    $query = 'SELECT * FROM '.$tabname.' WHERE '.PRIMARIES[$tabname].'='.$id;
     $results = mysqli_query($connection, $query);
     return mysqli_fetch_assoc($results);
 }
@@ -260,7 +290,7 @@ function insertIntoTable($tabname, $data){
     $keys = array_keys($data);
     $count = count($data);
     $query = 'INSERT INTO '.$tabname.' (';
-    for($i = 0; $i < $count; $i){
+    for($i = 0; $i < $count; $i++){
         $query .= $keys[$i];
         if($i == $count-1){
             $query .= ')';
@@ -277,6 +307,32 @@ function insertIntoTable($tabname, $data){
             $query .= ',';
         }
     }
+    mysqli_query($connection, $query);
+}
+
+/**
+ * ändern eines Datenbankeintrages
+ * @param $tabname: Name der Datenbanktabelle
+ * @param $data:
+ */
+function updateEntry($tabname, $data){
+    global $connection;
+    $primcol = PRIMARIES[$tabname];
+    $query = 'UPDATE ' . $tabname . ' SET ';
+    $count = count($data);
+    $index = 1;
+    foreach($data as $col => $val){
+        if($col == $primcol){
+            continue;
+        }
+        $query .= $col . '="' . mysqli_real_escape_string($connection, $val) . '"';
+        if($index < $count){
+            $query .= ', ';
+        }else{
+            $index++;
+        }
+    }
+    $query .= ' WHERE ' . $primcol . ' = ' . $data[$primcol];
     mysqli_query($connection, $query);
 }
 
