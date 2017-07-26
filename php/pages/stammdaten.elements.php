@@ -5,6 +5,11 @@ include("../database/stammdaten_sql.php");
 function dbElements()
 {
 
+    $hardwareElementOptions = [
+        "ROOM_OPTIONS" => array("table" => ROOMS, "name" => H_ROOM_ID, "number" => R_NR, "id" => R_ID),
+        "SUPPLIER_OPTIONS" => array("table" => SUPPLIERS, "name" => H_SUPPLIER_ID, "number" => L_COMPANY_NAME, "id" => L_ID),
+    ];
+
     $hardwareElement = [
         "NAME" => "Hardware",
         "NAME_PLURAL" => "Hardware",
@@ -14,6 +19,7 @@ function dbElements()
         "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID, HA_A_ID),
         "ROOM_OPTIONS" => array(R_NR),
         "SUPPLIER_OPTIONS" => array(L_COMPANY_NAME),
+        "OPTION_REFERENCE" => $hardwareElementOptions,
         H_ID => "#",
         H_NAME => "Name",
         R_NR => "Raumnummer",

@@ -34,12 +34,11 @@ function getColumn($type, $value, $includeId)
     unset($element['TABLE_NAME']);
     if (!$includeId) {
 
-        if (isset($element['ROOM_OPTIONS'])) {
-            unset($element['ROOM_OPTIONS']);
-        }
-
-        if (isset($element['SUPPLIER_OPTIONS'])) {
-            unset($element['SUPPLIER_OPTIONS']);
+        if (isset($element['OPTION_REFERENCE'])) {
+            $optionReference = $element['OPTION_REFERENCE'];
+            foreach ($optionReference as $key => $val) {
+                unset($element[$key]);
+            }
         }
 
         if (isset($element['HIDDEN_COLUMNS'])) {
@@ -52,6 +51,7 @@ function getColumn($type, $value, $includeId)
         unset($element[$idColumn]);
     }
     unset($element['HIDDEN_COLUMNS']);
+    unset($element['OPTION_REFERENCE']);
     unset($element['ID_COLUMN']);
     if ($value) {
         return array_values($element);
@@ -65,27 +65,18 @@ function getSpecialAttributes($type, $attribute)
     global $dbElements;
     $element = $dbElements[$type];
 
-    if (isset($element['ROOM_OPTIONS'])) {
-        $roomOptions = $element['ROOM_OPTIONS'];
-        foreach ($roomOptions as $i) {
-            if ($i == $attribute) {
-                return "room";
+    if (isset($element['OPTION_REFERENCE'])) {
+        $optionReference = $element['OPTION_REFERENCE'];
+        foreach ($optionReference as $key => $value) {
+            foreach ($element[$key] as $i) {
+                if ($i == $attribute) {
+                    return $value;
+                }
             }
         }
     }
 
-    if (isset($element['SUPPLIER_OPTIONS'])) {
-        $roomOptions = $element['SUPPLIER_OPTIONS'];
-        foreach ($roomOptions as $i) {
-            if ($i == $attribute) {
-                return "supplier";
-            }
-        }
-    }
-
-    if ($attribute == getIDColumn($type)) {
-        return "id";
-    }
+    return null;
 
 }
 

@@ -189,34 +189,20 @@ function generateHtml($query, $type)
     for ($i = 0; $i < sizeof($columnNames); $i++) {
         $columnName = $columnNames[$i];
         $modalText = $columnText[$i];
-        $special = getSpecialAttributes($type, $columnName);
+        $options = getSpecialAttributes($type, $columnName);
 
-        if ($special == "room") {
-            $roomList = getRoomOptions($query[$idColumn]);
-            $html .= "<p>$modalText:<select name=\"" . H_ROOM_ID . "\">";
-            foreach ($roomList as $j) {
+        if ($options != null) {
+            $optionList = getOptions($options["table"], $query[$idColumn]);
+            $html .= "<p>$modalText:<select name=\"" . $options["name"] . "\">";
+            foreach ($optionList as $j) {
                 $selectedTag = "";
-                $roomObj = $j["Elem"];
-                $roomNr = $roomObj[R_NR];
-                $roomId = $roomObj[R_ID];
-                if ($roomId == $query[H_ROOM_ID]) {
+                $optionObj = $j["Elem"];
+                $optionNr = $optionObj[$options["number"]];
+                $optionId = $optionObj[$options["id"]];
+                if ($optionId == $query[$options["name"]]) {
                     $selectedTag = "selected";
                 }
-                $html .= "<option $selectedTag value=\"$roomId\">$roomNr</option>";
-            }
-            $html .= "</select></p>";
-        } elseif ($special == "supplier") {
-            $supplierList = getSupplierOptions($query[$idColumn]);
-            $html .= "<p>$modalText:<select name=\"" . H_SUPPLIER_ID . "\">";
-            foreach ($supplierList as $j) {
-                $selectedTag = "";
-                $supplierObj = $j["Elem"];
-                $supplierNr = $supplierObj[L_COMPANY_NAME];
-                $supplierId = $supplierObj[L_ID];
-                if ($supplierId == $query[H_SUPPLIER_ID]) {
-                    $selectedTag = "selected";
-                }
-                $html .= "<option $selectedTag value=\"$supplierId\">$supplierNr</option>";
+                $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
             }
             $html .= "</select></p>";
         } else {
