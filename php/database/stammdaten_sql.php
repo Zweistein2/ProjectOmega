@@ -332,6 +332,7 @@ function updateEntry($tabname, $data){
     $index = 1;
     foreach($data as $col => $val){
         if($col == $primcol){
+            $index++;
             continue;
         }
         $query .= $col . '="' . mysqli_real_escape_string($connection, $val) . '"';
