@@ -128,7 +128,6 @@ function generateModal($formName, $title, $btnTitle, $html)
 function deleteEntry($id, $name)
 {
     global $type;
-    global $dbAliasTranslate;
     $returnHtml = "";
     $typeName = getTypeName($type, false);
     $formName = "deleteEntry";

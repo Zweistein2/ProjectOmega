@@ -4,7 +4,10 @@
 //Kopfdatei für stammdaten_komponenten.php
 
 include("../database/stammdaten_sql.php");
+include("stammdaten.elements.php");
 include("stammdaten_modal.php");
+
+$dbElements = dbElements();
 
 $type = "";
 
@@ -12,24 +15,6 @@ $type = "";
  * @dbAlias: Enthält die Tabellennamen für SQL-Operationen, keys für dbElements und translator und
  *           um den Type auf Richtigkeit zu prüfen.
  */
-
-$dbAlias = [
-    "raeume" => true,
-    "lieferant" => true,
-    "hardware" => true,
-    "komponentenarten" => true,
-    "benutzer" => true,
-    "komponentenattribute" => true
-];
-
-//prim: Enthält die ID-Spalten für SQL-Operationen.
-$prim = [
-    HARDWARE => H_ID,
-    ROOMS => R_ID,
-    SUPPLIERS => L_ID,
-    HARDWARE_KINDS => K_ID,
-    ATTRIBUTES => A_ID
-];
 
 function getColumnNames($type, $includeId)
 {
@@ -48,6 +33,7 @@ function getColumn($type, $value, $includeId)
     unset($element['NAME']);
     unset($element['NAME_PLURAL']);
     unset($element['NAME_COLUMN']);
+    unset($element['TABLE_NAME']);
     if (!$includeId) {
         $idColumn = $element["ID_COLUMN"];
         unset($element[$idColumn]);
@@ -57,6 +43,16 @@ function getColumn($type, $value, $includeId)
     } else {
         return array_values($element);
     }
+}
+
+function tableExist($type)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+    if (isset($element['TABLE_NAME'])) {
+        return true;
+    }
+    return false;
 }
 
 function getTypeName($type, $plural)
@@ -84,55 +80,6 @@ function getNameColumn($type)
     return $element['NAME_COLUMN'];
 }
 
-$dbElements = [
-    ROOMS => $roomElement,
-    SUPPLIERS => $suppliersElement,
-    HARDWARE => $hardwareElement,
-];
-
-$hardwareElement = [
-    "NAME" => "Software",
-    "NAME_PLURAL" => "Software",
-    "ID_COLUMN" => H_ID,
-    "NAME_COLUMN" => H_NAME,
-    H_ID => "#",
-    H_NAME => "Name",
-    H_STATUS => "Status",
-    H_BEZ => "Beschreibung",
-    H_BUY_DATE => "Einkaufsdatum",
-    H_WARRANTY => "Gewährleistungsdauer",
-    H_NOTE => "Notiz",
-    H_DEV => "Hersteller"
-
-];
-
-$roomElement = [
-    "NAME" => "Raum",
-    "NAME_PLURAL" => "Räume",
-    "ID_COLUMN" => R_ID,
-    "NAME_COLUMN" => R_NR,
-    R_ID => "#",
-    R_NR => "Raumnummer",
-    R_DESC => "Beschreibung",
-    R_NOTE => "Notiz",
-];
-
-$suppliersElement = [
-    "NAME" => "Lieferant",
-    "NAME_PLURAL" => "Lieferanten",
-    "ID_COLUMN" => L_ID,
-    "NAME_COLUMN" => L_COMPANY_NAME,
-    L_ID => "#",
-    L_COMPANY_NAME => "Firmenname",
-    L_STREET => "Straße",
-    L_PLZ => "PLZ",
-    L_TOWN => "Ort",
-    L_TEL => "Telefon",
-    L_MOBILE => "Mobil",
-    L_FAX => "Fax",
-    L_EMAIL => "E-Mail"
-];
-
 getType();
 
 /**
@@ -146,13 +93,11 @@ function getType()
 {
     if (isset($_GET["type"])) {
         $type = $_GET["type"];
-        if (!isset($dbAlias[$type])) {
+        if (!tableExist($type)) {
             die();
         }
     } else {
-        reset($dbAlias);
-        $first_key = key($dbAlias);
-        header("Location: " . $_SERVER['PHP_SELF'] . "?type=" . $first_key);
+        header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
         die();
     }
 }

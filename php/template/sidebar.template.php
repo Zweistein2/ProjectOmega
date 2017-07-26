@@ -23,10 +23,19 @@
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-tag"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
-                        <li><a href="./stammdaten_komponenten.php?type=lieferant">Lieferanten</a></li>
-                        <li><a href="./stammdaten_komponenten.php?type=raeume">Räume</a></li>
-                        <li><a href="./stammdaten_komponenten.php?type=benutzer">Benutzer</a></li>
-                        <li><a href="./stammdaten_komponenten.php?type=hardware">Komponenten</a></li>
+                        <?php
+                        require_once("stammdaten.elements.php");
+                        function loadComponents()
+                        {
+                            $dbElements = dbElements();
+                            foreach ($dbElements as $i) {
+                                $name = $i["NAME"];
+                                $tableName = $i["TABLE_NAME"];
+                                echo "<li><a href=\"./stammdaten_komponenten.php?type=$tableName\">$name</a></li>";
+                            }
+                        }
+
+                        ?>
                         <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
                     </ul>
                 </li>
