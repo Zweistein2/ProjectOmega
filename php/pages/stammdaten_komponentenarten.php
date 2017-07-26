@@ -41,7 +41,7 @@ include_once("../database/stammdaten_sql.php");
                             }
                             echo '<td><input type="submit" name="show_attrs_'.$data[K_ID].'" value="Attribute"/></td>';
                             echo '<td><input type="submit" name="update_attr_'.$data[K_ID].'" value="update"/></td>';
-                            echo '<td></td>';
+                            echo '<td><input type="submit" name="delete_kind_'.$data[K_ID].'" value="X"/></td>';
                             echo '</tr>';
                         }
 
@@ -70,8 +70,8 @@ include_once("../database/stammdaten_sql.php");
         <?php
         foreach($_POST as $key => $val){
             $arr = explode('_', $key);
-            if($arr[0] == 'showAttributes'){
-                showAttributes($arr[1]);
+            if($arr[0] == 'show' && $arr[1] == 'attrs'){
+                showAttributes($arr[2]);
             }
         }
         ?>
@@ -103,8 +103,8 @@ include_once("../database/stammdaten_sql.php");
                         foreach($attr_headers as $key => $val){
                             echo '<td>'.$data[$val].'</td>';
                         }
-                        echo '<td><input type="submit" name="update_attr_'.$data[A_ID].'"/></td>';
-                        echo '<td><input type="submit" name="delete_attr_'.$data[A_ID].'"/></td>';
+                        echo '<td><input type="submit" name="update_attr_'.$data[A_ID].'" value="Ändern"/></td>';
+                        echo '<td><input type="submit" name="delete_attr_'.$data[A_ID].'" value="X"/></td>';
                         echo '</tr>';
                     }
                     ?>
