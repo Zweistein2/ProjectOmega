@@ -19,7 +19,8 @@ node {
         echo "deploy"
          try{
              sh """
-                rm -r /var/www/html/master/
+                #!/bin/bash
+                rm -r /var/www/html/
             """
          }
          catch(Exception e){
@@ -27,7 +28,7 @@ node {
          }
          sh """
             #!/bin/bash
-            cp -r * /var/www/html/master/
+            cp -r * /var/www/html/
          """
    }
 }
