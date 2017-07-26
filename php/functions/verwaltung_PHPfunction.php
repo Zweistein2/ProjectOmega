@@ -16,6 +16,7 @@ if(isset($_GET["art"])){
 if($art == ""){$art = "pc";}
 $hardwareArtenArray = getHardwarearten();
 $hardwareArray = getHardware($art);
+
 ?>
 
 <script>

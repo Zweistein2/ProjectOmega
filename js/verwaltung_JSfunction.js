@@ -101,7 +101,7 @@ var delString = "";
               delString += item[1] + "_";
           }
       })
-        if(confirm("taste drücken")){
+        if(confirm("Wollen Sie wirklich die ausgewählten Geräte ausmustern")){
             window.document.location.href = "verwaltung_ausmusterung.php?del="+delString;
         }
     })

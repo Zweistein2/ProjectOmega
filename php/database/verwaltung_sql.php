@@ -21,9 +21,10 @@ function getHardware($art)
     global $hardwareArray;
     $hardwareArray = array();
 
-    $query = "select h_id, h_name,  h_bez AS bez, r.r_nr, r.r_bezeichnung FROM hardware AS h JOIN raeume AS r ON r.r_id = h.raeume_r_id WHERE raeume_r_id != ".$ausmusterRoom." AND h.hardwarearten_ha_id = (SELECT ha_id FROM hardwarearten WHERE '" . $art . "' = ha_hardwareart)";
+    $query = "select h_id, h_name,  h_bez AS bez, r.r_nr, r.r_bezeichnung FROM hardware AS h JOIN raeume AS r ON r.r_id = h.raeume_r_id WHERE raeume_r_id != 1 AND h.hardwarearten_ha_id = (SELECT ha_id FROM hardwarearten WHERE 'pc' = ha_hardwareart)";
     $tempHardware = mysqli_query($connection, $query);
     $hardwareArray = mysqli_fetch_all($tempHardware);
+
     return $hardwareArray;
 }
 
