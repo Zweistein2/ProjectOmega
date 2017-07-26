@@ -138,7 +138,7 @@ function deleteEntry($id, $name)
     $formName = "deleteEntry";
     $title = $typeName . " löschen";
     $html = "<input type='hidden' name='id' value='$id'>
-             <p>Möchten Sie den den " . $typeName . " " . $name . " wirklich löschen?</p>";
+             <p>Möchten Sie " . $typeName . " " . $name . " wirklich löschen?</p>";
     $btnTitle = "Löschen";
     $returnHtml = generateModal($formName, $title, $btnTitle, $html);
     return $returnHtml;
@@ -225,7 +225,7 @@ function newEntry()
     $columnText = getColumnText($type, false);
     $typeName = getTypeName($type, false);
     $formName = "newEntry";
-    $title = "Neuer $typeName";
+    $title = "$typeName anlegen";
     $html = "";
     $btnTitle = "Speichern";
     $html = generateHtml(null, $type);
