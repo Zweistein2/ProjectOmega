@@ -4,6 +4,11 @@
     padding-left: 15px;
 }
 
+.bootstrap-select.mt-6 {
+    margin-bottom: 15px !important;
+    padding-top: 25px !important;
+}
+
 .table .checkbox {
     top: -8px;
 }
@@ -64,4 +69,36 @@
 
 .panel-table .panel-body .table-bordered > tbody > tr > td{
     line-height: 34px;
+}
+
+#table_wrapper {
+    margin-top: -9px;
+}
+
+#table_wrapper > div .col-sm-6 {
+    margin-left: -5px;
+}
+
+#table_wrapper > div .col-sm-6 > #table_filter {
+    margin-top: -34px;
+}
+
+#table {
+    width: 650px !important;
+    margin-top: 6px !important;
+}
+
+#table_wrapper > div.row:nth-child(2) > .col-sm-12 {
+    margin-bottom: -6px;
+}
+
+#table_wrapper > div.row:nth-child(3) {
+    background-color: #f5f5f5;
+    color: #333;
+    border-color: #ddd;
+    border-top: 2px solid #ddd;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }

@@ -17,8 +17,8 @@
         <div class="container">
             <h2>Verwaltung - Neuanlage</h2>
             <div class="row">
-                <div class="col-md-3">
-                    <select class="selectpicker" data-style="btn-info">
+                <div class="col-md-2">
+                    <select class="selectpicker col-sm-12 mt-6" data-style="btn-info">
                         <?php
                         //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
                         $result = getHardwareTypes();
@@ -37,23 +37,8 @@
                         <input type="number" class="form-control" id="amount">
                     </div>
                 </div>
-                <div class="col-md-7">
-                    <form>
-                        <?php
-                        //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
-                        $result = getHardwareAttributesByType("PC");
-
-                        foreach($result as $array)
-                        {
-                            foreach($array as $value)
-                            {
-                                echo "<div class=\"form-group\">";
-                                echo "<label for=\"".$value."\">".$value.":</label>";
-                                echo "<input type=\"text\" class=\"form-control\" id=\"".$value."\">";
-                                echo "</div>";
-                            }
-                        }
-                        ?>
+                <form class="col-md-8">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="Hersteller">Hersteller:</label>
                             <input type="text" class="form-control" id="Hersteller">
@@ -82,10 +67,28 @@
                             <label for="Notiz">Notiz:</label>
                             <input type="text" class="form-control" id="Notiz">
                         </div>
-                        <button type="reset" class="btn btn-danger">Abbrechen</button>
-                        <button type="submit" class="btn btn-success">Bestätigen</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="col-md-6">
+                        <?php
+                        //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
+                        $result = getHardwareAttributesByType("PC");
+
+                        foreach($result as $array)
+                        {
+                            foreach($array as $value)
+                            {
+                                echo "<div class=\"form-group\">";
+                                echo "<label for=\"".$value."\">".$value.":</label>";
+                                echo "<input type=\"text\" class=\"form-control\" id=\"".$value."\">";
+                                echo "</div>";
+                            }
+                        }
+                        ?>
+                    </div>
+                    <!-- TODO: Modal für Menge -->
+                    <button type="reset" class="btn btn-danger">Abbrechen</button>
+                    <button type="submit" class="btn btn-success">Bestätigen</button>
+                </form>
             </div>
         </div>
     </body>
