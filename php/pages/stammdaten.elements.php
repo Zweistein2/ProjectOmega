@@ -12,11 +12,10 @@ function dbElements()
         "ID_COLUMN" => H_ID,
         "NAME_COLUMN" => H_NAME,
         "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID),
-        "ROOM_OPTIONS" => R_NR,
-        "SUPPLIER_OPTIONS" => L_COMPANY_NAME,
+        "ROOM_OPTIONS" => array(R_NR),
+        "SUPPLIER_OPTIONS" => array(L_COMPANY_NAME),
         H_ID => "#",
         H_NAME => "Name",
-        H_STATUS => "Status",
         R_NR => "Raumnummer",
         L_COMPANY_NAME => "Firma",
         S_ROOM_ID => "Raum #",
@@ -66,9 +65,7 @@ function dbElements()
         "NAME_COLUMN" => S_NAME,
         "HIDDEN_COLUMNS" => array(S_ROOM_ID, S_SUPPLIER_ID),
         S_ID => "#",
-        S_ROOM_ID => "Raum #",
         S_SUPPLIER_ID => "Lieferant #",
-        S_STATUS => "Status",
         S_NAME => "Name",
         R_NR => "Raumnummer",
         L_COMPANY_NAME => "Firma",
@@ -93,6 +90,16 @@ function dbElements()
 
     return $dbElements;
 
+}
+
+function getDBOptions($option)
+{
+    $optionsDefine = [
+        "ROOM_OPTIONS" => ROOMS,
+        "SUPPLIER_OPTIONS" => SUPPLIERS
+    ];
+
+    return $optionsDefine[$option];
 }
 
 ?>
