@@ -8,6 +8,7 @@ function dbElements()
     $hardwareElementOptions = [
         "ROOM_OPTIONS" => array("table" => ROOMS, "id" => H_ROOM_ID, "value" => R_NR, "originalId" => R_ID),
         "SUPPLIER_OPTIONS" => array("table" => SUPPLIERS, "id" => H_SUPPLIER_ID, "value" => L_COMPANY_NAME, "originalId" => L_ID),
+        "KIND_OPTIONS" => array("table" => HARDWARE_KINDS, "id" => H_KIND_ID, "value" => K_NAME, "originalId" => K_ID),
     ];
 
     $hardwareElement = [
@@ -16,12 +17,14 @@ function dbElements()
         "TABLE_NAME" => "hardware",
         "ID_COLUMN" => H_ID,
         "NAME_COLUMN" => H_NAME,
-        "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID, HA_A_ID),
+        "HIDDEN_COLUMNS" => array(H_ROOM_ID, H_SUPPLIER_ID, HA_A_ID, H_KIND_ID),
         "ROOM_OPTIONS" => array(R_NR),
         "SUPPLIER_OPTIONS" => array(L_COMPANY_NAME),
+        "KIND_OPTIONS" => array(K_NAME),
         "OPTION_REFERENCE" => $hardwareElementOptions,
         H_ID => "#",
         H_NAME => "Name",
+        K_NAME => "Hardwareart",
         R_NR => "Raumnummer",
         L_COMPANY_NAME => "Firma",
         H_ROOM_ID => "Raum #",
@@ -30,6 +33,7 @@ function dbElements()
         H_BUY_DATE => "Einkaufsdatum",
         H_WARRANTY => "Gewährleistungsdauer",
         H_NOTE => "Notiz",
+        H_KIND_ID => "Hardwareart #",
 
     ];
 
