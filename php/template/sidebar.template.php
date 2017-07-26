@@ -24,10 +24,9 @@
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-tag"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
                         <?php
-                        require_once("stammdaten.elements.php");
                         function loadComponents()
                         {
-                            $dbElements = dbElements();
+                            
                             foreach ($dbElements as $i) {
                                 $name = $i["NAME"];
                                 $tableName = $i["TABLE_NAME"];

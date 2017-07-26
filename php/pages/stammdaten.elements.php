@@ -1,5 +1,7 @@
 <?php
 
+include("../database/stammdaten_sql.php");
+
 function dbElements()
 {
 
@@ -12,7 +14,7 @@ function dbElements()
         H_ID => "#",
         H_NAME => "Name",
         H_STATUS => "Status",
-        H_BEZ => "Beschreibung",
+        H_DESC => "Beschreibung",
         H_BUY_DATE => "Einkaufsdatum",
         H_WARRANTY => "Gewährleistungsdauer",
         H_NOTE => "Notiz",

@@ -3,13 +3,12 @@
 //stammdaten.php
 //Kopfdatei für stammdaten_komponenten.php
 
-include("../database/stammdaten_sql.php");
 include("stammdaten.elements.php");
 include("stammdaten_modal.php");
 
 $dbElements = dbElements();
 
-$type = "";
+$type = getStammdatenType();
 
 /**
  * @dbAlias: Enthält die Tabellennamen für SQL-Operationen, keys für dbElements und translator und
@@ -38,18 +37,18 @@ function getColumn($type, $value, $includeId)
         $idColumn = $element["ID_COLUMN"];
         unset($element[$idColumn]);
     }
+    unset($element['ID_COLUMN']);
     if ($value) {
-        return array_keys($element);
-    } else {
         return array_values($element);
+    } else {
+        return array_keys($element);
     }
 }
 
 function tableExist($type)
 {
     global $dbElements;
-    $element = $dbElements[$type];
-    if (isset($element['TABLE_NAME'])) {
+    if (isset($dbElements[$type])) {
         return true;
     }
     return false;
@@ -80,26 +79,26 @@ function getNameColumn($type)
     return $element['NAME_COLUMN'];
 }
 
-getType();
-
 /**
- * @getType: Prüft ob der GET-Parameter 'type' gesetzt wurde.
+ * getType: Prüft ob der GET-Parameter 'type' gesetzt wurde.
  * Mittels Type wird bestimmt welche Datenbank angesprochen werden soll.
  * Diese Funktion prüft ob ein legaler Type vorliegt, falls nicht wird die Ausführung verweigert.
  * Falls kein Type gesetzt wurde, wird auf den Type 'raeume' weitergeleitet.
  * Achtung: Muss in der PHP-Datei aufgerufen werden!
  */
-function getType()
+function getStammdatenType()
 {
+    $returnType = "";
     if (isset($_GET["type"])) {
-        $type = $_GET["type"];
-        if (!tableExist($type)) {
+        $returnType = $_GET["type"];
+        if (!tableExist($returnType)) {
             die();
         }
     } else {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
+        //header("Location: " . $_SERVER['PHP_SELF'] . "?type=raeume");
         die();
     }
+    return $returnType;
 }
 
 ?>
