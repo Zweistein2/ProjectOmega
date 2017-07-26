@@ -11,7 +11,7 @@ require_once("../database/config.php");
 if($environment == "local") {
     $root = "http://localhost/ProjectOmega/php/pages/";
 }else{
-    $root = $_SERVER['DOCUMENT_ROOT'];
+    $root = dirname(__FILE__)."/";
 }
 
 function redirectToLogin(){
