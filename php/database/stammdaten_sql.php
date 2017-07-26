@@ -76,7 +76,7 @@ define("S_LICENCE_INFO", 's_lizenzinformation');
 define("S_INSTALL", 's_installhinweis');
 
 
-$prim = [
+$prims = [
     HARDWARE => H_ID,
     ROOMS => R_ID,
     SUPPLIERS => L_ID,
