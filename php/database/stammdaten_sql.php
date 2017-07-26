@@ -59,7 +59,6 @@ define("HA_VALUE", 'hhhat_wert');
 
 //--software
 define("S_ID", 's_id');
-define("S_ROOM_ID", 'raeume_r_id');
 define("S_NAME", 's_name');
 define("S_DESC", 's_bez');
 define("S_BUY_DATE", 's_einkaufsdatum');
@@ -103,16 +102,7 @@ function getHardwarePlus(){
     return mysqli_query($connection, $query);
 }
 
-/**
- * Softwarekomponenten für die Tabellenanzeige
- * @return bool|mysqli_result
- */
-function getSoftwarePlus(){
-    global $connection;
-    $query = 'SElECT comp.*, rooms.'.R_NR.' AS '.R_NR.', supp.'.L_COMPANY_NAME.' AS '.L_COMPANY_NAME.' FROM '.SOFTWARE.' AS comp '
-        .' INNER JOIN '.ROOMS.' AS rooms ON rooms.'.R_ID.' = comp.'.S_ROOM_ID;
-    return mysqli_query($connection, $query);
-}
+
 
 /**
  * zusätzliche Attribute einer Hardwareart
@@ -134,8 +124,6 @@ function getAttributesByKindID($ka_id){
 function getEntriesByTable($tabname){
     if($tabname == HARDWARE){
         return getHardwarePlus();
-    }else if($tabname == SOFTWARE){
-        return getSoftwarePlus();
     }else{
         global $connection;
         $query = 'SELECT * FROM ' . $tabname;
