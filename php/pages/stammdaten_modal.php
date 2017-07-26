@@ -73,6 +73,12 @@ function executeOperation($formName)
         insertIntoTable($type, $data);
     }
 
+    if ($formName == "editEntry") {
+        $data = $_POST;
+        unset($data["formName"]);
+        updateEntry($type, $data);
+    }
+
     if ($formName == "deleteEntry") {
         $id = $_POST["id"];
         deleteEntryByTableAndID($type, $id);
@@ -160,14 +166,14 @@ function editEntry($id, $name)
 {
     global $type;
     $columnNames = getColumnNames($type, false);
+    $idColumn = getIDColumn($type);
     $columnText = getColumnText($type, false);
     $typeName = getTypeName($type, false);
     $title = "$typeName $name bearbeiten";
     $formName = "editEntry";
-    $html = "";
     $btnTitle = "Speichern";
     $query = getOneByTableAndID($type, $id);
-
+    $html = "<p><input type='hidden' name='$idColumn' value='$query[$idColumn]'></p>";
     for ($i = 0; $i < sizeof($columnNames); $i++) {
         $columnName = $columnNames[$i];
         $modalText = $columnText[$i];
