@@ -18,18 +18,13 @@ function checkForMinAccess($userRole)
             deleteSession();
             redirectToLogin();
         }
-        if($user['role'] == null || $user['role'] == ''){
+        if(getUserGroupSession() == null || getUserGroupSession() == ''){
             deleteSession();
             redirectToLogin();
         }
         switch ($userRole) {
             case 'admin':
-                if (strcmp($user['role'], "Admin") !== 0) {
-                    redirectToLogin();
-                }
-                break;
-            case 'lehrer':
-                if (strcmp($user['role'], "Lehrer") !== 0) {
+                if (strcmp(getUserGroupSession(), "Lehrer") == 0) {
                     redirectToLogin();
                 }
                 break;
