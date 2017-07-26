@@ -35,16 +35,17 @@ checkTriggerPoints();
 function modalOperation($operation)
 {
     $htmlOutput = "";
-    if (isset($_GET["id"])) {
+    if (isset($_GET["id"]) && isset($_GET["name"])) {
         $id = $_GET["id"];
+        $name = $_GET["name"];
         if ($operation == "delete") {
-            $htmlOutput = deleteEntry($id);
+            $htmlOutput = deleteEntry($id, $name);
         }
         if ($operation == "edit") {
-            $htmlOutput = editEntry($id);
+            $htmlOutput = editEntry($id, $name);
         }
         if ($operation == "copy") {
-            $htmlOutput = copyEntry($id);
+            $htmlOutput = copyEntry($id, $name);
         }
     }
     if ($operation == "new") {
@@ -124,12 +125,16 @@ function generateModal($formName, $title, $btnTitle, $html)
  * Ausgabe: Reines html des generierten Modals
  */
 
-function deleteEntry($id)
+function deleteEntry($id, $name)
 {
+    global $type;
+    global $dbAliasTranslate;
     $returnHtml = "";
+    $typeName = getTypeName($type, false);
     $formName = "deleteEntry";
-    $title = "Eintrag löschen";
-    $html = "<p>Möchten Sie den den Eintrag " . $id . " wirklich löschen?</p>";
+    $title = $typeName . " löschen";
+    $html = "<input type='hidden' name='id' value='$id'>
+             <p>Möchten Sie den den " . $typeName . " " . $name . " wirklich löschen?</p>";
     $btnTitle = "Löschen";
     $returnHtml = generateModal($formName, $title, $btnTitle, $html);
     return $returnHtml;
@@ -142,7 +147,7 @@ function deleteEntry($id)
  * Ausgabe: Reines html einer Erfolgsmeldung
  */
 
-function copyEntry($id)
+function copyEntry($id, $name)
 {
 
 }
@@ -153,23 +158,22 @@ function copyEntry($id)
  * Ausgabe: Reines html des generierten Modals
  */
 
-function editEntry($id)
+function editEntry($id, $name)
 {
     global $type;
-    global $dbElements;
-    global $dbElementsTranslator;
-    $rowNames = excludeIdColumn($dbElements[$type]);
-    $translate = excludeIdColumn($dbElementsTranslator[$type]);
-    $title = "Eintrag ändern";
+    $columnNames = getColumnNames($type, false);
+    $columnText = getColumnText($type, false);
+    $typeName = getTypeName($type, false);
+    $title = "$typeName $name bearbeiten";
     $formName = "editEntry";
     $html = "";
     $btnTitle = "Speichern";
     $query = getOneByTableAndID($type, $id);
 
-    for ($i = 0; $i < sizeof($rowNames); $i++) {
-        $rowName = $rowNames[$i];
-        $modalText = $translate[$i];
-        $html = $html . "<p>$modalText<input type='text' name='$rowName' value='$query[$rowName]'</p>";
+    for ($i = 0; $i < sizeof($columnNames); $i++) {
+        $columnName = $columnNames[$i];
+        $modalText = $columnText[$i];
+        $html = $html . "<p>$modalText<input type='text' name='$columnName' value='$query[$columnName]'</p>";
     }
 
     return generateModal($formName, $title, $btnTitle, $html);
@@ -184,19 +188,18 @@ function editEntry($id)
 function newEntry()
 {
     global $type;
-    global $dbElements;
-    global $dbElementsTranslator;
-    $rowNames = excludeIdColumn($dbElements[$type]);
-    $translate = excludeIdColumn($dbElementsTranslator[$type]);
+    $columnNames = getColumnNames($type, false);
+    $columnText = getColumnText($type, false);
+    $typeName = getTypeName($type, false);
     $formName = "newEntry";
-    $title = "Neuer Eintrag";
+    $title = "Neuer $typeName";
     $html = "";
     $btnTitle = "Speichern";
 
-    for ($i = 0; $i < sizeof($rowNames); $i++) {
-        $rowName = $rowNames[$i];
-        $modalText = $translate[$i];
-        $html = $html . "<p>$modalText:<input type='text' name='$rowName'</p>";
+    for ($i = 0; $i < sizeof($columnNames); $i++) {
+        $columnName = $columnNames[$i];
+        $modalText = $columnText[$i];
+        $html = $html . "<p>$modalText:<input type='text' name='$columnName'</p>";
     }
 
     return generateModal($formName, $title, $btnTitle, $html);

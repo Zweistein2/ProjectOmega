@@ -31,18 +31,106 @@ $prim = [
     ATTRIBUTES => A_ID
 ];
 
-//dbElements: Enthält die Spaltennamen für SQL-Funktionen.
+function getColumnNames($type, $includeId)
+{
+    return getColumn($type, false, $includeId);
+}
+
+function getColumnText($type, $includeId)
+{
+    return getColumn($type, true, $includeId);
+}
+
+function getColumn($type, $value, $includeId)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+    unset($element['NAME']);
+    unset($element['NAME_PLURAL']);
+    unset($element['NAME_COLUMN']);
+    if (!$includeId) {
+        $idColumn = $element["ID_COLUMN"];
+        unset($element[$idColumn]);
+    }
+    if ($value) {
+        return array_keys($element);
+    } else {
+        return array_values($element);
+    }
+}
+
+function getTypeName($type, $plural)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+    $returnVal = $element['NAME'];
+    if ($plural) {
+        $returnVal = $element['NAME_PLURAL'];
+    }
+    return $returnVal;
+}
+
+function getIDColumn($type)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+    return $element['ID_COLUMN'];
+}
+
+function getNameColumn($type)
+{
+    global $dbElements;
+    $element = $dbElements[$type];
+    return $element['NAME_COLUMN'];
+}
+
 $dbElements = [
-    "raeume" => array("r_id", "r_nr", "r_bezeichnung", "r_notiz"),
-    "lieferant" => array("l_id", "l_firmenname", "l_strasse", "l_plz", "l_ort", "l_tel", "l_mobil", "l_fax", "l_email"),
-    "hardware" => array("k_id", "raeume_r_id", "lieferant_l_id", "k_einkaufsdatum", "k_gewaehrleistungsdauer", "k_notiz", "k_hersteller", "komponentenarten_ka_id")
+    ROOMS => $roomElement,
+    SUPPLIERS => $suppliersElement,
+    HARDWARE => $hardwareElement,
 ];
 
-//translator: Anzeigenamen für die dbElements
-$dbElementsTranslator = [
-    "raeume" => array("#", "Nummer", "Bezeichnung", "Notiz"),
-    "lieferant" => array("#", "Firmenname", "Strasse", "PLZ", "Ort", "Tel", "Mobil", "Fax", "E-Mail"),
-    "hardware" => array("#", "Raum #", "Lieferant #", "Einkaufsdatum", "Gewaehrleistungsdauer", "Notiz", "Hersteller", "Komponentenarten #")
+$hardwareElement = [
+    "NAME" => "Software",
+    "NAME_PLURAL" => "Software",
+    "ID_COLUMN" => H_ID,
+    "NAME_COLUMN" => H_NAME,
+    H_ID => "#",
+    H_NAME => "Name",
+    H_STATUS => "Status",
+    H_BEZ => "Beschreibung",
+    H_BUY_DATE => "Einkaufsdatum",
+    H_WARRANTY => "Gewährleistungsdauer",
+    H_NOTE => "Notiz",
+    H_DEV => "Hersteller"
+
+];
+
+$roomElement = [
+    "NAME" => "Raum",
+    "NAME_PLURAL" => "Räume",
+    "ID_COLUMN" => R_ID,
+    "NAME_COLUMN" => R_NR,
+    R_ID => "#",
+    R_NR => "Raumnummer",
+    R_DESC => "Beschreibung",
+    R_NOTE => "Notiz",
+];
+
+$suppliersElement = [
+    "NAME" => "Lieferant",
+    "NAME_PLURAL" => "Lieferanten",
+    "ID_COLUMN" => L_ID,
+    "NAME_COLUMN" => L_COMPANY_NAME,
+    L_ID => "#",
+    L_COMPANY_NAME => "Firmenname",
+    L_STREET => "Straße",
+    L_PLZ => "PLZ",
+    L_TOWN => "Ort",
+    L_TEL => "Telefon",
+    L_MOBILE => "Mobil",
+    L_FAX => "Fax",
+    L_EMAIL => "E-Mail"
 ];
 
 getType();
@@ -67,22 +155,6 @@ function getType()
         header("Location: " . $_SERVER['PHP_SELF'] . "?type=" . $first_key);
         die();
     }
-}
-
-/**
- * @excludeIdColumn: Exkludiert die ID-Spalte aus einem Objekt.
- * Da die ID in vielen Fällen nicht benötigt wird, soll diese ausgeschlossen werden.
- * Parameter data: Das zu bearbeitende Objekt
- * Ausgabe: Das über Parameter übergebene Objekt ohne die ID-Spalte.
- */
-
-function excludeIdColumn($data)
-{
-    //global $prim;
-    //global $type;
-    //unset($data[$prim[$type]]);
-    array_shift($data);
-    return $data;
 }
 
 ?>
