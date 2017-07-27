@@ -456,4 +456,3 @@ function updateHardwareAttribut($h_id, $a_id, $val){
         .' WHERE '.HA_H_ID.'='.$h_id.' AND '.HA_A_ID.'='.$a_id;
     mysqli_query($connection, $query);
 }
-
