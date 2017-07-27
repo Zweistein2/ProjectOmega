@@ -8,6 +8,13 @@
 
 require_once("../authentication/sessionhandler.php");
 
+
+/**
+ * Legt fest welche min. Benutzergruppe der Benutzer
+ * haben muss um den jeweiligen Bereich zu sehen.
+ *
+ * @param $userRole
+ */
 function checkForMinAccess($userRole)
 {
     if (hasSession()) {

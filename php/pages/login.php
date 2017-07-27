@@ -34,13 +34,13 @@ if (isset($_POST['btn_anmelden'])) {
             <h2 class='login_title text-center'>Anmeldung</h2>
             <hr>
             <?php
-                if(hasErrorMessage()) {
-                    ?>
-                    <div class="alert alert-warning">
-                        <?php echo getErrorMessage()?>
-                    </div>
-                    <?php
-                }
+            if(hasErrorMessage()) {
+                ?>
+                <div class="alert alert-warning">
+                    <?php echo getErrorMessage()?>
+                </div>
+                <?php
+            }
             ?>
             <form class="form-signin" action="login.php" method="post">
                 <span id="reauth-email" class="reauth-email"></span>

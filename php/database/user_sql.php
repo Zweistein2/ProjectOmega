@@ -132,7 +132,7 @@ function getAllRoleNames(){
 }
 
 
-function updateUser($username,$password,$role){
+function updateUserByUsername($username,$password,$role){
     $hashedPassword = getPasswordHash($password);
     $userId = getUserIdByName($username);
     $roleId = getRoleIdByName($role);
