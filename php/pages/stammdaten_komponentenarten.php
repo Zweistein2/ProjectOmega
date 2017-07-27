@@ -26,17 +26,17 @@ if(!isset($_SESSION['selectedKindToShow'])){
                 <div class="panel-body">
                     <table class="table table-striped table-list">
                         <thead>
-                            <tr>
-                                <?php
-                                $headers = ['ID' => K_ID, 'Hardware-Art' => K_NAME];
-                                foreach($headers as $key => $val){
-                                    echo '<th>'.$key.'</th>';
-                                }
-                                ?>
-                                <th><span class="glyphicon glyphicon-menu-hamburger"></th> <!--Attribute-->
-                                <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
-                                <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
-                            </tr>
+                        <tr>
+                            <?php
+                            $headers = ['ID' => K_ID, 'Hardware-Art' => K_NAME];
+                            foreach ($headers as $key => $val) {
+                                echo '<th>' . $key . '</th>';
+                            }
+                            ?>
+                            <th><span class="glyphicon glyphicon-menu-hamburger"></th> <!--Attribute-->
+                            <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
+                            <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
+                        </tr>
                         </thead>
                         <tbody>
                         <?php
@@ -50,7 +50,7 @@ if(!isset($_SESSION['selectedKindToShow'])){
                             echo '<td><a class="btn btn-warning" href="?operation=showAttributes&type=Art&id='.$data[K_ID].'">'
                                 .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
                             echo '<td><a class="btn btn-primary" href="?operation=edit&type=Art&id='.$data[K_ID].'">'
-                                      .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                                . '<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
                             echo '<td><a class="btn btn-danger" href="?operation=delete&type=Art&id='.$data[K_ID].'">'
                                 .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                             echo '</tr>';
@@ -107,28 +107,28 @@ function showKAModelOperation(){
 function showKAModel($type, $id, $title, $formName, $btnTitle, $bodyHtml = ''){
     ?>
     <div id="modal" class="modal show" role="dialog">
-    <div class="modal-dialog">
-    <form method="post" action="<?php echo '?type='.$type.'&selected='.$id;?>">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a class="close" href="<?php echo '?type='.$type;?>"></a>
-                <h4 class="modal-title">
-                    <?php
-                    echo $title;
-                    ?>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <?php
-                echo '<input type="hidden" name="formName" value="'.$formName.'">';
-                //--TODO body
+        <div class="modal-dialog">
+            <form method="post" action="<?php echo '?type=' . $type . '&selected=' . $id; ?>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a class="close" href="<?php echo '?type=' . $type; ?>"></a>
+                        <h4 class="modal-title">
+                            <?php
+                            echo $title;
+                            ?>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <?php
+                        echo '<input type="hidden" name="formName" value="' . $formName . '">';
+                        //--TODO body
 
-                ?>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" name="" class="btn btn-primary"><?php echo $btnTitle; ?></button>
-                <a class="btn btn-default" href="?type=$type">Abbrechen</a>
-            </div>
+                        ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="" class="btn btn-primary"><?php echo $btnTitle; ?></button>
+                        <a class="btn btn-default" href="?type=$type">Abbrechen</a>
+                    </div>
             </form>
         </div>
     </div>

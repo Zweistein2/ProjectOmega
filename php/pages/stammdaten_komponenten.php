@@ -66,7 +66,7 @@ checkForMinAccess("Admin");
                             echo "<td><a class=\"btn btn-warning\" href=\"?operation=copy&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-copy\"></span></a></td>";
                             echo "<td><a class=\"btn btn-danger\" href=\"?operation=delete&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>";
                             echo '</tr>';
-                            
+
                         }
                         ?>
                         </tbody>

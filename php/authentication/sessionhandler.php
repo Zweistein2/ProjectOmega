@@ -65,7 +65,8 @@ function getUserIdSession()
  *
  * @param $id
  */
-function setUserIdSession($id){
+function setUserIdSession($id)
+{
     $_SESSION['userid'] = $id;
 }
 
@@ -84,7 +85,8 @@ function getUserGroupSession()
  *
  * @param $id
  */
-function setUserGroupSession($id){
+function setUserGroupSession($id)
+{
     $_SESSION['user_role'] = $id;
 }
 
@@ -117,7 +119,7 @@ function createErrorMessage($message)
 function hasErrorMessage()
 {
     if (isset($_SESSION['error'])) {
-        if(strcmp(getErrorMessage(), "") !== 0){
+        if (strcmp(getErrorMessage(), "") !== 0) {
             return true;
         }
         return false;

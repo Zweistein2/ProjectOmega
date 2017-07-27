@@ -1,7 +1,7 @@
 <?php
 
-include("../database/stammdaten_sql.php");
-include("../database/user_sql.php");
+include_once("../database/stammdaten_sql.php");
+include_once("../database/user_sql.php");
 
 function dbElements()
 {
