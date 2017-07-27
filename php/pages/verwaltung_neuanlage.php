@@ -28,14 +28,13 @@ checkForMinAccess("Admin");
                         <?php
                         //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
                         $result = getHardwareTypes();
+
                         foreach($result as $array)
                         {
-                            foreach($array as $value)
-                            {
-                                echo "<option>".$value."</option>";
-                            }
+                            echo '<option value="'.$array[0].'">'.$array[1].'</option>';
                         }
                         ?>
+                        <option value="-1">Software</option>
                     </select>
                     <div class="form-group col-sm-12 mt-6">
                         <label for="amount">Menge:</label>
@@ -50,7 +49,7 @@ checkForMinAccess("Admin");
                         </div>
                         <div class="form-group">
                             <label for="Einkaufsdatum">Einkaufsdatum:</label>
-                            <input type="date" class="form-control" name="Einkaufsdatum" placeholder="dd.mm.yyyy">
+                            <input type="date" class="form-control" name="Einkaufsdatum" placeholder="yyyy-mm-dd">
                         </div>
                         <div class="form-group">
                             <label for="Name">Name:</label>
@@ -60,7 +59,7 @@ checkForMinAccess("Admin");
                             <label for="Bezeichnung">Bezeichnung:</label>
                             <input type="text" class="form-control" name="Bezeichnung">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="RaumSelect">
                             <label for="Raum">Raum:</label>
                             <select class="selectpicker" data-style="btn-default" name="Raum">
                                 <?php
@@ -69,19 +68,16 @@ checkForMinAccess("Admin");
 
                                 foreach($result as $array)
                                 {
-                                    foreach($array as $value)
-                                    {
-                                        echo "<option>".$value."</option>";
-                                    }
+                                    echo '<option value="'.$array[0].'">'.$array[1].'</option>';
                                 }
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="Warranty">
                             <label for="Warranty">Gewährleistungsdauer:</label>
                             <input type="text" class="form-control" name="Warranty">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="LieferantSelect">
                             <label for="Lieferant">Lieferant:</label>
                             <select class="selectpicker" data-style="btn-default" name="Lieferant">
                                 <?php
@@ -90,10 +86,7 @@ checkForMinAccess("Admin");
 
                                 foreach($result as $array)
                                 {
-                                    foreach($array as $value)
-                                    {
-                                        echo "<option>".$value."</option>";
-                                    }
+                                    echo '<option value="'.$array[0].'">'.$array[1].'</option>';
                                 }
                                 ?>
                             </select>
@@ -103,10 +96,7 @@ checkForMinAccess("Admin");
                             <input type="text" class="form-control" name="Notiz">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="hidden form-control" id="Type" name="Type" value="PC">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="hidden form-control" name="isHardware" value="true">
+                            <input type="text" class="hidden form-control" id="Type" name="Type" value="1">
                         </div>
                         <div class="form-group">
                             <input type="text" class="hidden form-control" id="Amount" name="Amount" value="1">
@@ -145,7 +135,17 @@ checkForMinAccess("Admin");
 <script>
     $('#typePicker').change(function(){
         var inputValue = $(this).val();
-        $('#Type').val(inputValue+1);
+        if(inputValue == "-1")
+        {
+            $('#Warranty').toggleClass("hidden", true);
+            $('#LieferantSelect').toggleClass("hidden", true);
+            $('#Type').val("-1");
+        }else
+        {
+            $('#Warranty').toggleClass("hidden", false);
+            $('#LieferantSelect').toggleClass("hidden", false);
+            $('#Type').val(inputValue);
+        }
 
         //Ajax um die PHP-Funktion aufzurufen
         $.post('../functions/verwaltung_attributes.php', { dropdownValue: inputValue }, function(data){
@@ -186,9 +186,8 @@ checkForMinAccess("Admin");
             modal.find('.modal-body').html(htmlstring);
 
             $('#saveButton').click(function(){
-                console.log("Val - Multi: " + inputValue);
+                //TODO: FIX Mehrere Seriennummern mitübergeben
                 //Absenden
-                //Ajax um die PHP-Funktion aufzurufen
                 $.post('../functions/verwaltung_insert.php', $('#AjaxForm').serialize(), function(data){
                     console.log(data);
                 });
@@ -196,7 +195,6 @@ checkForMinAccess("Admin");
                 $('#closeButton').click();
             });
         }else {
-            console.log("Val: " + inputValue);
             //Absenden
             $.post('../functions/verwaltung_insert.php', $('#AjaxForm').serialize(), function(data){
                 console.log(data);
@@ -206,7 +204,7 @@ checkForMinAccess("Admin");
 
     $(document).ready(function(){
         //Ajax um die PHP-Funktion aufzurufen
-        $.post('../functions/verwaltung_attributes.php', { dropdownValue: "PC" }, function(response){
+        $.post('../functions/verwaltung_attributes.php', { dropdownValue: "1" }, function(response){
             $('#attributes').html(response);
         });
     });

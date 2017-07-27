@@ -12,7 +12,7 @@ if(isset($_POST['Type']))
 {
     $attrArray = array();
 
-    if($_POST['isHardware']) {
+    if($_POST['Type'] != "-1") {
         $typeId = $_POST['Type'];
         $amount = $_POST['Amount'];
         $manufactorId = "";
@@ -30,13 +30,11 @@ if(isset($_POST['Type']))
                     break;
                 case "Type":
                     break;
-                case "isHardware":
-                    break;
                 case "Hersteller":
                     $manufactorId = $value;
                     break;
                 case "Einkaufsdatum":
-                    $buyingDate = $value;
+                    $buyingDate = "'".$value."'";
                     break;
                 case "Name":
                     $name = $value;
@@ -62,32 +60,67 @@ if(isset($_POST['Type']))
             }
         }
 
-        //TODO: VendorID und RoomID herausbekommen.
-        
-        //insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray);
+        insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray);
     }else{
-
-    }
-}
-
-if(false) {
-
-    if (false) {
-
-    } else {
-
-        $name = "Word";
-        $bez = "Microsoft Word";
+        $name = "";
+        $bez = "";
         $buyingDate = null;
-        $licenceTime = 0;
-        $note = "Word";
-        $manufactor = "Microsoft";
-        $verNum = "5353";
-        $licenceType = 0;
-        $amount = 12;
-        $licenceInfo = "Volumen Lizenz mit 12 Lizenzen";
-        $installHint = "Farg den Admin deines Vertrauens";
-        $roomId = 2;
+        $licenceTime = "";
+        $note = "";
+        $manufactor = "";
+        $verNum = "";
+        $licenceType = "";
+        $amount = "";
+        $licenceInfo = "";
+        $installHint = "";
+        $roomId = "";
+
+        foreach($_POST as $key => $value) {
+            switch($key) {
+                case "Amount":
+                    break;
+                case "Type":
+                    break;
+                case "Hersteller":
+                    $manufactor = $value;
+                    break;
+                case "Einkaufsdatum":
+                    $buyingDate =$value;
+                    break;
+                case "Name":
+                    $name = $value;
+                    break;
+                case "Bezeichnung":
+                    $bez = $value;
+                    break;
+                case "Raum":
+                    $roomId = $value;
+                    break;
+                case "Notiz":
+                    $note = $value;
+                    break;
+                case "Lizenzlaufzeit":
+                    $licenceTime = $value;
+                    break;
+                case "Versionsnummer":
+                    $verNum = $value;
+                    break;
+                case "Lizenztyp":
+                    $licenceType = "'".$value."'";
+                    break;
+                case "Anzahl":
+                    $amount = $value;
+                    break;
+                case "Lizenzinformationen":
+                    $licenceInfo = $value;
+                    break;
+                case "Installationshinweis":
+                    $installHint = $value;
+                    break;
+                default:
+                    break;
+            }
+        }
 
         insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint, $roomId);
     }
