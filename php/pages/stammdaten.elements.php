@@ -102,6 +102,7 @@ function dbElements()
         "OPTION_REFERENCE" => $userElementOptions,
         U_ID => "#",
         U_USERNAME => "Benutzername",
+        U_ROLES_ID => "Rolle #",
         U_ROLES_ROLE => "Rolle",
     ];
 

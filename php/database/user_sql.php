@@ -70,7 +70,7 @@ function getAllUsersWithRoles()
                 users.username,
                 users.PASSWORD,
                 user_roles.role,
-                user_has_roles.id as 'U_ROLE_ID'
+                user_has_roles.id as 'U_ROLES_ID'
               FROM
                 users
 	            INNER JOIN user_has_roles ON user_has_roles.id_users = users.id

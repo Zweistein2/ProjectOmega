@@ -80,7 +80,7 @@ define("U_USERNAME", "username");
 define("U_PASSWORD", "password");
 
 //--nutzer-rollen
-define("U_ROLES_ID", "id");
+define("U_ROLES_ID", "U_ROLES_ID");
 define("U_ROLES_ROLE", "role");
 
 //--nutzer-hat-rollen
