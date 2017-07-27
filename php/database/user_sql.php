@@ -146,7 +146,7 @@ function updateUser($username,$password,$role){
 function deleteUserById($id){
     $userQuery = "DELETE FROM users WHERE id = $id;";
     $roleQuery = "DELETE FROM user_has_roles WHERE id_users = $id;";
-    $query = $userQuery.$roleQuery;
     global $connection_userDatabase;
-    mysqli_query($connection_userDatabase, $query);
+    mysqli_query($connection_userDatabase, $roleQuery);
+    mysqli_query($connection_userDatabase, $userQuery);
 }
