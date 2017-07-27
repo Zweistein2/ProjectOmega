@@ -44,14 +44,14 @@ function getFilledHardwareTypes()
     return mysqli_fetch_all($result);
 }
 
-function getSuppliers() {
+function getSuppliersForVerwaltung() {
     global $connection;
     $query = 'SELECT l_firmenname FROM lieferant';
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result);
 }
 
-function getRooms() {
+function getRoomsForVerwaltung() {
     global $connection;
     $query = 'SELECT r_nr FROM raeume WHERE raeume.r_id != 1';
     $result = mysqli_query($connection, $query);
@@ -73,4 +73,33 @@ function deleteRowByHardwareID($id)
               WHERE hardware.h_id = {$id}";
     $result = mysqli_query($connection, $query);
     return $result;
+}
+
+function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $warranty, $note, $amount, $attrArray)
+{
+
+    global $connection;
+    for ($i = 0; $i < $amount; $i++) {
+
+        $query = "INSERT INTO hardware (raeume_r_id, lieferant_l_id, h_name, h_bez, h_einkaufsdatum, h_gewaehrleistungsdauer, h_notiz, h_hersteller, hardwarearten_ha_id)
+                VALUES ($roomId, $vendorId, '$name', '$bez', CURRENT_DATE, '$warranty', '$note', '$manufactorId', '$typeId' );
+
+                ";
+
+       mysqli_query($connection, $query);
+       $id = mysqli_insert_id($connection);
+        insertHardwareAttributes($id, $attrArray);
+    }
+}
+
+function insertHardwareAttributes($hardwareId, $attrArray)
+{
+    global $connection;
+    $query = "";
+    foreach ($attrArray AS $item) {
+        $query = "INSERT INTO hardware_hat_attribute(hardware_h_id, hardwareattribute_hat_id, hhhat_wert) 
+                    VALUES($hardwareId, $item[0], '$item[1]');";
+        mysqli_multi_query($connection, $query);
+    }
+
 }
