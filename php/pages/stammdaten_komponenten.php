@@ -6,6 +6,8 @@
     require("stammdaten.php");
     ?>
     <link href="../../css/stammdaten.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../css/frameworks/datatables.min.css"/>
+    <script type="text/javascript" src="../../js/frameworks/datatables.js"></script>
 </head>
 <body>
 <?php include("../template/sidebar.template.php"); ?>
