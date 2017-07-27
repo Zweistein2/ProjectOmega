@@ -178,6 +178,12 @@ function deleteEntry($id, $name)
 
 function copyEntry($id, $name)
 {
+    global $type;
+
+    if($type == "hardware") {
+        copyComponent($id, 1);
+    }
+
 
 }
 
