@@ -166,6 +166,11 @@ checkForMinAccess("Admin");
 
                 $('#saveButton').click(function(){
                     //Absenden
+                    //Ajax um die PHP-Funktion aufzurufen
+                    $.post('../functions/verwaltung_insert.php', { dropdownValue: inputValue }, function(data){
+                        $('#attributes').html(data);
+                    });
+
                     $('#closeButton').click();
                 });
             }else {
