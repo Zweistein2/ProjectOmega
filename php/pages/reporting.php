@@ -33,7 +33,7 @@ checkForMinAccess("Lehrer");
                     <select class="selectpicker" id="typeSelect" data-style="btn-info">
                         <?php
                             //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
-                            $result = getFilledHardwareTypes();
+                        $result = getFilledHardwareTypes();
 
                             foreach($result as $array)
                             {

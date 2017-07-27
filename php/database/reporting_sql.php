@@ -29,7 +29,8 @@ function getComponentsByRoomNumber($number) {
     return mysqli_fetch_all($result);
 }
 
-function getFilledHardwareTypes() {
+function getFilledHardwareTypes()
+{
     global $connection;
     $query = 'SELECT ha_hardwareart AS art
               FROM hardwarearten AS haArt

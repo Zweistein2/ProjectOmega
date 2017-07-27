@@ -1,18 +1,25 @@
-<?php
-require_once("../authentication/auth_filter.php");
-checkForMinAccess("Admin");
-?>
-
 <html>
 <head>
     <title>Stammdaten</title>
-    <?php include("../template/head.template.php"); ?>
+    <?php include_once("../template/head.template.php"); ?>
     <link href="../../css/stammdaten.css" rel="stylesheet">
 </head>
 <body>
-<?php include("../template/sidebar.template.php"); ?>
+<?php
+include_once("../template/sidebar.template.php");
+include_once("../database/stammdaten_sql.php");
+if(!isset($_SESSION['selectedKindToShow'])){
+    $_SESSION['selectedKindToShow'] = 0;
+}
+$kind_titles = [
+    'delete' => 'löschen',
+    'edit' => 'ändern',
+    'insert' => 'einfügen'
+];
+?>
 <div class="container">
     <h2>Stammdaten</h2>
+    <form method="post" name="formKinds" action="stammdaten_komponentenarten.php"/>
     <div class="row">
         <div class="col col-md-5">
             <div class="panel panel-default panel-table">
@@ -20,31 +27,35 @@ checkForMinAccess("Admin");
                     <table class="table table-striped table-list">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Art</th>
-                                <th></th>
-                                <th></th>
+                                <?php
+                                $headers = ['ID' => K_ID, 'Hardware-Art' => K_NAME];
+                                foreach($headers as $key => $val){
+                                    echo '<th>'.$key.'</th>';
+                                }
+                                ?>
+                                <th><span class="glyphicon glyphicon-menu-hamburger"></th> <!--Attribute-->
+                                <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
+                                <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
                             </tr>
                         </thead>
                         <tbody>
                         <?php
-                        //TODO: Testdaten löschen
-                        $result = array();
-                        $result[] = array();
-                        $result[] = array();
 
-                        $result[0]['ka_id'] = 1;
-                        $result[0]['ka_komponentenart'] = 'PC';
-                        $result[1]['ka_id'] = 2;
-                        $result[1]['ka_komponentenart'] = 'Switch';
-
-                        foreach($result as $data){
-                        //while($data = mysqli_fetch_assoc($result)){
+                        $result = getEntriesByTable(HARDWARE_KINDS);
+                        while($data = mysqli_fetch_assoc($result)){
                             echo '<tr>';
-                            echo '<td>'.$data['ka_id'].'</td>';
-                            echo '<td>'.$data['ka_komponentenart'].'</td>';
-                            echo '<td><input type="submit" name="del_art_'.$data['ka_id'].'" value="Attribute"/></td>';
-                            echo '<td><input type="submit" name="update_art_'.$data['ka_id'].'" value="Attribute"/></td>';
+                            foreach($headers as $val){
+                                echo '<td>'.$data[$val].'</td>';
+                            }
+                            echo '<td><a class="btn btn-warning"'
+                                .'href="?operation=showAttributes&type=Art&id='.$data[K_ID].'">'
+                                .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                            echo '<td><a class="btn btn-primary" '
+                                .'href="?operation=edit&type=Art&Bezeichnung='.$data[K_NAME].'&id='.$data[K_ID].'">'
+                                .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                            echo '<td><a class="btn btn-danger" '
+                                .'href="?operation=delete&type=Art&Bezeichnung='.$data[K_NAME].'&id='.$data[K_ID].'">'
+                                .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                             echo '</tr>';
                         }
                         ?>
@@ -69,70 +80,158 @@ checkForMinAccess("Admin");
                 </div>
             </div>
         </div>
-        <div class="col col-md-5">
-            <div class="panel panel-default panel-table">
-                <div class="panel-body">
-                    <table class="table table-striped table-list">
-                        <thead>
-                        <?php
+        <?php
+        checkKAModal();
+        showAttributes($_SESSION['selectedKindToShow']);
+        ?>
+    </div>
+</body>
+</html>
 
-                        /*
-                        foreach($_POST as $key => $value){
-                            $arr = explode('_', $key);
-                            if($arr[0] == 'update'){
-                                $art_id = $arr[2];
-                        */
+<?php
+function checkKAModal(){
+    global $kind_titles;
+    if (isset($_GET["operation"])) {
+        $operation = $_GET["operation"];
+        if($operation == 'showAttributes'){
+            $id = isset($_GET["id"]) ? $_GET["id"] : 0;
+            $_SESSION['selectedKindToShow'] = $id;
+        }else{
+            $type = $_GET["type"];
+            $id = $_GET["id"];
+            $desc = $_GET['Bezeichnung'];
+            $title = $type.' '.$kind_titles[$operation];
+            $body = '';
+            if($type == 'Art'){
+                $body = showModalAddEditKind($id,$desc);
+            }else if($type == 'Attribut'){
+                $k_id = $_GET['ArtID'];
+                $body = showModalAddEditAttribute($k_id, $desc);
+            }
+            showKAModal($type,
+                $id,
+                $title,
+                'formName',
+                $type . ' ' . $operation,
+                $body);
+        }
+    }
+}
+function showKAModalOperation(){
 
+}
+
+function showKAModal($type, $id, $title, $formName, $btnTitle, $bodyHtml = ''){
+    ?>
+    <div id="modal" class="modal show" role="dialog">
+    <div class="modal-dialog">
+    <form method="post" action="<?php echo '?type='.$type.'&selected='.$id;?>">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" href="<?php echo '?type='.$type;?>"></a>
+                <h4 class="modal-title">
+                    <?php
+                    echo $title;
+                    ?>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <?php
+                echo '<input type="hidden" name="formName" value="'.$formName.'">';
+                echo $bodyHtml;
+                ?>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="" class="btn btn-primary">
+                    <?php echo $btnTitle; ?>
+                </button>
+                <a class="btn btn-default" href="?type=$type">Abbrechen</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <?php
+}
+function showModalAddEditKind($k_id = 0, $name = ''){
+    $html = '<p>Name:</p>';
+    $html .= '<input type="text" class="form-control" name="kind_name" value="'.$name.'"/>';
+    return $html;
+}
+/**
+ * Ändern oder einfügen eines Attributes in Beziehung zu einer Art
+ * @param $k_id: ID der Art
+ * @param string $a_desc: aktueller Name des Attributs
+ * @return string
+ */
+function showModalAddEditAttribute($k_id, $a_desc = ''){
+    $attr = getAttributesByKindID($k_id, true);
+    $html = '';
+    $html . '<p>Vorhandenes Attribut wählen oder Textfeld benutzen</p>';
+    $html .= '<select name="modal_kind_attributes[]">';
+    $html .= '<option value="0">--Textfeld benutzen</option>';
+    while($data = mysqli_fetch_assoc($attr)){
+        $html .= '<option value="'.$data[A_ID].'">'.$data[A_DESC].'</option>';
+    }
+    $html .= '</select>';
+    $html .= '<input type="text" class="form-control" name="attribute_name" value="'.$a_desc.'"/>';
+    return $html;
+}
+
+function showAttributes($k_id){
+    if($k_id == 0) return;
+    ?>
+    <div class="col col-md-5">
+        <div class="panel panel-default panel-table">
+            <div class="panel-body">
+                <table class="table table-striped table-list">
+                    <thead>
+                    <?php
+                    echo '<tr>';
+                    $attr_headers = ['ID' => A_ID, 'Bezeichnung' => A_DESC];
+                    foreach($attr_headers as $key => $val){
+                        echo '<th>'.$key.'</th>';
+                    }
+                    echo '<th><span class="glyphicon glyphicon-edit"></span></th>'; //--Ändern
+                    echo '<th><span class="glyphicon glyphicon-remove"></span></th>'; //--Löschen
+                    echo '</tr>';
+                    echo '</thead>';
+
+                    echo '<tbody>';
+                    $result = getAttributesByKindID($k_id);
+                    while($data = mysqli_fetch_assoc($result)){
                         echo '<tr>';
-                        echo '<th>ID</th>';
-                        echo '<th>Bezeichnung</th>';
-                        echo '<th></th>';
-                        echo '</tr>';
-                        echo '</thead>';
-
-                        echo '<tbody>';
-                        //TODO: Attribute nach ArtID
-                        $result_art = array();
-                        $result_art[] = array();
-                        $result_art[] = array();
-
-                        $result_art[0]['kat_id'] = 1;
-                        $result_art[0]['kat_bezeichnung'] = 'CPU';
-                        $result_art[1]['kat_id'] = 2;
-                        $result_art[1]['kat_bezeichnung'] = 'RAM';
-
-                        foreach($result_art as $attr){
-                            //while($attr = mysqli_fetch_assoc($result_art)){
-                            echo '<tr>';
-                            echo '<td>'.$attr['kat_id'].'</td>';
-                            echo '<td>'.$attr['kat_bezeichnung'].'</td>';
-                            echo '<td><input type="submit" name="del_attr_'.$attr['kat_id'].'" value="x"/></td>';
-                            echo '</tr>';
+                        foreach($attr_headers as $key => $val){
+                            echo '<td>'.$data[$val].'</td>';
                         }
-                        ?>
-                        </tbody>
-                    </table>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col col-xs-4">
-                                <button type="submit" class="btn btn-success">Neuen Datensatz anlegen</button>
-                            </div>
-                            <div class="col col-xs-8">
-                                <ul class="pagination hidden-xs pull-right">
-                                    <li><a href="#"><<</a></li>
-                                    <li><a href="#"><</a></li>
-                                    <li class="active"><a href="#">3</a></li>
-                                    <li><a href="#">></a></li>
-                                    <li><a href="#">>></a></li>
-                                </ul>
-                            </div>
+                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=Attribut&ArtID='.$k_id.'&id='.$data[A_ID].'&kindID='.$k_id.'">'
+                            .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=Attribut&ArtID='.$k_id.'&id='.$data[A_ID].'">'
+                            .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col col-xs-4">
+                            <button type="submit" class="btn btn-success">Neuen Datensatz anlegen</button>
+                        </div>
+                        <div class="col col-xs-8">
+                            <ul class="pagination hidden-xs pull-right">
+                                <li><a href="#"><<</a></li>
+                                <li><a href="#"><</a></li>
+                                <li class="active"><a href="#">3</a></li>
+                                <li><a href="#">></a></li>
+                                <li><a href="#">>></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+<?php } ?>
 
 <!-- TODO: Refactoring! -->

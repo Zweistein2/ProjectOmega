@@ -1,42 +1,120 @@
 <?php
 
-if (isset($_GET["operation"])) {
-    $operation = $_GET["operation"];
+/**
+ * @checkTriggerPoints: Prüfen ob eines der TriggerPoints gesetzt wurde um eine Operation in die Wege zu leiten.
+ * Prüft ob der GET-Parameter 'operation' gesetzt wurde um die Funktion 'modalOperation' zu triggern
+ * und dessen Ausgabe wiederzugeben.
+ * Prüft ob der POST-Parameter 'formName' gesetzt wurde um die Funktion 'executeOperation' zu triggern.
+ * Achtung: Muss in der PHP-Datei aufgerufen werden!
+ */
+
+function checkTriggerPoints()
+{
+    if (isset($_GET["operation"])) {
+        $operation = $_GET["operation"];
+        $output = modalOperation($operation);
+        echo $output;
+    }
+    if (isset($_POST["formName"])) {
+        $formName = $_POST["formName"];
+        executeOperation($formName);
+    }
+}
+
+checkTriggerPoints();
+
+/**
+ * @modalOperation: Modal für eine Operation erzeugen
+ * Sollte eine Operation (Erstellen, Ändern, Löschen oder Kopieren) ausgewählt sein,
+ * wird diese mit dem GET-Parameter 'operation' übergeben und über eine If-Schleife
+ * an die entsprechenden Funktion weitergeleitet, welche dann ein passendes Modal erzeugt.
+ * Parameter formName: Bestimmt die entsprechende Operation (newEntry, editEntry, copyEntry, deleteEntry)
+ * Ausgabe: Reines html des erzeugten Modals
+ */
+
+function modalOperation($operation)
+{
     $htmlOutput = "";
-    if (isset($_GET["id"])) {
+    if (isset($_GET["id"]) && isset($_GET["name"])) {
         $id = $_GET["id"];
+        $name = $_GET["name"];
         if ($operation == "delete") {
-            $htmlOutput = deleteEntry($id);
+            $htmlOutput = deleteEntry($id, $name);
         }
         if ($operation == "edit") {
-            $htmlOutput = editEntry($id);
+            $htmlOutput = editEntry($id, $name);
+        }
+        if ($operation == "copy") {
+            $htmlOutput = copyEntry($id, $name);
         }
     }
     if ($operation == "new") {
         $htmlOutput = newEntry();
     }
 
-    echo $htmlOutput;
+    return $htmlOutput;
 }
 
-if (isset($_POST["formName"])) {
-    $formName = $_POST["formName"];
+/**
+ * @executeOperation: Operation durchführen
+ * Nachdem eine Operation ausgewählt, mögliche Änderungen über das generierte Modal
+ * vorgenommen und abgeschickt wurden, kommen diese per POST zurück und werden
+ * an die entsprechende SQL-Funktion übergeben.
+ * Parameter formName: bestimmt die entsprechende Operation (newEntry, editEntry, deleteEntry)
+ *                     Achtung: Operation copyEntry wird nicht in executeOperation vorgenommen, da kein Modal notwendig
+ */
 
+function executeOperation($formName)
+{
+    global $type;
     if ($formName == "newEntry") {
-        $data = $_POST;
-        unset($data["formName"]);
-        $data = excludeIdRow($data);
-        insertIntoTable($type, $data);
+        if ($type == "users") {
+            createUser($_POST['username'], $_POST['PASSWORD'], $_POST[U_ROLES_ID]);
+        } else {
+            $data = $_POST;
+            unset($data["formName"]);
+            insertIntoTable($type, $data);
+        }
     }
 
+    if ($formName == "editEntry") {
+        $data = $_POST;
+        if ($type == "users") {
+            updateUser($_POST['username'], $_POST['PASSWORD'], $_POST[U_ROLES_ID]);
+        } else {
+            unset($data["formName"]);
+            updateEntry($type, $data);
+        }
+    }
+
+    if ($formName == "deleteEntry") {
+        $id = $_POST["id"];
+        if ($type == "users") {
+            deleteUserById($id);
+        } else {
+            deleteEntryByTableAndID($type, $id);
+        }
+
+    }
 }
 
-function generateDiag($formName, $title, $btnTitle, $html, $href)
+/**
+ * @generateModal: Zentrale Funktion zum Erzeugen eines Modals
+ * Das Modal enthält eine Post-Form und bekommt über den html Parameter die entsprechenden Inputs oder Text
+ * Parameter formName: Bestimmt die Operation(newEntry, editEntry, deleteEntry) für die Funktion executeOperation
+ *                     Achtung: Operation copyEntry wird nicht in executeOperation vorgenommen, da kein Modal notwendig
+ * Parameter title: Bestimmt den Titel für das Modal
+ * Parameter btnTitle: Bestimmt Text für den Submit-Button
+ * Parameter html: Übergabe eines Textes oder Inputs
+ * Ausgabe: Das gesamte Modal in html
+ */
+
+function generateModal($formName, $title, $btnTitle, $html, $id = "")
 {
     global $type;
     $modalHtml = "<div id=\"modal\" class=\"modal show\" role=\"dialog\">
     <div class=\"modal-dialog\">
-    <form method=\"post\">
+    <form method=\"post\" action='?type=$type&selected=$id'>
         <div class=\"modal-content\">
             <div class=\"modal-header\">
                 <a class=\"close\" href=\"?type=$type\">&times;</a>
@@ -53,56 +131,129 @@ function generateDiag($formName, $title, $btnTitle, $html, $href)
             </form>
         </div>
     </div>
-</div>";
+    </div>";
 
     return $modalHtml;
 
 }
 
-function deleteEntry($id)
+/**
+ * @deleteEntry: Setzt passende Parameter für die Funktion 'generateModal',
+ *               wenn ein Datensatz gelöscht werden soll.
+ * Ausgabe: Reines html des generierten Modals
+ */
+
+function deleteEntry($id, $name)
 {
+    global $type;
     $returnHtml = "";
+    $typeName = getTypeName($type, false);
     $formName = "deleteEntry";
-    $title = "Eintrag löschen";
-    $html = "Möchten Sie den den Eintrag " . $id . " wirklich löschen?";
+    $title = $typeName . " löschen";
+    $html = "<input type='hidden' name='id' value='$id'>
+             <p>Möchten Sie " . $typeName . " " . $name . " wirklich löschen?</p>";
     $btnTitle = "Löschen";
-    $href = "#";
-    $returnHtml = generateDiag($title, $btnTitle, $html, $href);
+    $returnHtml = generateModal($formName, $title, $btnTitle, $html);
     return $returnHtml;
 }
 
-function editEntry($id)
+/**
+ * @copyEntry: Führt eine SQL-Operation durch,
+ *               wenn ein Datensatz dupliziert werden soll.
+ *               Achtung: Eine Ausnahme da beim Kopieren kein Modal erscheinen soll.
+ * Ausgabe: Reines html einer Erfolgsmeldung
+ */
+
+function copyEntry($id, $name)
+{
+
+}
+
+/**
+ * @editEntry: Setzt passende Parameter für die Funktion 'generateModal',
+ *           wenn ein Datensatz geändert werden soll.
+ * Ausgabe: Reines html des generierten Modals
+ */
+
+function editEntry($id, $name)
 {
     global $type;
-    global $dbElements;
-    $rowNames = $dbElements[$type];
-    $title = "Ändern";
+    $typeName = getTypeName($type, false);
+    $title = "$typeName $name bearbeiten";
     $formName = "editEntry";
-    $html = "";
     $btnTitle = "Speichern";
-    $href = "#";
-    $query = getOneByTableAndID($type, $id);
-    foreach ($rowNames as $i) {
-        $html = $html . "<p>$i:<input type='text' name='$i' value='$query[$i]'</p>";
-    }
-    return generateDiag($formName, $title, $btnTitle, $html, $href);
+    $query = getQuery($type, $id);
+    $html = generateHtml($query, $type);
+    return generateModal($formName, $title, $btnTitle, $html, $id);
 }
+
+function generateHtml($query, $type)
+{
+    global $type;
+    $columnNames = getColumnNames($type, false, false);
+    $idColumn = getIDColumn($type);
+    $html = "<table>";
+    if ($query != null) {
+        $html .= "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
+    }
+
+    $columnText = getColumnText($type, false, false);
+
+    for ($i = 0; $i < sizeof($columnNames); $i++) {
+        $columnName = $columnNames[$i];
+        $modalText = $columnText[$i];
+        $options = getOptionAttributes($type, $columnName);
+
+        if ($query != null && (strtolower($modalText) == "password" || strtolower($modalText) == "passwort")) {
+            $query[$columnName] = "";
+        }
+
+        if ($options != null) {
+            $optionList = findOption($options["table"], $query[$idColumn]);
+            $html .= "<tr><td>$modalText</td><td><select class=\"form-control\" name=\"" . $options["id"] . "\">";
+            foreach ($optionList as $j) {
+                $selectedTag = "";
+                $optionObj = $j["Elem"];
+                $optionNr = $optionObj[$options["value"]];
+                $optionId = $optionObj[$options["originalId"]];
+                if ($query != null) {
+                    if ($optionId == $query[$options["id"]]) {
+                        $selectedTag = "selected";
+                    }
+                }
+                $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
+            }
+            $html .= "</select></td></tr>";
+        } else {
+            $readonlyTag = "";
+            if (strtolower($columnName) == "username" && $query != null) {
+                $readonlyTag = "readonly";
+            }
+            $html .= "<tr><td>$modalText</td><td><input $readonlyTag type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
+        }
+    }
+    $html .= "</table>";
+    return $html;
+}
+
+/**
+ * @newEntry: Setzt passende Parameter für die Funktion 'generateModal',
+ *            wenn ein Datensatz erstellt werden soll.
+ * Ausgabe: Reines html des generierten Modals
+ */
 
 function newEntry()
 {
     global $type;
-    global $dbElements;
-    $rowNames = excludeIdRow($dbElements[$type]);
+    $columnNames = getColumnNames($type, false, false);
+    $columnText = getColumnText($type, false, false);
+    $typeName = getTypeName($type, false);
     $formName = "newEntry";
-    $title = "Neu";
+    $title = "$typeName anlegen";
     $html = "";
     $btnTitle = "Speichern";
-    $href = "#";
-    $query = getEntriesByTable($type);
-    foreach ($rowNames as $i) {
-        $html = $html . "<p>$i:<input type='text' name='$i'</p>";
-    }
-    return generateDiag($formName, $title, $btnTitle, $html, $href);
+    $html = generateHtml(null, $type);
+    return generateModal($formName, $title, $btnTitle, $html);
 }
 
 ?>

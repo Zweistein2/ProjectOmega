@@ -10,13 +10,9 @@ require_once("../authentication/sessionhandler.php");
 
 if (isset($_POST['btn_anmelden'])) {
     if (isset($_POST['username']) && isset($_POST['password'])) {
-        createSessionForUser($_POST['username'],$_POST{'password'});
+        createSessionForUser($_POST['username'], $_POST{'password'});
     } else {
         createErrorMessage("Bitte die Maske ausfüllen!");
-    }
-} else {
-    if(hasErrorMessage()) {
-        deleteErrorMessage();
     }
 }
 ?>
@@ -34,12 +30,8 @@ if (isset($_POST['btn_anmelden'])) {
             <h2 class='login_title text-center'>Anmeldung</h2>
             <hr>
             <?php
-            if(hasErrorMessage()) {
-                ?>
-                <div class="alert alert-warning">
-                    <?php echo getErrorMessage()?>
-                </div>
-                <?php
+            if (hasErrorMessage()) {
+                echo getErrorMessage();
             }
             ?>
             <form class="form-signin" action="login.php" method="post">

@@ -10,6 +10,7 @@
  * @param $password
  * @return string
  */
-function getPasswordHash($password){
+function getPasswordHash($password)
+{
     return md5($password);
 }

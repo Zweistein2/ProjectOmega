@@ -9,25 +9,24 @@
     $(document).ready(function () {
         var currentPage = "";
 
-        switch(location.pathname.substring(location.pathname.lastIndexOf("/") + 1))
-        {
+        switch (location.pathname.substring(location.pathname.lastIndexOf("/") + 1)) {
             case "reporting.php":
-                currentPage = "#"+"reporting";
+                currentPage = "#" + "reporting";
                 break;
             case "stammdaten_komponenten.php":
-                currentPage = "#"+"stammdaten";
+                currentPage = "#" + "stammdaten";
                 break;
             case "stammdaten_komponentenarten.php":
-                currentPage = "#"+"stammdaten";
+                currentPage = "#" + "stammdaten";
                 break;
             case "verwaltung_neuanlage.php":
-                currentPage = "#"+"verwaltung";
+                currentPage = "#" + "verwaltung";
                 break;
             case "verwaltung_ausmusterung.php":
-                currentPage = "#"+"verwaltung";
+                currentPage = "#" + "verwaltung";
                 break;
             case "help.php":
-                currentPage = "#"+"hilfe";
+                currentPage = "#" + "hilfe";
                 break;
         }
 
@@ -48,20 +47,21 @@
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <?php
-                if(strcmp(getUserGroupSession(), "Lehrer") !== 0){ ?>
-                <li class="dropdown" id="stammdaten">
+                require_once("../authentication/sessionhandler.php");
+                if (strcmp(getUserGroupSession(), "Lehrer") !== 0) { ?>
+                    <li class="dropdown" id="stammdaten">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stammdaten<span
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-tag"></span></a>
                     <ul class="dropdown-menu forAnimate" role="menu">
                         <li><a href="./stammdaten_komponenten.php?type=lieferant">Lieferanten</a></li>
                         <li><a href="./stammdaten_komponenten.php?type=raeume">Räume</a></li>
-                        <li><a href="./stammdaten_komponenten.php?type=benutzer">Benutzer</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=users">Benutzer</a></li>
                         <li><a href="./stammdaten_komponenten.php?type=hardware">Komponenten</a></li>
                         <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
                     </ul>
                 </li>
-                <li class="dropdown" id="verwaltung">
+                    <li class="dropdown" id="verwaltung">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Verwaltung<span
                                 class="caret"></span><span style="font-size:16px;"
                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-list"></span></a>
@@ -75,10 +75,10 @@
                                                class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a>
                 </li>
                 <li id="hilfe"><a href="./help.php">Hilfe<span style="font-size:16px;"
-                                                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a>
+                                                               class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a>
                 </li>
                 <li><a href="./logout.php">Logout<span style="font-size:16px;"
-                                            class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a>
+                                                       class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a>
                 </li>
             </ul>
         </div>

@@ -9883,7 +9883,7 @@ return jQuery;
 		// Browser
 		factory( jQuery, window, document );
 	}
-}
+};
 (function( $, window, document, undefined ) {
 	"use strict";
 
@@ -16240,7 +16240,7 @@ return jQuery;
 	
 			_fnCallbackFire( settings, 'aoStateLoaded', 'stateLoaded', [settings, s] );
 			callback();
-		}
+        };
 	
 		if ( ! settings.oFeatures.bStateSave ) {
 			callback();
