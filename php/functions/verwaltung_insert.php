@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: DLI
+ * User: Daniel Linz, Fabian Karolat
  * Date: 27.07.2017
  * Time: 12:54
  */
@@ -14,7 +14,6 @@ if(isset($_POST['Type']))
 
     if($_POST['Type'] != "-1") {
         $typeId = $_POST['Type'];
-        $amount = $_POST['Amount'];
         $manufactorId = "";
         $buyingDate = "";
         $name = "";
@@ -60,7 +59,7 @@ if(isset($_POST['Type']))
             }
         }
 
-        insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray);
+        insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $attrArray);
     }else{
         $name = "";
         $bez = "";

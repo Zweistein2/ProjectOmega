@@ -37,7 +37,7 @@ checkForMinAccess("Admin");
                         <option value="-1">Software</option>
                     </select>
                     <div class="form-group col-sm-12 mt-6">
-                        <label for="amount">Menge:</label>
+                        <label id="amountLabel" for="amount">Menge:</label>
                         <input type="number" class="form-control" min="1" value="1" name="amount" id="amount">
                     </div>
                 </div>
@@ -139,11 +139,15 @@ checkForMinAccess("Admin");
         {
             $('#Warranty').toggleClass("hidden", true);
             $('#LieferantSelect').toggleClass("hidden", true);
+            $('#amountLabel').toggleClass("hidden", true);
+            $('#amount').toggleClass("hidden", true);
             $('#Type').val("-1");
         }else
         {
             $('#Warranty').toggleClass("hidden", false);
             $('#LieferantSelect').toggleClass("hidden", false);
+            $('#amountLabel').toggleClass("hidden", false);
+            $('#amount').toggleClass("hidden", false);
             $('#Type').val(inputValue);
         }
 
@@ -158,13 +162,13 @@ checkForMinAccess("Admin");
         inputValue = $(this).val();
         $('#Amount').val(inputValue);
 
+        var seriennummer = $('#Seriennummer');
+
         if(inputValue > 1) {
-            var seriennummer = $('#Seriennummer');
             if (seriennummer != null) {
                 seriennummer.prop("disabled", true);
             }
         }else {
-            var seriennummer = $('#Seriennummer');
             if (seriennummer != null) {
                 seriennummer.prop("disabled", false);
             }
@@ -172,12 +176,12 @@ checkForMinAccess("Admin");
     });
 
     $('#save').click(function(){
-        var htmlstring = "<div class=\"form-group\">";
+        var htmlstring = "<form id=\"SerialsForm\"><div class=\"form-group\">";
         for(var i = 1; i <= inputValue; i++)
         {
             htmlstring += "<label for=\"" + i + "\">Seriennummer " + i + ":</label><input type=\"text\" class=\"form-control\" id=\"" + i + "\" name=\"" + i + "\">";
         }
-        htmlstring += "</div>";
+        htmlstring += "</div></form>";
 
         if(inputValue > 1) {
             var modal = $('#warningModal');
@@ -186,13 +190,13 @@ checkForMinAccess("Admin");
             modal.find('.modal-body').html(htmlstring);
 
             $('#saveButton').click(function(){
-                //TODO: FIX Mehrere Seriennummern mitübergeben
                 //Absenden
-                $.post('../functions/verwaltung_insert.php', $('#AjaxForm').serialize(), function(data){
+                $.post('../functions/verwaltung_insert_many.php', $('#AjaxForm, #SerialsForm').serialize(), function(data){
                     console.log(data);
-                });
 
-                $('#closeButton').click();
+                    $('#closeButton').click();
+                    window.location.reload();
+                });
             });
         }else {
             //Absenden

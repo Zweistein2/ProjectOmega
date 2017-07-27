@@ -83,18 +83,15 @@ function deleteRowByHardwareID($id)
     return $result;
 }
 
-function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray)
+function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $attrArray)
 {
     global $connection;
-    for ($i = 0; $i < $amount; $i++) {
-
-        $query = "INSERT INTO hardware (raeume_r_id, lieferant_l_id, h_name, h_bez, h_einkaufsdatum, h_gewaehrleistungsdauer, h_notiz, h_hersteller, hardwarearten_ha_id)
-                VALUES ($roomId, $vendorId, '$name', '$bez', $buyingDate, '$warranty', '$note', '$manufactorId', '$typeId' );
-                ";
-        mysqli_query($connection, $query);
-        $id = mysqli_insert_id($connection);
-        insertHardwareAttributes($id, $attrArray);
-    }
+    $query = "INSERT INTO hardware (raeume_r_id, lieferant_l_id, h_name, h_bez, h_einkaufsdatum, h_gewaehrleistungsdauer, h_notiz, h_hersteller, hardwarearten_ha_id)
+            VALUES ($roomId, $vendorId, '$name', '$bez', $buyingDate, '$warranty', '$note', '$manufactorId', '$typeId' );
+            ";
+    mysqli_query($connection, $query);
+    $id = mysqli_insert_id($connection);
+    insertHardwareAttributes($id, $attrArray);
 }
 
 function insertHardwareAttributes($hardwareId, $attrArray)
@@ -105,6 +102,7 @@ function insertHardwareAttributes($hardwareId, $attrArray)
         $query = "INSERT INTO hardware_hat_attribute(hardware_h_id, hardwareattribute_hat_id, hhhat_wert) 
                     VALUES($hardwareId, $item[0], '$item[1]');";
         mysqli_multi_query($connection, $query);
+        echo ($query);
     }
 }
 
