@@ -39,22 +39,30 @@ checkForMinAccess("Admin");
                     </select>
                     <div class="form-group col-sm-12 mt-6">
                         <label for="amount">Menge:</label>
-                        <input type="number" class="form-control" min="0" id="amount">
+                        <input type="number" class="form-control" min="1" value="1" name="amount" id="amount">
                     </div>
                 </div>
-                <form class="col-md-8">
+                <form class="col-md-8" id="AjaxForm">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Hersteller">Hersteller:</label>
-                            <input type="text" class="form-control" id="Hersteller">
+                            <input type="text" class="form-control" name="Hersteller">
+                        </div>
+                        <div class="form-group">
+                            <label for="Einkaufsdatum">Einkaufsdatum:</label>
+                            <input type="date" class="form-control" name="Einkaufsdatum" placeholder="dd.mm.yyyy">
+                        </div>
+                        <div class="form-group">
+                            <label for="Name">Name:</label>
+                            <input type="text" class="form-control" name="Name">
                         </div>
                         <div class="form-group">
                             <label for="Bezeichnung">Bezeichnung:</label>
-                            <input type="text" class="form-control" id="Bezeichnung">
+                            <input type="text" class="form-control" name="Bezeichnung">
                         </div>
                         <div class="form-group">
                             <label for="Raum">Raum:</label>
-                            <select class="selectpicker" data-style="btn-default form-control" id="Raum">
+                            <select class="selectpicker" data-style="btn-default" name="Raum">
                                 <?php
                                 //Auslesen aller vorhandenen Räume für das Dropdown-Element
                                 $result = getRoomsForVerwaltung();
@@ -71,11 +79,11 @@ checkForMinAccess("Admin");
                         </div>
                         <div class="form-group">
                             <label for="Warranty">Gewährleistungsdauer:</label>
-                            <input type="text" class="form-control" id="Warranty">
+                            <input type="text" class="form-control" name="Warranty">
                         </div>
                         <div class="form-group">
                             <label for="Lieferant">Lieferant:</label>
-                            <select class="selectpicker" data-style="btn-default form-control" id="Lieferant">
+                            <select class="selectpicker" data-style="btn-default" name="Lieferant">
                                 <?php
                                 //Auslesen aller vorhandenen Lieferanten für das Dropdown-Element
                                 $result = getSuppliersForVerwaltung();
@@ -92,7 +100,16 @@ checkForMinAccess("Admin");
                         </div>
                         <div class="form-group">
                             <label for="Notiz">Notiz:</label>
-                            <input type="text" class="form-control" id="Notiz">
+                            <input type="text" class="form-control" name="Notiz">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="hidden form-control" id="Type" name="Type" value="PC">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="hidden form-control" name="isHardware" value="true">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="hidden form-control" id="Amount" name="Amount" value="1">
                         </div>
                     </div>
                     <div class="col-md-6" id="attributes">
@@ -128,6 +145,7 @@ checkForMinAccess("Admin");
 <script>
     $('#typePicker').change(function(){
         var inputValue = $(this).val();
+        $('#Type').val(inputValue+1);
 
         //Ajax um die PHP-Funktion aufzurufen
         $.post('../functions/verwaltung_attributes.php', { dropdownValue: inputValue }, function(data){
@@ -135,8 +153,10 @@ checkForMinAccess("Admin");
         });
     });
 
+    var inputValue = 1;
     $('#amount').change(function(){
-        var inputValue = $(this).val();
+        inputValue = $(this).val();
+        $('#Amount').val(inputValue);
 
         if(inputValue > 1) {
             var seriennummer = $('#Seriennummer');
@@ -149,34 +169,39 @@ checkForMinAccess("Admin");
                 seriennummer.prop("disabled", false);
             }
         }
+    });
 
-        $('#save').click(function(){
-            var htmlstring = "<div class=\"form-group\">";
-            for(var i = 1; i <= inputValue; i++)
-            {
-                htmlstring += "<label for=\"" + i + "\">Seriennummer " + i + ":</label><input type=\"text\" class=\"form-control\" id=\"" + i + "\">";
-            }
-            htmlstring += "</div>";
+    $('#save').click(function(){
+        var htmlstring = "<div class=\"form-group\">";
+        for(var i = 1; i <= inputValue; i++)
+        {
+            htmlstring += "<label for=\"" + i + "\">Seriennummer " + i + ":</label><input type=\"text\" class=\"form-control\" id=\"" + i + "\" name=\"" + i + "\">";
+        }
+        htmlstring += "</div>";
 
-            if(inputValue > 1) {
-                var modal = $('#warningModal');
-                modal.modal();
-                modal.find('.modal-title').text('Fehlende Daten eintragen');
-                modal.find('.modal-body').html(htmlstring);
+        if(inputValue > 1) {
+            var modal = $('#warningModal');
+            modal.modal();
+            modal.find('.modal-title').text('Fehlende Daten eintragen');
+            modal.find('.modal-body').html(htmlstring);
 
-                $('#saveButton').click(function(){
-                    //Absenden
-                    //Ajax um die PHP-Funktion aufzurufen
-                    $.post('../functions/verwaltung_insert.php', { dropdownValue: inputValue }, function(data){
-                        $('#attributes').html(data);
-                    });
-
-                    $('#closeButton').click();
+            $('#saveButton').click(function(){
+                console.log("Val - Multi: " + inputValue);
+                //Absenden
+                //Ajax um die PHP-Funktion aufzurufen
+                $.post('../functions/verwaltung_insert.php', $('#AjaxForm').serialize(), function(data){
+                    console.log(data);
                 });
-            }else {
-                //Absenden?
-            }
-        });
+
+                $('#closeButton').click();
+            });
+        }else {
+            console.log("Val: " + inputValue);
+            //Absenden
+            $.post('../functions/verwaltung_insert.php', $('#AjaxForm').serialize(), function(data){
+                console.log(data);
+            });
+        }
     });
 
     $(document).ready(function(){

@@ -28,7 +28,7 @@ foreach($result as $array)
     {
         $htmlstring = $htmlstring."<div class=\"form-group\">";
         $htmlstring = $htmlstring."<label for=\"".$value."\">".$value.":</label>";
-        $htmlstring = $htmlstring."<input type=\"text\" class=\"form-control\" id=\"".$value."\">";
+        $htmlstring = $htmlstring."<input type=\"text\" class=\"form-control\" id=\"".$value."\" name=\"".$value."\">";
         $htmlstring = $htmlstring."</div>";
     }
 }

@@ -64,6 +64,15 @@ function getHardwareTypes() {
     return mysqli_fetch_all($result);
 }
 
+function getHardwareattributeIDForBezeichner($name) {
+    global $connection;
+    $query = 'SELECT hardwareattribute.hat_id
+              FROM hardwareattribute
+              WHERE hardwareattribute.hat_bezeichnung = "'.$name.'"';
+    $result = mysqli_query($connection, $query);
+    return mysqli_fetch_all($result);
+}
+
 function deleteRowByHardwareID($id)
 {
     global $connection;
@@ -76,7 +85,6 @@ function deleteRowByHardwareID($id)
 
 function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray)
 {
-
     global $connection;
     for ($i = 0; $i < $amount; $i++) {
 
@@ -84,8 +92,8 @@ function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez,
                 VALUES ($roomId, $vendorId, '$name', '$bez', $buyingDate, '$warranty', '$note', '$manufactorId', '$typeId' );
                 ";
 
-       mysqli_query($connection, $query);
-       $id = mysqli_insert_id($connection);
+        mysqli_query($connection, $query);
+        $id = mysqli_insert_id($connection);
         insertHardwareAttributes($id, $attrArray);
     }
 }
@@ -99,7 +107,6 @@ function insertHardwareAttributes($hardwareId, $attrArray)
                     VALUES($hardwareId, $item[0], '$item[1]');";
         mysqli_multi_query($connection, $query);
     }
-
 }
 
 function insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint, $roomId){
