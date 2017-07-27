@@ -8,25 +8,8 @@
 <?php
 include_once("../template/sidebar.template.php");
 include_once("../database/stammdaten_sql.php");
-
-$selectedKind = 0;
-foreach($_POST as $key => $val){
-    $arr = explode('_', $key);
-    if($arr[0] == 'show'){
-        $selectedKind = $arr[2];
-    }else if($arr[0] == 'update'){
-        if($arr[1] == ''){
-
-        }else if($arr[1] == ''){
-
-        }
-    }else if($arr[0] == 'delete'){
-        if($arr[1] == ''){
-
-        }else if($arr[1] == ''){
-
-        }
-    }
+if(!isset($_SESSION['selectedKindToShow'])){
+    $_SESSION['selectedKindToShow'] = 0;
 }
 ?>
 <div class="container">
@@ -59,9 +42,12 @@ foreach($_POST as $key => $val){
                             foreach($headers as $val){
                                 echo '<td>'.$data[$val].'</td>';
                             }
-                            echo '<td><input type="submit" name="show_attrs_'.$data[K_ID].'" value="Attribute"/></td>';
-                            echo '<td><input type="submit" name="update_attr_'.$data[K_ID].'" value="update"/></td>';
-                            echo '<td><input type="submit" name="delete_kind_'.$data[K_ID].'" value="X"/></td>';
+                            echo '<td><a class="btn btn-warning" href="?operation=showAttributes&type=Art&id='.$data[K_ID].'">'
+                                .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                            echo '<td><a class="btn btn-primary" href="?operation=edit&type=Art&id='.$data[K_ID].'">'
+                                      .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                            echo '<td><a class="btn btn-danger" href="?operation=delete&type=Art&id='.$data[K_ID].'">'
+                                .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                             echo '</tr>';
                         }
                         ?>
@@ -87,13 +73,71 @@ foreach($_POST as $key => $val){
             </div>
         </div>
         <?php
-        showAttributes($selectedKind);
+        checkKAModel();
+        showAttributes($_SESSION['selectedKindToShow']);
         ?>
     </div>
 </body>
 </html>
 
-<?php function showAttributes($k_id){
+<?php
+function checkKAModel(){
+    if (isset($_GET["operation"])) {
+        $operation = $_GET["operation"];
+        if($operation == 'showAttributes'){
+            $id = isset($_GET["id"]) ? $_GET["id"] : 0;
+            $_SESSION['selectedKindToShow'] = $id;
+            //showAttributes($id);
+        }else{
+            $type = $_GET["type"];
+            $id = $_GET["id"];
+            showKAModel($type, $id, $type . ' mit ID ' . $id, 'formName', $type . ' ' . $operation);
+        }
+    }
+}
+function showKAModelOperation(){
+
+}
+
+function showKAModel($type, $id, $title, $formName, $btnTitle, $bodyHtml = ''){
+    ?>
+    <div id="modal" class="modal show" role="dialog">
+    <div class="modal-dialog">
+    <form method="post" action="<?php echo '?type='.$type.'&selected='.$id;?>">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="close" href="<?php echo '?type='.$type;?>"></a>
+                <h4 class="modal-title">
+                    <?php
+                    echo $title;
+                    ?>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <?php
+                echo '<input type="hidden" name="formName" value="'.$formName.'">';
+                //--TODO body
+
+                ?>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="" class="btn btn-primary"><?php echo $btnTitle; ?></button>
+                <a class="btn btn-default" href="?type=$type">Abbrechen</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <?php
+}
+function showModelBody($operation, $type, $id){
+
+}
+function showModelAttribute(){
+
+}
+
+function showAttributes($k_id){
     if($k_id == 0) return;
     ?>
     <div class="col col-md-5">
@@ -119,8 +163,10 @@ foreach($_POST as $key => $val){
                         foreach($attr_headers as $key => $val){
                             echo '<td>'.$data[$val].'</td>';
                         }
-                        echo '<td><input type="submit" name="update_attr_'.$data[A_ID].'" value="Ändern"/></td>';
-                        echo '<td><input type="submit" name="delete_attr_'.$data[A_ID].'" value="X"/></td>';
+                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=Attribut&id='.$data[A_ID].'">'
+                            .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=Attribut&id='.$data[A_ID].'">'
+                            .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                         echo '</tr>';
                     }
                     ?>
