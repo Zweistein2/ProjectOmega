@@ -58,7 +58,7 @@ define("KA_K_ID", 'hardwarearten_ha_id');
 define("KA_A_ID", 'hardwareattribute_hat_id');
 
 //--hardware_hat_attribute
-define("HA_ID", 'hardware_h_id');
+define("HA_H_ID", 'hardware_h_id');
 define("HA_A_ID", 'hardwareattribute_hat_id');
 define("HA_VALUE", 'hhhat_wert');
 
@@ -446,6 +446,14 @@ function updateEntry($tabname, $data){
         }
     }
     $query .= ' WHERE ' . $primcol . ' = ' . $data[$primcol];
+    mysqli_query($connection, $query);
+}
+function updateHardwareAttribut($h_id, $a_id, $val){
+    global $connection;
+    $val = mysqli_real_escape_string($connection, $val);
+    $query = 'UPDATE '.HARDWARE_ATTRIBUTES
+        .' SET '.HA_VALUE.'="'.$val.'"'
+        .' WHERE '.HA_H_ID.'='.$h_id.' AND '.HA_A_ID.'='.$a_id;
     mysqli_query($connection, $query);
 }
 
