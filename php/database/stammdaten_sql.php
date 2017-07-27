@@ -131,29 +131,24 @@ function getSoftwarePlus(){
 }
 function getKindAttributesByHardwareID($h_id){
     global $connection;
-    $query = 'SELECT kinds.'.K_NAME.' AS '.K_NAME.', kinds.'.K_ID.' AS '.K_ID
-        .' FROM '.HARDWARE.' AS comp'
-        .' INNER JOIN '.HARDWARE_KINDS.'AS kinds ON kinds.'.K_ID.' = comp.'.H_KIND_ID;
+    $query = 'SELECT kinds.* FROM '.HARDWARE_KINDS.' AS kinds'
+            .' INNER JOIN '.HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID
+            .' WHERE comp.'.H_ID.'='.$h_id;
     $result = mysqli_query($connection, $query);
-    $hka = array();
-    while($data = mysqli_fetch_assoc($result)){
+    $kind = mysqli_fetch_assoc($result);
+    $poss_attr = getAttributesByKindID($kind[K_ID]);
+    $h_attr = array();
+    foreach($poss_attr as $data){
         $one = array();
-        $one[K_NAME] = $data[K_NAME];
-
-        $attrs = array();
-        $res_attrs = getAttributesByKindID($data[K_NAME]);
-        while($att = mysqli_fetch_assoc($res_attrs)){
-            $a_id = $att[A_ID];
-            $arr = array();
-            $arr[A_ID] = $a_id;
-            $arr[A_DESC] = $att[A_DESC];
-            $arr[HA_VALUE] = getAttributeValue($h_id, $a_id);
-            $attrs[] = $arr;
-        }
-        $one['Attributes'] = $attrs;
-        $hka[$h_id] = $one;
+        $one[A_ID] = $data[A_ID];
+        $one[A_DESC] = $data[A_ID];
+        $one[HA_VALUE] = getAttributeValue($h_id, $data[A_ID]);
+        $h_attr[] = $one;
     }
-    return $hka;
+    $ret = array();
+    $ret[K_NAME] = $kind[K_NAME];
+    $ret['Attributes'] = $h_attr;
+    return $ret;
 }
 function getAttributeValue($h_id, $a_id){
     global $connection;
@@ -164,7 +159,7 @@ function getAttributeValue($h_id, $a_id){
         $data = mysqli_fetch_assoc($result);
         return $data[HA_VALUE];
     }else{
-        return null;
+        return '';
     }
 }
 
