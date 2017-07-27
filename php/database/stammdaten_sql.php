@@ -147,33 +147,12 @@ function getSoftwarePlus(){
 }
 function getKindAttributesByHardwareID($h_id){
     global $connection;
-    /*
-    $query = 'SELECT kinds.* FROM '.HARDWARE_KINDS.' AS kinds'
-            .' INNER JOIN '.HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID
-            .' WHERE comp.'.H_ID.'='.$h_id;
-    $result = mysqli_query($connection, $query);
-    $kind = mysqli_fetch_assoc($result);
-    $poss_attr = getAttributesByKindID($kind[K_ID]);
-    $h_attr = array();
-    //foreach($poss_attr as $data){
-    while($data = mysqli_fetch_assoc($poss_attr)){
-        $one = array();
-        $one[A_ID] = $data[A_ID];
-        $one[A_DESC] = $data[A_ID];
-        $one[HA_VALUE] = getAttributeValue($h_id, $data[A_ID]);
-        $h_attr[] = $one;
-    }
-    $ret = array();
-    $ret[K_NAME] = $kind[K_NAME];
-    $ret['Attributes'] = $h_attr;
-    return $ret;
-    */
     $kind = getKindOfHardware($h_id);
     $attr = getAttributesByKindID($kind[K_ID]);
     $ret = array();
     $ret[K_NAME] = $kind[K_NAME];
     $all = array();
-    while($data = mysqli_query($attr)){
+    while($data = mysqli_fetch_assoc($attr)){
         $one = array();
         $one[A_ID] = $data[A_ID];
         $one[A_DESC] = $data[A_DESC];
@@ -189,6 +168,7 @@ function getKindOfHardware($h_id){
         . HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID.' WHERE comp.'.H_ID.'='.$h_id;
     $result = mysqli_query($connection, $query);
     if($result){
+        echo 'exist';
         return mysqli_fetch_assoc($result);
     }else{
         return null;
@@ -292,23 +272,18 @@ function getKindOptions($id){
     return getOptions(HARDWARE_KINDS, $id);
 }
 
-/**
- * @return bool|mysqli_result (alle Räume)
- */
+/*
 function getRooms(){
     global $connection;
     $query = 'SELECT * FROM '.ROOMS;
     return mysqli_query($connection, $query);
 }
-
-/**
- * @return bool|mysqli_result (alle Lieferanten)
- */
 function getSuppliers(){
     global $connection;
     $query = 'SELECT * FROM '.SUPPLIERS;
     return mysqli_query($connection, $query);
 }
+*/
 
 /**
  * kopiert eine Hardwarekomponente
