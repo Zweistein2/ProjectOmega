@@ -156,7 +156,7 @@ function getKindAttributesByHardwareID($h_id){
         $one = array();
         $one[A_ID] = $data[A_ID];
         $one[A_DESC] = $data[A_DESC];
-        $one[HA_VALUE] = getAttributesByKindID($h_id, $data[A_ID]);
+        $one[HA_VALUE] = getAttributeValue($h_id, $data[A_ID]);
         $all[] = $one;
     }
     $ret['Attributes'] = $all;
@@ -168,7 +168,6 @@ function getKindOfHardware($h_id){
         . HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID.' WHERE comp.'.H_ID.'='.$h_id;
     $result = mysqli_query($connection, $query);
     if($result){
-        echo 'exist';
         return mysqli_fetch_assoc($result);
     }else{
         return null;
