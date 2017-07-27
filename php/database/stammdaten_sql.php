@@ -138,7 +138,8 @@ function getKindAttributesByHardwareID($h_id){
     $kind = mysqli_fetch_assoc($result);
     $poss_attr = getAttributesByKindID($kind[K_ID]);
     $h_attr = array();
-    foreach($poss_attr as $data){
+    //foreach($poss_attr as $data){
+    while($data = mysqli_fetch_assoc($poss_attr)){
         $one = array();
         $one[A_ID] = $data[A_ID];
         $one[A_DESC] = $data[A_ID];
