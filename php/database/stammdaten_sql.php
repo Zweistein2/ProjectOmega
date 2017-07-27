@@ -289,7 +289,7 @@ function getSuppliers(){
  * @param $k_id: id der zu kopierenden Hardwarekomponente
  * @param $count: wie oft soll diese Komponente kopiert werden
  */
-function copyComponent($k_id, $count){
+function copyComponent($table, $k_id, $count){
     global $connection;
     if($count < 1) return;
     $comp = getComponentByID($k_id);
