@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS `hardware` (
 
 CREATE TABLE IF NOT EXISTS `hardwarearten` (
   `ha_id` int(11) NOT NULL,
-  `ha_hardwareart` varchar(45) DEFAULT NULL
+  `ha_hardwareart` varchar(45) DEFAULT NULL,
+  `ha_ausgemustert` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -58,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `hardwarearten` (
 
 CREATE TABLE IF NOT EXISTS `hardwareattribute` (
   `hat_id` int(11) NOT NULL,
-  `hat_bezeichnung` varchar(25) NOT NULL
+  `hat_bezeichnung` varchar(25) NOT NULL,
+  `hat_ausgemustert` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -202,7 +204,7 @@ ALTER TABLE `software_in_raum`
   ADD PRIMARY KEY (`sir_h_id`,`sir_r_id`);
 ALTER TABLE `software_in_raum`
   ADD KEY `sir_r_id` (`sir_r_id`);
-  
+
 --
 -- Indizes für die Tabelle `software`
 --
@@ -231,18 +233,18 @@ ALTER TABLE `lieferant`
 --
 ALTER TABLE `raeume`
   MODIFY `r_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 ALTER TABLE `hardware`
   MODIFY `h_id` int(11) NOT NULL AUTO_INCREMENT;
-  
+
 ALTER TABLE `software`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT; 
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `hardwareattribute`
   MODIFY `hat_id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `hardwarearten`
-  MODIFY `ha_id` int(11) NOT NULL AUTO_INCREMENT;  
+  MODIFY `ha_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints der exportierten Tabellen
 --
@@ -251,30 +253,30 @@ ALTER TABLE `hardwarearten`
 -- Constraints der Tabelle `Hardware`
 --
 ALTER TABLE `hardware`
-ADD CONSTRAINT `fk_hardware_haendler` FOREIGN KEY (`lieferant_l_id`) REFERENCES `lieferant` (`l_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_hardware_hardwarearten1` FOREIGN KEY (`hardwarearten_ha_id`) REFERENCES `hardwarearten` (`ha_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`raeume_r_id`) REFERENCES `raeume` (`r_id`);
+  ADD CONSTRAINT `fk_hardware_haendler` FOREIGN KEY (`lieferant_l_id`) REFERENCES `lieferant` (`l_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hardware_hardwarearten1` FOREIGN KEY (`hardwarearten_ha_id`) REFERENCES `hardwarearten` (`ha_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `hardware_ibfk_1` FOREIGN KEY (`raeume_r_id`) REFERENCES `raeume` (`r_id`);
 
 --
 -- Constraints der Tabelle `hardware_hat_attribute`
 --
 ALTER TABLE `hardware_hat_attribute`
-ADD CONSTRAINT `fk_hardware_has_hardwareattribute_hardware1` FOREIGN KEY (`hardware_h_id`) REFERENCES `hardware` (`h_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_hardware_has_hardwareattribute_hardwareattribute1` FOREIGN KEY (`hardwareattribute_hat_id`) REFERENCES `hardwareattribute` (`hat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hardware_has_hardwareattribute_hardware1` FOREIGN KEY (`hardware_h_id`) REFERENCES `hardware` (`h_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hardware_has_hardwareattribute_hardwareattribute1` FOREIGN KEY (`hardwareattribute_hat_id`) REFERENCES `hardwareattribute` (`hat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints der Tabelle `software_in_raum`
 --
 ALTER TABLE `software_in_raum`
-ADD CONSTRAINT `software_in_raum_ibfk_1` FOREIGN KEY (`sir_r_id`) REFERENCES `raeume` (`r_id`),
-ADD CONSTRAINT `software_in_raum_ibfk_2` FOREIGN KEY (`sir_h_id`) REFERENCES `software` (`s_id`);
+  ADD CONSTRAINT `software_in_raum_ibfk_1` FOREIGN KEY (`sir_r_id`) REFERENCES `raeume` (`r_id`),
+  ADD CONSTRAINT `software_in_raum_ibfk_2` FOREIGN KEY (`sir_h_id`) REFERENCES `software` (`s_id`);
 
 --
 -- Constraints der Tabelle `wird_beschrieben_durch`
 --
 ALTER TABLE `wird_beschrieben_durch`
-ADD CONSTRAINT `fk_hardwarearten_has_hardwareattribute_hardwarearten1` FOREIGN KEY (`hardwarearten_ha_id`) REFERENCES `hardwarearten` (`ha_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `fk_hardwarearten_has_hardwareattribute_hardwareattri1` FOREIGN KEY (`hardwareattribute_hat_id`) REFERENCES `hardwareattribute` (`hat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hardwarearten_has_hardwareattribute_hardwarearten1` FOREIGN KEY (`hardwarearten_ha_id`) REFERENCES `hardwarearten` (`ha_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hardwarearten_has_hardwareattribute_hardwareattri1` FOREIGN KEY (`hardwareattribute_hat_id`) REFERENCES `hardwareattribute` (`hat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

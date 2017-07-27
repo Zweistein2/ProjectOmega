@@ -40,7 +40,7 @@ checkForMinAccess("Admin");
                     </select>
                     <div class="form-group col-sm-12 mt-6">
                         <label for="amount">Menge:</label>
-                        <input type="number" class="form-control" id="amount">
+                        <input type="number" class="form-control" min="0" id="amount">
                     </div>
                 </div>
                 <form class="col-md-8">
@@ -55,47 +55,121 @@ checkForMinAccess("Admin");
                         </div>
                         <div class="form-group">
                             <label for="Raum">Raum:</label>
-                            <input type="text" class="form-control" id="Raum">
+                            <select class="selectpicker" data-style="btn-default form-control" id="Raum">
+                                <?php
+                                //Auslesen aller vorhandenen Räume für das Dropdown-Element
+                                $result = getRooms();
+
+                                foreach($result as $array)
+                                {
+                                    foreach($array as $value)
+                                    {
+                                        echo "<option>".$value."</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="Warranty">Gewährleistungsdauer:</label>
                             <input type="text" class="form-control" id="Warranty">
                         </div>
                         <div class="form-group">
-                            <label for="Kaufbeleg">Kaufbeleg:</label>
-                            <input type="text" class="form-control" id="Kaufbeleg">
-                        </div>
-                        <div class="form-group">
                             <label for="Lieferant">Lieferant:</label>
-                            <input type="text" class="form-control" id="Lieferant">
+                            <select class="selectpicker" data-style="btn-default form-control" id="Lieferant">
+                                <?php
+                                //Auslesen aller vorhandenen Lieferanten für das Dropdown-Element
+                                $result = getSuppliers();
+
+                                foreach($result as $array)
+                                {
+                                    foreach($array as $value)
+                                    {
+                                        echo "<option>".$value."</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="Notiz">Notiz:</label>
                             <input type="text" class="form-control" id="Notiz">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <?php
-                        //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
-                        $result = getHardwareAttributesByType("PC");
-
-                        foreach($result as $array)
-                        {
-                            foreach($array as $value)
-                            {
-                                echo "<div class=\"form-group\">";
-                                echo "<label for=\"".$value."\">".$value.":</label>";
-                                echo "<input type=\"text\" class=\"form-control\" id=\"".$value."\">";
-                                echo "</div>";
-                            }
-                        }
-                        ?>
+                    <div class="col-md-6" id="attributes">
                     </div>
-                    <!-- TODO: Modal für Menge -->
-                    <button type="reset" class="btn btn-danger">Abbrechen</button>
-                    <button type="submit" class="btn btn-success">Bestätigen</button>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="reset" class="btn btn-danger">Abbrechen</button>
+                            <button type="button" class="btn btn-success" id="save">Anlegen</button>
+                        </div>
+                    </div>
                 </form>
+            </div>
+        </div>
+        <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">title</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">Abbrechen</button>
+                        <button type="button" class="btn btn-success" id="saveButton">Anlegen</button>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    $('.selectpicker').change(function(){
+        var inputValue = $(this).val();
+
+        //Ajax um die PHP-Funktion aufzurufen
+        $.post('../functions/verwaltung_attributes.php', { dropdownValue: inputValue }, function(data){
+            $('#attributes').html(data);
+        });
+    });
+
+    $('#amount').change(function(){
+        var inputValue = $(this).val();
+
+        if(inputValue > 1) {
+            var seriennummer = $('#Seriennummer');
+            if (seriennummer != null) {
+                seriennummer.prop("disabled", true);
+            }
+        }else {
+            var seriennummer = $('#Seriennummer');
+            if (seriennummer != null) {
+                seriennummer.prop("disabled", false);
+            }
+        }
+
+        $('#save').click(function(){
+            var htmlstring = "<div class=\"form-group\">";
+            for(var i = 1; i <= inputValue; i++)
+            {
+                htmlstring += "<label for=\"" + i + "\">Seriennummer " + i + ":</label><input type=\"text\" class=\"form-control\" id=\"" + i + "\">";
+            }
+            htmlstring += "</div>";
+
+            var modal = $('#warningModal');
+            modal.modal();
+            modal.find('.modal-title').text('Fehlende Daten eintragen');
+            modal.find('.modal-body').html(htmlstring);
+        });
+    });
+
+    $(document).ready(function(){
+        //Ajax um die PHP-Funktion aufzurufen
+        $.post('../functions/verwaltung_attributes.php', { dropdownValue: "PC" }, function(response){
+            $('#attributes').html(response);
+        });
+    });
+</script>

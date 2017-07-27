@@ -35,11 +35,12 @@ checkForMinAccess("Lehrer");
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="jumbotron">
                         <h1>Wir brauchen Hilfe!</h1>
                         <p>weil wir keinen Käsetoast mehr haben</p>
-                        <p><a class="btn btn-primary btn-lg" href="#" role="button">#BlamePaulus</a></p>
+                        <p><a class="btn btn-primary btn-lg" href="#" role="button">*klick*</a></p>
                         <div class="alert alert-warning alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong>Warning!</strong> Better check yourself, you're not looking too good.

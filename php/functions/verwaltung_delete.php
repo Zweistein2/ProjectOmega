@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Fabian Karolat
+ * Date: 26.07.2017
+ * Time: 12:43
+ */
 
 require_once('../database/verwaltung_sql.php');
 require_once('../database/database.php');
