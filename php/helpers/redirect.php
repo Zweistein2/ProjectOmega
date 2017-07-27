@@ -16,12 +16,22 @@ if($environment == "local") {
 
 function redirectToLogin(){
     global $root;
-    header("Location: ".$root."login.php");
+    global $environment;
+    if($environment == "local") {
+        header("Location: ".$root."login.php");
+    }else{
+        header("Location: "."login.php");
+    }
     exit();
 }
 
 function redirectTo($page){
     global $root;
-    header("Location: ".$root.$page);
+    global $environment;
+    if($environment == "local") {
+        header("Location: ".$root.$page);
+    }else{
+        header("Location: ".$page);
+    }
     exit();
 }
