@@ -74,14 +74,14 @@ function deleteRowByHardwareID($id)
     return $result;
 }
 
-function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $warranty, $note, $amount, $attrArray)
+function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray)
 {
 
     global $connection;
     for ($i = 0; $i < $amount; $i++) {
 
         $query = "INSERT INTO hardware (raeume_r_id, lieferant_l_id, h_name, h_bez, h_einkaufsdatum, h_gewaehrleistungsdauer, h_notiz, h_hersteller, hardwarearten_ha_id)
-                VALUES ($roomId, $vendorId, '$name', '$bez', CURRENT_DATE, '$warranty', '$note', '$manufactorId', '$typeId' );
+                VALUES ($roomId, $vendorId, '$name', '$bez', $buyingDate, '$warranty', '$note', '$manufactorId', '$typeId' );
 
                 ";
 
@@ -100,5 +100,10 @@ function insertHardwareAttributes($hardwareId, $attrArray)
                     VALUES($hardwareId, $item[0], '$item[1]');";
         mysqli_multi_query($connection, $query);
     }
+
+}
+
+function insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint){
+
 
 }
