@@ -83,6 +83,18 @@ function executeOperation($formName)
             updateUser($_POST['username'], $_POST['PASSWORD'], $_POST[U_ROLES_ID]);
         } else {
             unset($data["formName"]);
+            if ($type == "hardware") {
+                $h_id = $_POST["h_id"];
+                $idString = $_POST['hIdCatcher'];
+                unset($data['hIdCatcher']);
+                $idList = explode(";",$idString);
+                foreach ($idList as $i) {
+                    if ($i != "") {
+                        updateHardwareAttribut($h_id,$i,$data[$i]);
+                        unset($data[$i]);
+                    }
+                }
+            }
             updateEntry($type, $data);
         }
     }
@@ -224,6 +236,8 @@ function generateHtml($query, $type)
                 $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
             }
             $html .= "</select></td></tr>";
+
+
         } else {
             $readonlyTag = "";
             if (strtolower($columnName) == "username" && $query != null) {
@@ -231,6 +245,21 @@ function generateHtml($query, $type)
             }
             $html .= "<tr><td>$modalText</td><td><input $readonlyTag type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
         }
+    }
+
+    if ($type == "hardware") {
+        $idCatcher = "";
+        $html .= "<tr><td><hr /></td><td><hr /></td></tr>";
+        $kinds = getKindAttributesByHardwareID($query[$idColumn]);
+        $attributes = $kinds["Attributes"];
+        foreach ($attributes as $i) {
+            $bezeichnung = $i['hat_bezeichnung'];
+            $hatId = $i['hat_id'];
+            $idCatcher .= $hatId . ";";
+            $hatWert = $i['hhhat_wert'];
+            $html .= "<tr><td>$bezeichnung</td><td><input type='text' class='form-control' name='$hatId' value='$hatWert'></td></tr>";
+        }
+        $html .= "<input type='hidden' name='hIdCatcher' value='$idCatcher'>";
     }
     $html .= "</table>";
     return $html;

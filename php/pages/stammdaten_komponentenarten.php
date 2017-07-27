@@ -16,11 +16,17 @@ include_once("../database/stammdaten_sql.php");
 if(!isset($_SESSION['selectedKindToShow'])){
     $_SESSION['selectedKindToShow'] = 0;
 }
-$kind_titles = [
+define("SD_KIND", 'Art');
+define("SD_ATTR", 'Attribut');
+$ka_titles = [
     'delete' => 'löschen',
     'edit' => 'ändern',
     'insert' => 'einfügen'
 ];
+$ka_tables = [
+    SD_KIND => HARDWARE_KINDS,
+    SD_ATTR => ATTRIBUTES
+]
 ?>
 <div class="container">
     <h2>Stammdaten</h2>
@@ -53,13 +59,13 @@ $kind_titles = [
                                 echo '<td>'.$data[$val].'</td>';
                             }
                             echo '<td><a class="btn btn-warning"'
-                                .'href="?operation=showAttributes&type=Art&id='.$data[K_ID].'">'
+                                .'href="?operation=showAttributes&type='.SD_KIND.'&id='.$data[K_ID].'">'
                                 .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
                             echo '<td><a class="btn btn-primary" '
-                                .'href="?operation=edit&type=Art&Bezeichnung='.$data[K_NAME].'&id='.$data[K_ID].'">'
+                                .'href="?operation=edit&type='.SD_KIND.'&id='.$data[K_ID].'">'
                                 .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
                             echo '<td><a class="btn btn-danger" '
-                                .'href="?operation=delete&type=Art&Bezeichnung='.$data[K_NAME].'&id='.$data[K_ID].'">'
+                                .'href="?operation=delete&type='.SD_KIND.'&id='.$data[K_ID].'">'
                                 .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                             echo '</tr>';
                         }
@@ -95,7 +101,8 @@ $kind_titles = [
 
 <?php
 function checkKAModal(){
-    global $kind_titles;
+    global $ka_titles;
+    global $ka_tables;
     if (isset($_GET["operation"])) {
         $operation = $_GET["operation"];
         if($operation == 'showAttributes'){
@@ -104,36 +111,84 @@ function checkKAModal(){
         }else{
             $type = $_GET["type"];
             $id = $_GET["id"];
-            $desc = $_GET['Bezeichnung'];
-            $title = $type.' '.$kind_titles[$operation];
-            $body = '';
-            if($type == 'Art'){
-                $body = showModalAddEditKind($id,$desc);
-            }else if($type == 'Attribut'){
-                $k_id = $_GET['ArtID'];
-                $body = showModalAddEditAttribute($k_id, $desc);
+            $formName = '';
+            if (isset($_POST["formName"])){
+                echo $formName;
+                $formName = $_POST["formName"];
+                executeKAOperation($operation, $type);
             }
+            $body = '';
+            $tabname = $ka_tables[$type];
+            $one = getOneByTableAndID($tabname, $id);
+            if($operation == 'delete'){
+                if($type == SD_KIND){
+                    $body = 'Wollen Sie wirklich die Hardware-Art "'.$one[K_NAME].'" (ID: '.$one[K_ID].') löschen?';
+                }else if($type == SD_ATTR){
+                    $body = 'Wollen Sie wirklich das Attribut "'.$one[A_DESC].'" (ID: '.$one[A_ID]
+                        .') von dieser Hardware-Art entfernen?';
+                }
+                $formName = 'deleteKA';
+            }else if($operation == 'edit'){
+                if($type == SD_KIND){
+                    $body = showModalAddEditKind($id, $one[K_NAME]);
+                }else if($type == SD_ATTR){
+                    $k_id = $_GET['ArtID'];
+                    $body = showModalAddEditAttribute($k_id, $one[A_DESC]);
+                }
+                $formName = 'editKA';
+            }else if($operation == 'insertKA'){
+                $formName = 'insertKA';
+            }
+            $title = $type.' '.$ka_titles[$operation];
             showKAModal($type,
                 $id,
                 $title,
-                'formName',
-                $type . ' ' . $operation,
+                $formName,
+                $title,
                 $body);
         }
     }
 }
-function showKAModalOperation(){
-
+function executeKAOperation($formName, $type){
+    global $ka_tables;
+    global $prims;
+    $tabName = $ka_tables[$type];
+    $id = 0;
+    switch($formName){
+        case 'editKA':
+            $data = array();
+            $data[$prims[$tabName]] = $id;
+            if($type == SD_KIND){
+                $data[K_NAME] = $_POST['kind_name'];
+            }else if($type == SD_KIND){
+                $data[A_DESC] = $_POST['attribute_name'];
+            }
+            echo $tabName.'....';
+            print_r($data);
+            updateEntry($tabName, $data);
+            break;
+        case 'deleteKA':
+            deleteEntryByTableAndID($tabName, $id);
+            break;
+        case 'insertKA':
+            break;
+        default:
+            break;
+    }
 }
 
+
+
+
 function showKAModal($type, $id, $title, $formName, $btnTitle, $bodyHtml = ''){
+    echo $type.'--'.$formName;
     ?>
     <div id="modal" class="modal show" role="dialog">
     <div class="modal-dialog">
     <form method="post" action="<?php echo '?type='.$type.'&selected='.$id;?>">
         <div class="modal-content">
             <div class="modal-header">
-                <a class="close" href="<?php echo '?type='.$type;?>"></a>
+                <a class="close" href="?type=<?php echo $type;?>"></a>
                 <h4 class="modal-title">
                     <?php
                     echo $title;
@@ -147,19 +202,21 @@ function showKAModal($type, $id, $title, $formName, $btnTitle, $bodyHtml = ''){
                 ?>
             </div>
             <div class="modal-footer">
-                <button type="submit" name="" class="btn btn-primary">
+                <button type="submit" name="<?php echo $formName;?>" class="btn btn-primary">
                     <?php echo $btnTitle; ?>
                 </button>
-                <a class="btn btn-default" href="?type=$type">Abbrechen</a>
+                <input type="hidden" name="type" value="<?php echo $type?>"/>
+                <a class="btn btn-default" href="?type=<?php echo $type;?>">Abbrechen</a>
             </div>
-            </form>
         </div>
+    </form>
     </div>
     </div>
     <?php
 }
 function showModalAddEditKind($k_id = 0, $name = ''){
-    $html = '<p>Name:</p>';
+    $html = '<input type="hidden" name="id" value="'.$k_id.'">';
+    $html .= '<p>Name:</p>';
     $html .= '<input type="text" class="form-control" name="kind_name" value="'.$name.'"/>';
     return $html;
 }
@@ -172,14 +229,14 @@ function showModalAddEditKind($k_id = 0, $name = ''){
 function showModalAddEditAttribute($k_id, $a_desc = ''){
     $attr = getAttributesByKindID($k_id, true);
     $html = '';
-    $html . '<p>Vorhandenes Attribut wählen oder Textfeld benutzen</p>';
-    $html .= '<select name="modal_kind_attributes[]">';
-    $html .= '<option value="0">--Textfeld benutzen</option>';
+    $html .= '
+            <select name="modal_kind_attributes[]">
+                <option value="0">--Textfeld benutzen</option>';
     while($data = mysqli_fetch_assoc($attr)){
         $html .= '<option value="'.$data[A_ID].'">'.$data[A_DESC].'</option>';
     }
-    $html .= '</select>';
-    $html .= '<input type="text" class="form-control" name="attribute_name" value="'.$a_desc.'"/>';
+    $html .= '</select>
+        <input type="text" class="form-control" name="attribute_name" value="'.$a_desc.'"/>';
     return $html;
 }
 
@@ -209,9 +266,9 @@ function showAttributes($k_id){
                         foreach($attr_headers as $key => $val){
                             echo '<td>'.$data[$val].'</td>';
                         }
-                        echo '<td><a class="btn btn-primary" href="?operation=edit&type=Attribut&ArtID='.$k_id.'&id='.$data[A_ID].'&kindID='.$k_id.'">'
+                        echo '<td><a class="btn btn-primary" href="?operation=edit&type='.SD_ATTR.'&ArtID='.$k_id.'&id='.$data[A_ID].'">'
                             .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
-                        echo '<td><a class="btn btn-danger" href="?operation=delete&type=Attribut&ArtID='.$k_id.'&id='.$data[A_ID].'">'
+                        echo '<td><a class="btn btn-danger" href="?operation=delete&type='.SD_ATTR.'&ArtID='.$k_id.'&id='.$data[A_ID].'">'
                             .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
                         echo '</tr>';
                     }
