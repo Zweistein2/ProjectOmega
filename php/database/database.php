@@ -17,3 +17,7 @@ $connection_userDatabase = mysqli_connect($ip_userDatabase, $user_userDatabase, 
 if (!$connection_userDatabase) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+// Fuer den utf-8 codec zusetzten
+mysqli_query($connection, "SET NAMES 'utf8'");
+mysqli_query($connection_userDatabase, "SET NAMES 'utf8'");
