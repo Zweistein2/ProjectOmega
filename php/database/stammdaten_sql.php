@@ -292,7 +292,7 @@ function getSuppliers(){
 function copyComponent($table, $k_id, $count){
     global $connection;
     if($count < 1) return;
-    $comp = getComponentByID($k_id);
+    $comp = getOneByTableAndID(HARDWARE, $k_id);
     if($comp == null) return;
     $query = 'INSERT INTO '.HARDWARE
         .'('.H_ROOM_ID.', '.H_SUPPLIER_ID.', '.H_BUY_DATE.', '.H_WARRANTY.', '.H_NOTE.', '.H_DEV.', '.H_KIND_ID.') VALUES ';
