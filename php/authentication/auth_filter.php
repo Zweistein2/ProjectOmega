@@ -14,22 +14,33 @@ function checkForMinAccess($userRole)
         $searchUserWithId = getUserIdSession();
         $userArray = getUserWithRoleById($searchUserWithId);
         $user = $userArray[0];
-        if(empty($userArray)){ // Es wurde kein Benutzer gefunden
+        if (empty($userArray)) { // Es wurde kein Benutzer gefunden
             deleteSession();
             redirectToLogin();
         }
-        if(getUserGroupSession() == null || getUserGroupSession() == ''){
+        if (getUserGroupSession() == null || getUserGroupSession() == '') {
             deleteSession();
             redirectToLogin();
         }
         switch ($userRole) {
-            case 'admin':
-                if (strcmp(getUserGroupSession(), "Lehrer") == 0) {
-                    redirectToLogin();
+            case 'Admin':
+                if (strcmp(getUserGroupSession(), "Admin") == 0) {
+                    break;
+                } else {
+                    redirectTo("help.php");
+                    break;
+                }
+                break;
+            case 'Lehrer':
+                if (strcmp(getUserGroupSession(), "Lehrer") == 0 || strcmp(getUserGroupSession(), "Admin") == 0) {
+                    break;
+                } else {
+                    redirectTo("help.php");
+                    break;
                 }
                 break;
             default:
-                redirectToLogin();
+                redirectTo("help.php");
                 break;
         }
     } else {

@@ -4,6 +4,12 @@
  * Date: 26.07.2017
  * Time: 8:24
  -->
+
+<?php
+require_once("../authentication/auth_filter.php");
+checkForMinAccess("Lehrer");
+?>
+
 <html>
     <head>
         <title>Hilfeseite</title>
