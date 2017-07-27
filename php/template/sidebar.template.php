@@ -79,7 +79,7 @@
                 <li id="hilfe"><a href="./help.php">Hilfe<span style="font-size:16px;"
                                                                             class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a>
                 </li>
-                <li><a href="./login.php">Logout<span style="font-size:16px;"
+                <li><a href="./logout.php">Logout<span style="font-size:16px;"
                                             class="pull-right hidden-xs showopacity glyphicon glyphicon-off"></span></a>
                 </li>
             </ul>

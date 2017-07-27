@@ -4,6 +4,12 @@
  * Date: 26.07.2017
  * Time: 14:42
  -->
+
+<?php
+require_once("../authentication/auth_filter.php");
+checkForMinAccess("Admin");
+?>
+
 <html>
     <head>
         <title>Verwaltung - Neuanlage</title>

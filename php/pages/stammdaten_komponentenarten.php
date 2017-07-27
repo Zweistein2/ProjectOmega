@@ -1,3 +1,8 @@
+<?php
+require_once("../authentication/auth_filter.php");
+checkForMinAccess("Admin");
+?>
+
 <html>
 <head>
     <title>Stammdaten</title>

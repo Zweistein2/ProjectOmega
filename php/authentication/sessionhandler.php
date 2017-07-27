@@ -56,18 +56,18 @@ function setUserGroupSession($id){
 
 function deleteSession()
 {
-    unset($_SESSION['userid']);
-    unset($_SESSION['user_role']);
+    session_unset(getUserIdSession());
+    session_unset(getUserGroupSession());
 }
 
 function createErrorMessage($message)
 {
-    setcookie("error", $message, time()+300);
+    $_SESSION['error'] = $message;
 }
 
 function hasErrorMessage()
 {
-    if (isset($_COOKIE["error"])) {
+    if (isset($_SESSION['error'])) {
         return true;
     }
     return false;
@@ -75,12 +75,12 @@ function hasErrorMessage()
 
 function getErrorMessage()
 {
-    $errorMessage = $_COOKIE["error"];
+    $errorMessage = $_SESSION['error'];
     return $errorMessage;
 }
 
 
 function deleteErrorMessage()
 {
-    setcookie ("error", "", time() - 3600);
+    session_unset($_SESSION['error']);
 }

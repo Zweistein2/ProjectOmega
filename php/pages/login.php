@@ -14,6 +14,10 @@ if (isset($_POST['btn_anmelden'])) {
     } else {
         createErrorMessage("Bitte die Maske ausfüllen!");
     }
+} else {
+    if(hasErrorMessage()) {
+        deleteErrorMessage();
+    }
 }
 ?>
 
@@ -31,7 +35,11 @@ if (isset($_POST['btn_anmelden'])) {
             <hr>
             <?php
                 if(hasErrorMessage()) {
-                    echo getErrorMessage();
+                    ?>
+                    <div class="alert alert-warning">
+                        <?php echo getErrorMessage()?>
+                    </div>
+                    <?php
                 }
             ?>
             <form class="form-signin" action="login.php" method="post">
