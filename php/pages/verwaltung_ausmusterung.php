@@ -24,7 +24,7 @@ checkForMinAccess("Admin");
                     <select class="selectpicker" data-style="btn-info">
                         <?php
                         //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
-                        $result = getHardwareTypes();
+                        $result = getFilledHardwareTypes();
 
                         foreach($result as $array)
                         {
@@ -41,7 +41,7 @@ checkForMinAccess("Admin");
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col col-xs-6">
-                                    <button type="submit" class="btn btn-danger" id="soft-delete">Ausmustern</button>
+                                    <button type="submit" class="btn btn-danger" id="soft-delete" data-toggle="modal" data-target="#warningModal" disabled="disabled">Ausmustern</button>
                                 </div>
                                 <div class="col col-xs-6">
                                     <h3 class="panel-title" id="panelTitle"></h3>
@@ -97,16 +97,38 @@ checkForMinAccess("Admin");
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content">body</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="closeButton">Abbrechen</button>
+                        <button type="button" class="btn btn-danger" id="deleteButton">Ausmustern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
-<!-- TODO: Modal für Warnhinweis zwecks Ausmusterung -->
 
 <script>
     $(document).ready(function(){
         table.column(3).visible(false);
+        $('#soft-delete').prop('disabled', true);;
 
         $('#table tbody').on('click', 'tr', function(){
             $(this).toggleClass('selected');
+            if(table.rows('.selected').data().length > 0) {
+                $('#soft-delete').prop('disabled', false);
+            }else {
+                $('#soft-delete').prop('disabled', true);
+            }
         });
 
         $('#soft-delete').click(function(){
@@ -125,8 +147,20 @@ checkForMinAccess("Admin");
 
             var idArray = JSON.stringify(ids);
 
-            $.post('../functions/verwaltung_delete.php', { ids: idArray }, function(data){
-                table.ajax.reload();
+            var modal = $('#warningModal');
+            modal.find('.modal-title').text('Bestätigung');
+            if(count == 1) {
+                modal.find('.modal-body p').text('Wollen sie wirklich einen Datensatz ausmustern?');
+            }else {
+                modal.find('.modal-body p').text('Wollen sie wirklich ' + count + ' Datensätze ausmustern?');
+            }
+
+            $('#deleteButton').click(function(){
+                $.post('../functions/verwaltung_delete.php', { ids: idArray }, function(data){
+                    table.ajax.reload();
+                });
+
+                $('#closeButton').click();
             });
         });
     });
