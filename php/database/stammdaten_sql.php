@@ -295,8 +295,8 @@ function copyComponent($table, $k_id, $count){
     $comp = getOneByTableAndID(HARDWARE, $k_id);
     if($comp == null) return;
     $query = 'INSERT INTO '.HARDWARE
-        .'('.H_ROOM_ID.', '.H_SUPPLIER_ID.', '.H_BUY_DATE.', '.H_WARRANTY.', '.H_NOTE.', '.H_DEV.', '.H_KIND_ID.') VALUES ';
-    $val = '('.$comp[H_ROOM_ID].','.$comp[H_SUPPLIER_ID].',"'.$comp[H_BUY_DATE].'",'
+        .'('.H_NAME.','.H_ROOM_ID.', '.H_SUPPLIER_ID.', '.H_BUY_DATE.', '.H_WARRANTY.', '.H_NOTE.', '.H_DEV.', '.H_KIND_ID.') VALUES ';
+    $val = '('.$comp[H_NAME].','.$comp[H_ROOM_ID].','.$comp[H_SUPPLIER_ID].',"'.$comp[H_BUY_DATE].'",'
         .$comp[H_WARRANTY].',"'.$comp[H_NOTE].'","'.$comp[H_DEV].'",'.$comp[H_KIND_ID].')';
     for($i = 0; $i < $count; $i++){
         $query .= $val;
@@ -454,5 +454,17 @@ function updateHardwareAttribut($h_id, $a_id, $val){
     $query = 'UPDATE '.HARDWARE_ATTRIBUTES
         .' SET '.HA_VALUE.'="'.$val.'"'
         .' WHERE '.HA_H_ID.'='.$h_id.' AND '.HA_A_ID.'='.$a_id;
+    mysqli_query($connection, $query);
+}
+function addNewAttributeToKind($k_id, $val){
+
+}
+function addExistingAttributeToKind($k_id, $a_id){
+    global $connection;
+    $query = 'INSERT INTO '.DESCRIBED.'';
+}
+function removeAttributeFromKind($k_id, $a_id){
+    global $connection;
+    $query = 'DELETE FROM '.DESCRIBED.' WHERE '.KA_K_ID.'='.$k_id.' AND '.KA_A_ID.'='.$a_id;
     mysqli_query($connection, $query);
 }
