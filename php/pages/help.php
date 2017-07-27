@@ -59,7 +59,7 @@ checkForMinAccess("Lehrer");
 <div class="container">
 <div class="container" style="margin-top: 20px; ">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-10">
             <!-- Nav tabs category -->
             <ul class="nav nav-tabs faq-cat-tabs">
                 <?php if (strcmp(getUserGroupSession(), "Lehrer") !== 0) { ?>
