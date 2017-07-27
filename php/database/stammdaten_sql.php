@@ -10,6 +10,7 @@ define("ATTRIBUTES", 'hardwareattribute');
 define("DESCRIBED", 'wird_beschrieben_durch');
 define("SOFTWARE", 'software');
 define("SOFTWARE_ROOM", 'software_in_raum');
+define("USERS", "users");
 
 //--hardware
 define("H_ID", 'h_id');
@@ -72,6 +73,20 @@ define("S_LICENCE_TYPE", 's_lizenztyp');
 define("S_COUNT", 's_anzahl');
 define("S_LICENCE_INFO", 's_lizenzinformation');
 define("S_INSTALL", 's_installhinweis');
+
+//--nutzer
+define("U_ID", "id");
+define("U_USERNAME", "username");
+define("U_PASSWORD", "password");
+
+//--nutzer-rollen
+define("U_ROLES_ID", "id");
+define("U_ROLES_ROLE", "role");
+
+//--nutzer-hat-rollen
+define("U_HAS_ROLES_ID", "id");
+define("U_HAS_ROLES_U_ID", "id_users");
+define("U_HAS_ROLES_U_ROLE", "id_roles");
 
 //--software in raum
 define("SR_R_ID", 'sir_r_id');

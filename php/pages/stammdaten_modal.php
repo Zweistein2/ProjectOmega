@@ -169,7 +169,7 @@ function editEntry($id, $name)
     $title = "$typeName $name bearbeiten";
     $formName = "editEntry";
     $btnTitle = "Speichern";
-    $query = getOneByTableAndID($type, $id);
+    $query = getQuery($type, $id);
     $html = generateHtml($query, $type);
 
     return generateModal($formName, $title, $btnTitle, $html, $id);

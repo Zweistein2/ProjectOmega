@@ -41,11 +41,12 @@
                         <tbody>
                         <?php
                         $selected = "";
-                        $query = getEntriesByTable($type);
+                        $query = getQuery($type);
                         if (isset($_GET["selected"])) {
                             $selected = $_GET["selected"];
                         }
                         while ($result = mysqli_fetch_assoc($query)) {
+                            print_r($result);
                             $highlighter = "";
                             $id = $result[$idColumn];
                             $name = $result[$nameColumn];

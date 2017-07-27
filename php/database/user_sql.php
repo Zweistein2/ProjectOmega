@@ -69,15 +69,15 @@ function getAllUsersWithRoles()
                 users.id,
                 users.username,
                 users.PASSWORD,
-                user_roles.role 
+                user_roles.role,
+                user_has_roles.id as 'U_ROLE_ID'
               FROM
                 users
 	            INNER JOIN user_has_roles ON user_has_roles.id_users = users.id
 	            INNER JOIN user_roles ON user_has_roles.id_roles = user_roles.id;";
     global $connection_userDatabase;
     $result = mysqli_query($connection_userDatabase, $query);
-    $fetchedUsersArray = mysqli_fetch_all($result, MYSQLI_BOTH);
-    return $fetchedUsersArray;
+    return $result;
 }
 
 function createUser($username, $password, $role)

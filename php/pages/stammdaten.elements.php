@@ -1,6 +1,7 @@
 <?php
 
 include("../database/stammdaten_sql.php");
+include("../database/user_sql.php");
 
 function dbElements()
 {
@@ -10,6 +11,7 @@ function dbElements()
         "SUPPLIER_OPTIONS" => array("table" => SUPPLIERS, "id" => H_SUPPLIER_ID, "value" => L_COMPANY_NAME, "originalId" => L_ID),
         "KIND_OPTIONS" => array("table" => HARDWARE_KINDS, "id" => H_KIND_ID, "value" => K_NAME, "originalId" => K_ID),
     ];
+
 
     $hardwareElement = [
         "NAME" => "Hardware",
@@ -86,11 +88,29 @@ function dbElements()
 
     ];
 
+    $userElementOptions = [
+        "ROLE_OPTIONS" => array("table" => USERS, "id" => H_ROOM_ID, "value" => R_NR, "originalId" => R_ID),
+    ];
+
+    $userElement = [
+        "NAME" => "Benutzer",
+        "NAME_PLURAL" => "Benutzer",
+        "TABLE_NAME" => "users",
+        "ID_COLUMN" => U_ID,
+        "NAME_COLUMN" => U_USERNAME,
+        "ROLE_OPTIONS" => array(U_ROLES_ROLE),
+        "OPTION_REFERENCE" => $userElementOptions,
+        U_ID => "#",
+        U_USERNAME => "Benutzername",
+        U_ROLES_ROLE => "Rolle",
+    ];
+
     $dbElements = [
         ROOMS => $roomElement,
         SUPPLIERS => $suppliersElement,
         SOFTWARE => $softwareElement,
-        HARDWARE => $hardwareElement
+        HARDWARE => $hardwareElement,
+        USERS => $userElement,
     ];
 
     return $dbElements;

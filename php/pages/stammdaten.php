@@ -136,6 +136,22 @@ function getStammdatenType()
     return $returnType;
 }
 
+function getQuery($type, $id = null)
+{
+    if ($type == "users") {
+        if ($id == null) {
+            $return = getAllUsersWithRoles();
+            return $return;
+        }
+    } else {
+        if ($id == null) {
+            return getEntriesByTable($type);
+        } else {
+            return getOneByTableAndID($type, $id);
+        }
+    }
+}
+
 include("stammdaten_modal.php");
 
 ?>
