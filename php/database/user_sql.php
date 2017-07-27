@@ -7,7 +7,7 @@
  */
 
 require_once('database.php');
-require_once ("../helpers/cryption.php");
+require_once("../helpers/cryption.php");
 
 function getUserWithRole($username, $password)
 {
@@ -80,23 +80,25 @@ function getAllUsersWithRoles()
     return $fetchedUsersArray;
 }
 
-function createUser($username,$password,$role){
+function createUser($username, $password, $role)
+{
     $hashedPassword = getPasswordHash($password);
     try {
         $query = "INSERT INTO users (username,password) VALUES ('$username','$hashedPassword');";
         global $connection_userDatabase;
         mysqli_query($connection_userDatabase, $query);
     } catch (Exception $e) {
-        echo 'Exception abgefangen: ',  $e->getMessage(), "\n";
+        echo 'Exception abgefangen: ', $e->getMessage(), "\n";
     }
-    assignUserToRoleByName($username,$role);
+    assignUserToRoleByName($username, $role);
 }
 
 
-function assignUserToRoleByName($username,$role){
+function assignUserToRoleByName($username, $role)
+{
     $userId = getUserIdByName($username);
     $roleId = getRoleIdByName($role);
-    if($roleId != -1){
+    if ($roleId != -1) {
         $queryForRole = "INSERT INTO user_has_roles (id_users,id_roles) VALUES ('$userId','$roleId');";
         global $connection_userDatabase;
         mysqli_query($connection_userDatabase, $queryForRole);
@@ -104,7 +106,8 @@ function assignUserToRoleByName($username,$role){
 }
 
 
-function getRoleIdByName($name){
+function getRoleIdByName($name)
+{
     $query = "SELECT
             	user_roles.id 
               FROM
@@ -114,14 +117,15 @@ function getRoleIdByName($name){
     global $connection_userDatabase;
     $result = mysqli_query($connection_userDatabase, $query);
     $fetchedRoleArray = mysqli_fetch_all($result, MYSQLI_BOTH);
-    if(empty($fetchedRoleArray)){
+    if (empty($fetchedRoleArray)) {
         return -1;
     }
     $role = $fetchedRoleArray['0'];
     return $role['id'];
 }
 
-function getAllRoleNames(){
+function getAllRoleNames()
+{
     $query = "SELECT
             	user_roles.role
               FROM
@@ -132,7 +136,8 @@ function getAllRoleNames(){
 }
 
 
-function updateUser($username,$password,$role){
+function updateUser($username, $password, $role)
+{
     $hashedPassword = getPasswordHash($password);
     $userId = getUserIdByName($username);
     $roleId = getRoleIdByName($role);
@@ -143,10 +148,11 @@ function updateUser($username,$password,$role){
     mysqli_query($connection_userDatabase, $queryRole);
 }
 
-function deleteUserById($id){
+function deleteUserById($id)
+{
     $userQuery = "DELETE FROM users WHERE id = $id;";
     $roleQuery = "DELETE FROM user_has_roles WHERE id_users = $id;";
-    $query = $userQuery.$roleQuery;
+    $query = $userQuery . $roleQuery;
     global $connection_userDatabase;
     mysqli_query($connection_userDatabase, $query);
 }

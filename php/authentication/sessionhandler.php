@@ -41,7 +41,8 @@ function getUserIdSession()
     return $_SESSION['userid'];
 }
 
-function setUserIdSession($id){
+function setUserIdSession($id)
+{
     $_SESSION['userid'] = $id;
 }
 
@@ -50,7 +51,8 @@ function getUserGroupSession()
     return $_SESSION['user_role'];
 }
 
-function setUserGroupSession($id){
+function setUserGroupSession($id)
+{
     $_SESSION['user_role'] = $id;
 }
 
@@ -62,7 +64,7 @@ function deleteSession()
 
 function createErrorMessage($message)
 {
-    setcookie("error", $message, time()+300);
+    setcookie("error", $message, time() + 300);
 }
 
 function hasErrorMessage()
@@ -82,5 +84,5 @@ function getErrorMessage()
 
 function deleteErrorMessage()
 {
-    setcookie ("error", "", time() - 3600);
+    setcookie("error", "", time() - 3600);
 }

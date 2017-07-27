@@ -48,6 +48,7 @@ function encrypt_pass($source, $destination, $passphrase, $stream=NULL) {
  * @param $password
  * @return bool|string
  */
-function getPasswordHash($password){
+function getPasswordHash($password)
+{
     return md5($password);
 }

@@ -14,11 +14,11 @@ function checkForMinAccess($userRole)
         $searchUserWithId = getUserIdSession();
         $userArray = getUserWithRoleById($searchUserWithId);
         $user = $userArray[0];
-        if(empty($userArray)){ // Es wurde kein Benutzer gefunden
+        if (empty($userArray)) { // Es wurde kein Benutzer gefunden
             deleteSession();
             redirectToLogin();
         }
-        if(getUserGroupSession() == null || getUserGroupSession() == ''){
+        if (getUserGroupSession() == null || getUserGroupSession() == '') {
             deleteSession();
             redirectToLogin();
         }
