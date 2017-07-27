@@ -114,6 +114,48 @@ $dels = [
     HARDWARE_KINDS => K_DELETED
 ];
 
+$structure = array();
+$structure[SUPPLIERS] = [
+    L_COMPANY_NAME,
+    L_STREET,
+    L_PLZ,
+    L_TOWN,
+    L_TEL,
+    L_MOBILE,
+    L_FAX,
+    L_EMAIL,
+    L_DELETED
+];
+$structure[ROOMS] = [
+    R_NR,
+    R_DESC,
+    R_NOTE,
+    R_DELETED
+];
+$structure[SOFTWARE] = [
+    S_NAME,
+    S_DESC,
+    S_BUY_DATE,
+    S_LICENCE_DURATION,
+    S_NOTE,
+    S_DEV,
+    S_VNR,
+    S_LICENCE_TYPE,
+    S_COUNT,
+    S_LICENCE_INFO,
+    S_INSTALL
+];
+$structure[HARDWARE] = [
+    H_ROOM_ID,
+    H_SUPPLIER_ID,
+    H_NAME,
+    H_DESC,
+    H_BUY_DATE,
+    H_WARRANTY,
+    H_NOTE,
+    H_DEV
+];
+
 function hasDeleteFlag($tabname){
     global $dels;
     foreach($dels as $key => $val){
@@ -217,6 +259,9 @@ function getEntriesByTable($tabname){
         $query = 'SELECT * FROM ' . $tabname;
         if(hasDeleteFlag($tabname)){
             $query .= ' WHERE '.$dels[$tabname].'='.FLAG_UNDELETED;
+            if($tabname == ROOMS){
+                $query .= ' AND NOT '.R_ID.'='.DELETED_ROOM_ID;
+            }
         }
         return mysqli_query($connection, $query);
     }
@@ -271,32 +316,21 @@ function getKindOptions($id){
     return getOptions(HARDWARE_KINDS, $id);
 }
 
-/*
-function getRooms(){
-    global $connection;
-    $query = 'SELECT * FROM '.ROOMS;
-    return mysqli_query($connection, $query);
-}
-function getSuppliers(){
-    global $connection;
-    $query = 'SELECT * FROM '.SUPPLIERS;
-    return mysqli_query($connection, $query);
-}
-*/
 
 /**
  * kopiert eine Hardwarekomponente
  * @param $k_id: id der zu kopierenden Hardwarekomponente
  * @param $count: wie oft soll diese Komponente kopiert werden
  */
-function copyComponent($table, $k_id, $count){
+function copyComponent($k_id, $count){
+    /*
     global $connection;
     if($count < 1) return;
     $comp = getOneByTableAndID(HARDWARE, $k_id);
     if($comp == null) return;
     $query = 'INSERT INTO '.HARDWARE
         .'('.H_NAME.','.H_ROOM_ID.', '.H_SUPPLIER_ID.', '.H_BUY_DATE.', '.H_WARRANTY.', '.H_NOTE.', '.H_DEV.', '.H_KIND_ID.') VALUES ';
-    $val = '('.$comp[H_NAME].','.$comp[H_ROOM_ID].','.$comp[H_SUPPLIER_ID].',"'.$comp[H_BUY_DATE].'",'
+    $val = '("'.$comp[H_NAME].'",'.$comp[H_ROOM_ID].','.$comp[H_SUPPLIER_ID].',"'.$comp[H_BUY_DATE].'",'
         .$comp[H_WARRANTY].',"'.$comp[H_NOTE].'","'.$comp[H_DEV].'",'.$comp[H_KIND_ID].')';
     for($i = 0; $i < $count; $i++){
         $query .= $val;
@@ -305,6 +339,60 @@ function copyComponent($table, $k_id, $count){
         }
     }
     mysqli_query($connection, $query);
+    */
+    copyEntryFunction(HARDWARE, $k_id, $count);
+}
+function copyEntryFunction($tabname, $id, $count){
+    global $connection;
+    global $structure;
+    $cols = $structure[$tabname];
+    $colcount = count($cols);
+
+    $data = getOneByTableAndID($tabname, $id);
+    $query = 'INSERT INTO '.$tabname.' (';
+    for($i= 0; $i < $colcount; $i++){
+        $query .= $cols[$i];
+        if($i < $colcount - 1){
+            $query .= ',';
+        }
+    }
+    $query .= ') VALUES ';
+    for($i = 0; $i < $count; $i++){
+        $vals = '(';
+        for($j = 0; $j < $colcount; $j++){
+            $val = $data[$cols[$j]];
+            $val = mysqli_real_escape_string($connection, $val);
+            $vals .= '"'.$val.'"';
+            if($j < $colcount - 1){
+                $vals .= ',';
+            }
+        }
+        $vals .= ')';
+        $query .= $vals;
+        if($i < $count - 1){
+            $query . ',';
+        }
+    }
+    mysqli_query($connection, $query);
+    if($tabname == HARDWARE){
+        $first = mysqli_insert_id($connection);
+        $query = 'SELECT * FROM '.HARDWARE_ATTRIBUTES.' WHERE '.HA_H_ID.'='.$id;
+        $result = mysqli_query($connection, $query);
+        $attrs = array();
+        while($ha = mysqli_fetch_assoc($result)){
+            $attrs[$ha[HA_A_ID]] = mysqli_real_escape_string($connection, $ha[HA_VALUE]);
+        }
+        //$a_ids = array_keys($attrs);
+        for($i = 0; $i < $count; $i++){
+            $current = $first + $i;
+            $query_start = 'INSERT INTO '.HARDWARE_ATTRIBUTES.' ('.HA_H_ID.', '.HA_A_ID.', '.HA_VALUE.') VALUES ';
+            foreach($attrs as $key => $val){
+                $query_val = '('.$current.','.$key.',"'.$val.'")';
+                $query = $query_start . $query_val;
+                mysqli_query($connection, $query);
+            }
+        }
+    }
 }
 
 function softDeleteWithFlag($connection, $tabname, $id){
@@ -457,11 +545,17 @@ function updateHardwareAttribut($h_id, $a_id, $val){
     mysqli_query($connection, $query);
 }
 function addNewAttributeToKind($k_id, $val){
-
+    global $connection;
+    $val = mysqli_real_escape_string($connection, $val);
+    $query = 'INSERT INTO '.ATTRIBUTES.'('.A_DESC.') VALUES ("'.$val.'")';
+    mysqli_query($connection, $query);
+    $a_id = mysqli_insert_id($connection);
+    addExistingAttributeToKind($k_id, $a_id);
 }
 function addExistingAttributeToKind($k_id, $a_id){
     global $connection;
-    $query = 'INSERT INTO '.DESCRIBED.'';
+    $query = 'INSERT INTO '.DESCRIBED.' ('.KA_K_ID.','.KA_A_ID.') VALUES ('.$k_id.','.$a_id.')';
+    mysqli_query($query);
 }
 function removeAttributeFromKind($k_id, $a_id){
     global $connection;
