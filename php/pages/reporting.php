@@ -4,6 +4,12 @@
  * Date: 26.07.2017
  * Time: 13:53
  -->
+
+<?php
+require_once("../authentication/auth_filter.php");
+checkForMinAccess("Lehrer");
+?>
+
 <html>
     <head>
         <title>Reporting</title>
@@ -27,7 +33,7 @@
                     <select class="selectpicker" id="typeSelect" data-style="btn-info">
                         <?php
                             //Auslesen aller vorhandenen Hardware-Typen für das Dropdown-Element
-                            $result = getHardwareTypes();
+                            $result = getFilledHardwareTypes();
 
                             foreach($result as $array)
                             {

@@ -8,6 +8,13 @@
 
 require_once("../authentication/sessionhandler.php");
 
+
+/**
+ * Legt fest welche min. Benutzergruppe der Benutzer
+ * haben muss um den jeweiligen Bereich zu sehen.
+ *
+ * @param $userRole
+ */
 function checkForMinAccess($userRole)
 {
     if (hasSession()) {
@@ -23,13 +30,24 @@ function checkForMinAccess($userRole)
             redirectToLogin();
         }
         switch ($userRole) {
-            case 'admin':
-                if (strcmp(getUserGroupSession(), "Lehrer") == 0) {
-                    redirectToLogin();
+            case 'Admin':
+                if (strcmp(getUserGroupSession(), "Admin") == 0) {
+                    break;
+                } else {
+                    redirectTo("help.php");
+                    break;
+                }
+                break;
+            case 'Lehrer':
+                if (strcmp(getUserGroupSession(), "Lehrer") == 0 || strcmp(getUserGroupSession(), "Admin") == 0) {
+                    break;
+                } else {
+                    redirectTo("help.php");
+                    break;
                 }
                 break;
             default:
-                redirectToLogin();
+                redirectTo("help.php");
                 break;
         }
     } else {

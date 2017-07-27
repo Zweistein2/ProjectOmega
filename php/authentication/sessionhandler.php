@@ -12,6 +12,14 @@ require_once("../database/user_sql.php");
 
 session_start();
 
+/**
+ * Erstellt eine neue Session um den Bentuzer zu authentifizieren.
+ * Wird der Benutzer nicht in der Datenbank gefunden so wird
+ * eine Fehlermeldung erzeugt.
+ *
+ * @param $username
+ * @param $password
+ */
 function createSessionForUser($username, $password)
 {
     $hashedPassword = getPasswordHash($password);
@@ -20,6 +28,7 @@ function createSessionForUser($username, $password)
         $user = $userArray[0];
         setUserIdSession($user['id']);
         setUserGroupSession($user['role']);
+        echo "nach der if";
         // Wenn evtl. eine Fehlermeldung besteht
         deleteErrorMessage();
         redirectTo("help.php");
@@ -28,6 +37,11 @@ function createSessionForUser($username, $password)
     }
 }
 
+/**
+ * Ueberprueft ob eine Authentifizierung Session besteht.
+ *
+ * @return bool
+ */
 function hasSession()
 {
     if (isset($_SESSION['userid']) && isset($_SESSION['user_role'])) {
@@ -36,53 +50,98 @@ function hasSession()
     return false;
 }
 
+/**
+ * Liefert die Benutzer ID von der Authentifizierung Session zurueck.
+ *
+ * @return integer
+ */
 function getUserIdSession()
 {
     return $_SESSION['userid'];
 }
 
-function setUserIdSession($id)
-{
+/**
+ * Setzt die Benutzer ID in der Authentifizierung Session.
+ *
+ * @param $id
+ */
+function setUserIdSession($id){
     $_SESSION['userid'] = $id;
 }
 
+/**
+ * Liefert die Benutzer Gruppe von der Authentifizierung Session zurueck.
+ *
+ * @return integer
+ */
 function getUserGroupSession()
 {
     return $_SESSION['user_role'];
 }
 
-function setUserGroupSession($id)
-{
+/**
+ * Setzt die Benutzer Gruppe in der Authentifizierung Session.
+ *
+ * @param $id
+ */
+function setUserGroupSession($id){
     $_SESSION['user_role'] = $id;
 }
 
+
+/**
+ * Loescht die Authentifizierung Session
+ *
+ */
 function deleteSession()
 {
-    unset($_SESSION['userid']);
-    unset($_SESSION['user_role']);
+    session_unset();
 }
 
+/**
+ * Setzt eine Fehlermeldung in der Session.
+ *
+ * @param $message
+ */
 function createErrorMessage($message)
 {
-    setcookie("error", $message, time() + 300);
+    $_SESSION['error'] = $message;
 }
 
+
+/**
+ * Ueberprueft ob eine Fehlermeldung in der Session besteht.
+ *
+ * @return bool
+ */
 function hasErrorMessage()
 {
-    if (isset($_COOKIE["error"])) {
-        return true;
+    if (isset($_SESSION['error'])) {
+        if(strcmp(getErrorMessage(), "") !== 0){
+            return true;
+        }
+        return false;
     }
     return false;
 }
 
+/**
+ * Liefert die Fehlermeldung von der Session zurueck.
+ *
+ * @return string
+ */
 function getErrorMessage()
 {
-    $errorMessage = $_COOKIE["error"];
+    $errorMessage = $_SESSION['error'];
     return $errorMessage;
 }
 
 
+/**
+ * Loescht die Fehlermeldung in der Session.
+ *
+ */
 function deleteErrorMessage()
 {
-    setcookie("error", "", time() - 3600);
+    createErrorMessage('');
 }

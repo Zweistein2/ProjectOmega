@@ -8,20 +8,20 @@
 
 require_once("../database/config.php");
 
-if ($environment == "local") {
+if($environment == "local") {
     $root = "http://localhost/ProjectOmega/php/pages/";
-} else {
-    $root = $_SERVER['SERVER_ADDR'] . "/php/pages/";
+}else{
+    $root = $_SERVER['SERVER_ADDR']."/php/pages/";
 }
 
 function redirectToLogin(){
     global $root;
-    header("Location: " . $root . "login.php");
+    header("Location: ".$root."login.php");
     exit();
 }
 
 function redirectTo($page){
     global $root;
-    header("Location: " . $root . $page);
+    header("Location: ".$root.$page);
     exit();
 }
