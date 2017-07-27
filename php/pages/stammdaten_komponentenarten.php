@@ -8,6 +8,26 @@
 <?php
 include_once("../template/sidebar.template.php");
 include_once("../database/stammdaten_sql.php");
+
+$selectedKind = 0;
+foreach($_POST as $key => $val){
+    $arr = explode('_', $key);
+    if($arr[0] == 'show'){
+        $selectedKind = $arr[2];
+    }else if($arr[0] == 'update'){
+        if($arr[1] == ''){
+
+        }else if($arr[1] == ''){
+
+        }
+    }else if($arr[0] == 'delete'){
+        if($arr[1] == ''){
+
+        }else if($arr[1] == ''){
+
+        }
+    }
+}
 ?>
 <div class="container">
     <h2>Stammdaten</h2>
@@ -25,7 +45,7 @@ include_once("../database/stammdaten_sql.php");
                                     echo '<th>'.$key.'</th>';
                                 }
                                 ?>
-                                <th></th> <!--Attribute-->
+                                <th><span class="glyphicon glyphicon-menu-hamburger"></th> <!--Attribute-->
                                 <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
                                 <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
                             </tr>
@@ -44,7 +64,6 @@ include_once("../database/stammdaten_sql.php");
                             echo '<td><input type="submit" name="delete_kind_'.$data[K_ID].'" value="X"/></td>';
                             echo '</tr>';
                         }
-
                         ?>
                         </tbody>
                     </table>
@@ -68,18 +87,15 @@ include_once("../database/stammdaten_sql.php");
             </div>
         </div>
         <?php
-        foreach($_POST as $key => $val){
-            $arr = explode('_', $key);
-            if($arr[0] == 'show' && $arr[1] == 'attrs'){
-                showAttributes($arr[2]);
-            }
-        }
+        showAttributes($selectedKind);
         ?>
     </div>
 </body>
 </html>
 
-<?php function showAttributes($k_id){ ?>
+<?php function showAttributes($k_id){
+    if($k_id == 0) return;
+    ?>
     <div class="col col-md-5">
         <div class="panel panel-default panel-table">
             <div class="panel-body">
