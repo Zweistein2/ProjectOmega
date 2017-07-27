@@ -77,7 +77,7 @@ checkForMinAccess("Admin");
                             <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
                             <?php
                             if ($type != "users") {
-                               echo "<th><span class=\"glyphicon glyphicon-copy\"></span></th>";
+                               echo "<th><span class=\"glyphicon glyphicon-duplicate\"></span></th>";
                             }
                             ?>
                             <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
@@ -103,7 +103,7 @@ checkForMinAccess("Admin");
                             }
                             echo "<td><a class=\"btn btn-primary\" href=\"?operation=edit&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
                             if ($type != "users") {
-                                echo "<td><a class=\"btn btn-warning\" href=\"?operation=copy&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-copy\"></span></a></td>";
+                                echo "<td><a class=\"btn btn-warning\" href=\"?operation=copy&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-duplicate\"></span></a></td>";
                             }
                             echo "<td><a class=\"btn btn-danger\" href=\"?operation=delete&type=$type&id=$id&name=$name\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>";
                             echo '</tr>';

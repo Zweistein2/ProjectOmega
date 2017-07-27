@@ -36,7 +36,7 @@ $ka_tables = [
     <!--<form method="post" action="stammdaten_komponentenarten.php"/>-->
     <div class="row">
         <div class="col col-md-5">
-            <a class="btn btn-primar" href="?type=<?php echo SD_KIND;?>&operation=insert&id=0">Neuen Datensatz anlegen</a>
+            <a class="btn btn-primary" href="?type=<?php echo SD_KIND;?>&operation=insert&id=0">Neuen Datensatz anlegen</a>
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
                     <div class="row">
@@ -57,7 +57,7 @@ $ka_tables = [
                                     echo '<th>'.$key.'</th>';
                                 }
                                 ?>
-                                <th><span class="glyphicon glyphicon-menu-hamburger"></th> <!--Attribute-->
+                                <th><span class="glyphicon glyphicon-list"></th> <!--Attribute-->
                                 <th><span class="glyphicon glyphicon-edit"></span></th><!--Ändern -->
                                 <th><span class="glyphicon glyphicon-remove"></span></th><!--Löschen -->
                             </tr>
@@ -73,7 +73,7 @@ $ka_tables = [
                             }
                             echo '<td><a class="btn btn-warning"'
                                 .'href="?operation=showAttributes&type='.SD_KIND.'&id='.$data[K_ID].'">'
-                                .'<span class="glyphicon glyphicon-pencil"></span></a></td>';
+                                .'<span class="glyphicon glyphicon-list"></span></a></td>';
                             echo '<td><a class="btn btn-primary" '
                                 .'href="?operation=edit&type='.SD_KIND.'&id='.$data[K_ID].'">'
                                 .'<span class="glyphicon glyphicon-pencil"></span></a></td>';
@@ -239,7 +239,7 @@ function showAttributes($k_id){
     if($k_id == 0) return;
     ?>
     <div class="col col-md-5">
-        <a class="btn btn-primar" href="?type=<?php echo SD_ATTR;?>&operation=insert&id=<?php echo $k_id?>">Neuen Datensatz anlegen</a>
+        <a class="btn btn-primary" href="?type=<?php echo SD_ATTR;?>&operation=insert&id=<?php echo $k_id?>">Neuen Datensatz anlegen</a>
         <div class="panel panel-default panel-table">
             <div class="panel-heading">
                 <div class="row">
@@ -272,9 +272,9 @@ function showAttributes($k_id){
                             echo '<td>'.$data[$val].'</td>';
                         }
                         echo '<td><a class="btn btn-primary" href="?operation=edit&type='.SD_ATTR.'&ArtID='.$k_id.'&id='.$data[A_ID].'">'
-                            .'<span class=\"glyphicon glyphicon-pencil\"></span></a></td>';
+                            .'<span class="glyphicon glyphicon-pencil"></span></a></td>';
                         echo '<td><a class="btn btn-danger" href="?operation=delete&type='.SD_ATTR.'&ArtID='.$k_id.'&id='.$data[A_ID].'">'
-                            .'<span class=\"glyphicon glyphicon-remove\"></span></a></td>';
+                            .'<span class="glyphicon glyphicon-remove"></span></a></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -368,13 +368,6 @@ function showAttributes($k_id){
                     "searchable": false,
                     visible: true,
                     "targets": -2
-                },
-                {
-                    "width": "5%",
-                    "bSortable": false,
-                    "searchable": false,
-                    visible: true,
-                    "targets": -3
                 }
             ]
         });
