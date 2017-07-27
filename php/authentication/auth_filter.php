@@ -20,7 +20,6 @@ function checkForMinAccess($userRole)
     if (hasSession()) {
         $searchUserWithId = getUserIdSession();
         $userArray = getUserWithRoleById($searchUserWithId);
-        $user = $userArray[0];
         if (empty($userArray)) { // Es wurde kein Benutzer gefunden
             deleteSession();
             redirectToLogin();

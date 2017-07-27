@@ -44,8 +44,21 @@ function getFilledHardwareTypes()
     return mysqli_fetch_all($result);
 }
 
-function getHardwareTypes()
-{
+function getSuppliers() {
+    global $connection;
+    $query = 'SELECT l_firmenname FROM lieferant';
+    $result = mysqli_query($connection, $query);
+    return mysqli_fetch_all($result);
+}
+
+function getRooms() {
+    global $connection;
+    $query = 'SELECT r_nr FROM raeume WHERE raeume.r_id != 1';
+    $result = mysqli_query($connection, $query);
+    return mysqli_fetch_all($result);
+}
+
+function getHardwareTypes() {
     global $connection;
     $query = 'SELECT ha_hardwareart FROM hardwarearten';
     $result = mysqli_query($connection, $query);

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Fabian Karolat
+ * Date: 26.07.2017
+ * Time: 13:23
+ */
 
 session_start();
 
