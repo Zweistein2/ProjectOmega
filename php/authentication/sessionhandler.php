@@ -56,8 +56,8 @@ function setUserGroupSession($id){
 
 function deleteSession()
 {
-    session_unset(getUserIdSession());
-    session_unset(getUserGroupSession());
+    session_unset();
+;
 }
 
 function createErrorMessage($message)
@@ -82,5 +82,5 @@ function getErrorMessage()
 
 function deleteErrorMessage()
 {
-    session_unset($_SESSION['error']);
+    //session_unset($_SESSION['error']);
 }
