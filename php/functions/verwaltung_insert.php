@@ -31,18 +31,20 @@ if (false) {
         $amount = 5;
         insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez, $buyingDate, $warranty, $note, $amount, $attrArray);
     } else {
-        $name = "";
-        $bez = "";
+
+        $name = "Word";
+        $bez = "Microsoft Word";
         $buyingDate = null;
         $licenceTime = 0;
-        $note = "";
-        $manufactor = "";
-        $verNum = "";
+        $note = "Word";
+        $manufactor = "Microsoft";
+        $verNum = "5353";
         $licenceType = 0;
-        $amount = 0;
-        $licenceInfo = "";
-        $installHint = "";
+        $amount = 12;
+        $licenceInfo = "Volumen Lizenz mit 12 Lizenzen";
+        $installHint = "Farg den Admin deines Vertrauens";
+        $roomId = 2;
 
-        insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint);
+        insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint, $roomId);
     }
 }

@@ -82,7 +82,6 @@ function insertHardware($typeId, $vendorId, $roomId, $name, $manufactorId, $bez,
 
         $query = "INSERT INTO hardware (raeume_r_id, lieferant_l_id, h_name, h_bez, h_einkaufsdatum, h_gewaehrleistungsdauer, h_notiz, h_hersteller, hardwarearten_ha_id)
                 VALUES ($roomId, $vendorId, '$name', '$bez', $buyingDate, '$warranty', '$note', '$manufactorId', '$typeId' );
-
                 ";
 
        mysqli_query($connection, $query);
@@ -103,7 +102,14 @@ function insertHardwareAttributes($hardwareId, $attrArray)
 
 }
 
-function insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint){
+function insertSoftware($name, $bez, $buyingDate, $licenceTime, $note, $manufactor, $verNum, $licenceType, $amount, $licenceInfo, $installHint, $roomId){
 
-
+    global $connection;
+    $query = "INSERT INTO software(s_name, s_bez, s_einkaufsdatum, s_lizenzlaufzeit, s_notiz, s_hersteller, s_vnr, s_lizenztyp, s_lizenzinformation, s_installhinweis, s_anzahl) 
+                    VALUES('$name', '$bez', '$buyingDate', $licenceTime, '$note', '$manufactor', '$verNum',$licenceType, '$licenceInfo', '$installHint', $amount);";
+    mysqli_query($connection, $query);
+    $id = mysqli_insert_id($connection);
+    echo $query;
+    $query = "INSERT INTO software_in_raum(sir_h_id, sir_r_id) VALUES($id, $roomId);";
+    mysqli_query($connection, $query);
 }
