@@ -1,7 +1,9 @@
-<?php
-require_once ("../authentication/auth_filter.php");
-checkForValidSessionInArea('reporting');
-?>
+<!--
+ * Created by PhpStorm.
+ * Author: Fabian Karolat
+ * Date: 26.07.2017
+ * Time: 13:53
+ -->
 <html>
     <head>
         <title>Reporting</title>
@@ -61,9 +63,9 @@ checkForValidSessionInArea('reporting');
                                             var inputValue = $(this).val();
                                             if(inputValue == "Raum")
                                             {
-                                                $(table.column(0).header()).html("Name");
-                                                $(table.column(1).header()).html("Bezeichner");
-                                                $(table.column(2).header()).html("Typ");
+                                                $(table.column(0).header()).html("Typ");
+                                                $(table.column(1).header()).html("Name");
+                                                $(table.column(2).header()).html("Bezeichner");
 
                                                 var roomNumber = $('#roomNumber').val();
                                                 $('#form').toggleClass("invisible", false);

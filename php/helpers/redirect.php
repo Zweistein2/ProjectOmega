@@ -6,14 +6,22 @@
  * Time: 09:40
  */
 
+require_once("../database/config.php");
+
+if($environment == "local") {
+    $root = "http://localhost/ProjectOmega/php/pages/";
+}else{
+    $root = $_SERVER['SERVER_ADDR']."/php/pages/";
+}
+
 function redirectToLogin(){
-    $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-    header("Location: ".$rootURL."pages/login.php");
+    global $root;
+    header("Location: ".$root."login.php");
     exit();
 }
 
 function redirectTo($page){
-    $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/pages/'.$page;
-    header("Location: ".$rootURL);
+    global $root;
+    header("Location: ".$root.$page);
     exit();
 }

@@ -1,4 +1,8 @@
 <?php
+// * Created by PhpStorm.
+// * Author: Fabian Karolat
+// * Date: 24.07.2017
+// * Time: 13:27
 
 function decrypt_pass($file, $passphrase) {
     $iv = substr(md5("\x1B\x3C\x58".$passphrase, true), 0, 8);
@@ -38,4 +42,12 @@ function encrypt_pass($source, $destination, $passphrase, $stream=NULL) {
     stream_filter_append($fp, 'mcrypt.tripledes', STREAM_FILTER_WRITE, $opts);
     fwrite($fp, $contents) or die("Could not write to file.");
     fclose($fp);
+}
+
+/**
+ * @param $password
+ * @return bool|string
+ */
+function getPasswordHash($password){
+    return md5($password);
 }

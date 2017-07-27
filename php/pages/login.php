@@ -6,37 +6,16 @@
  -->
 
 <?php
-require("../authentication/userhandler.php");
-require("../helpers/redirect.php");
-require_once ("../authentication/UserPrivliges.class.php");
-require("../database/database.php");
-
-session_start();
+require_once("../authentication/sessionhandler.php");
 
 if (isset($_POST['btn_anmelden'])) {
     if (isset($_POST['username']) && isset($_POST['password'])) {
-        $user = getUser($_POST['username'], $_POST['password']);
-        if ($user != null) {
-            $test1 = $user[0];
-            $_SESSION['userid'] = $test1['id'];
-            $fetchedUserPriviliges = getUserPriviligesByUserId($test1['id']);
-            $userPrivliges = new UserPrivliges();
-            $userPrivliges->canAccessReporting = $fetchedUserPriviliges["canAccessReporting"];
-            $userPrivliges->canAccessAusmusterung = $fetchedUserPriviliges["canAccessAusmusterung"];
-            $userPrivliges->canAccessNeubeschaffung = $fetchedUserPriviliges["canAccessNeubeschaffung"];
-            $userPrivliges->canAccessStammdatenverwaltung = $fetchedUserPriviliges["canAccessStammdatenverwaltung"];
-
-            $_SESSION['user_privliges'] = $userPrivliges;
-            redirectTo("help.php");
-        } else {
-            $_SESSION['error'] = "Fehler Password oder so falsch";
-        }
+        createSessionForUser($_POST['username'],$_POST{'password'});
     } else {
-        $_SESSION['error'] = "Bitte die Maske ausfüllen";
+        createErrorMessage("Bitte die Maske ausfüllen!");
     }
 }
 ?>
-
 
 <html>
 <head>
@@ -50,7 +29,11 @@ if (isset($_POST['btn_anmelden'])) {
         <div class="card card-container">
             <h2 class='login_title text-center'>Anmeldung</h2>
             <hr>
-            <?php echo $error=$_SESSION['error']; unset($_SESSION['error']); ?>
+            <?php
+                if(hasErrorMessage()) {
+                    echo getErrorMessage();
+                }
+            ?>
             <form class="form-signin" action="login.php" method="post">
                 <span id="reauth-email" class="reauth-email"></span>
                 <p class="input_title">Benutzer</p>

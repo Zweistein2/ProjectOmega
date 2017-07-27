@@ -1,5 +1,5 @@
 <?php
-include_once('database.php');
+require_once('database.php');
 
 define("HARDWARE", 'hardware');
 define("HARDWARE_ATTRIBUTES", 'hardware_hat_attribute');
