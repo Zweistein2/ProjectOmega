@@ -236,7 +236,7 @@ function generateHtml($query, $type)
     }
 
     if ($type == "hardware") {
-        $html .= "<hr />";
+        $html .= "<tr><td><hr /></td></tr>";
         $kinds = getKindAttributesByHardwareID($query[$idColumn]);
         $attributes = $kinds["Attributes"];
         foreach ($attributes as $i) {
