@@ -87,7 +87,7 @@ checkForMinAccess("Admin");
                                     { title: "Bezeichnung" },
                                     { title: "Raum" },
                                     { title: "ID" }
-                                ]
+                                ],
                             });
                         </script>
                         </tbody>

@@ -34,8 +34,17 @@ $ka_tables = [
     <div class="row">
         <div class="col col-md-5">
             <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                        </div>
+                        <div class="col col-xs-6">
+                            <h3 class="panel-title" id="panelTitle"></h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel-body">
-                    <table class="table table-striped table-list">
+                    <table class="table table-striped table-list" id="tableArt" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <?php
@@ -72,22 +81,6 @@ $ka_tables = [
                         ?>
                         </tbody>
                     </table>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col col-xs-4">
-                                <button type="submit" class="btn btn-success">Neuen Datensatz anlegen</button>
-                            </div>
-                            <div class="col col-xs-8">
-                                <ul class="pagination hidden-xs pull-right">
-                                    <li><a href="#"><<</a></li>
-                                    <li><a href="#"><</a></li>
-                                    <li class="active"><a href="#">3</a></li>
-                                    <li><a href="#">></a></li>
-                                    <li><a href="#">>></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -245,8 +238,17 @@ function showAttributes($k_id){
     ?>
     <div class="col col-md-5">
         <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                    </div>
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title" id="panelTitle"></h3>
+                    </div>
+                </div>
+            </div>
             <div class="panel-body">
-                <table class="table table-striped table-list">
+                <table class="table table-striped table-list" id="tableAttribute" width="100%" cellspacing="0">
                     <thead>
                     <?php
                     echo '<tr>';
@@ -275,25 +277,103 @@ function showAttributes($k_id){
                     ?>
                     </tbody>
                 </table>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col col-xs-4">
-                            <button type="submit" class="btn btn-success">Neuen Datensatz anlegen</button>
-                        </div>
-                        <div class="col col-xs-8">
-                            <ul class="pagination hidden-xs pull-right">
-                                <li><a href="#"><<</a></li>
-                                <li><a href="#"><</a></li>
-                                <li class="active"><a href="#">3</a></li>
-                                <li><a href="#">></a></li>
-                                <li><a href="#">>></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 <?php } ?>
 
-<!-- TODO: Refactoring! -->
+<script>
+    $(document).ready(function() {
+        var tableArt = $('#tableArt').DataTable({
+            "pagingType": "full",
+            "oLanguage": {
+                "sEmptyTable": "Keine Einträge vorhanden",
+                "sInfo": "Zeige Einträge _START_ bis _END_ (von _TOTAL_)",
+                "sInfoEmpty": "Keine Einträge vorhanden",
+                "sInfoFiltered": " - gefiltert aus _MAX_ Einträgen",
+                "sLengthMenu": "Zeige _MENU_ Einträge",
+                "sLoadingRecords": "Einträge werden geladen...",
+                "sProcessing": "Tabelle ist derzeit beschäftigt",
+                "sSearch": "Filtere Einträge nach:",
+                "sZeroRecords": "Keine Einträge vorhanden",
+                "oPaginate": {
+                    "sFirst": "<<",
+                    "sLast": ">>",
+                    "sNext": ">",
+                    "sPrevious": "<"
+                }
+            },
+            "lengthMenu": [[8],[8]],
+            "bLengthChange": false,
+            "columnDefs": [
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -1
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -2
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -3
+                }
+            ]
+        });
+
+        var tableAttr = $('#tableAttribute').DataTable({
+            "pagingType": "full",
+            "oLanguage": {
+                "sEmptyTable": "Keine Einträge vorhanden",
+                "sInfo": "Zeige Einträge _START_ bis _END_ (von _TOTAL_)",
+                "sInfoEmpty": "Keine Einträge vorhanden",
+                "sInfoFiltered": " - gefiltert aus _MAX_ Einträgen",
+                "sLengthMenu": "Zeige _MENU_ Einträge",
+                "sLoadingRecords": "Einträge werden geladen...",
+                "sProcessing": "Tabelle ist derzeit beschäftigt",
+                "sSearch": "Filtere Einträge nach:",
+                "sZeroRecords": "Keine Einträge vorhanden",
+                "oPaginate": {
+                    "sFirst": "<<",
+                    "sLast": ">>",
+                    "sNext": ">",
+                    "sPrevious": "<"
+                }
+            },
+            "lengthMenu": [[8],[8]],
+            "bLengthChange": false,
+            "columnDefs": [
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -1
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -2
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -3
+                }
+            ]
+        });
+    });
+</script>

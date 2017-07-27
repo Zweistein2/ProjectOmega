@@ -37,13 +37,36 @@ checkForMinAccess("Admin");
 
             echo hrefGen();
             ?>
-            <div class="panel panel-default panel-table">
+            <button class="btn btn-info" data-toggle="collapse" href="#collapse1">Weitere Spalten anzeigen</button>
+
+            <div id="collapse1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <table class="table table-striped table-list">
+                <?php
+                $columnText = getColumnText($type, false, true);
+                $counter = 0;
+
+                foreach ($columnText as $i) {
+                    echo "<div class=\"col col-xs-3\"><a class=\"toggle-vis\" data-column=\"".$counter."\">".$i."</a></div>";
+                    $counter++;
+                }
+                ?>
+                </div>
+            </div>
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                        </div>
+                        <div class="col col-xs-6">
+                            <h3 class="panel-title" id="panelTitle"></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-list" id="table" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <?php
-                            $columnText = getColumnText($type, false, true);
                             $columnNames = getColumnNames($type, false, true);
                             $idColumn = getIDColumn($type);
                             $nameColumn = getNameColumn($type);
@@ -72,7 +95,7 @@ checkForMinAccess("Admin");
                             $id = $result[$idColumn];
                             $name = $result[$nameColumn];
                             if ($selected == $id) {
-                                $highlighter = "style=\"background-color:#00FF00;\"";
+                                $highlighter = "class=\"selected\"";
                             }
                             echo "<tr $highlighter>";
                             foreach ($columnNames as $i) {
@@ -90,20 +113,6 @@ checkForMinAccess("Admin");
                         </tbody>
                     </table>
                 </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col col-xs-4"></div>
-                        <div class="col col-xs-8">
-                            <ul class="pagination hidden-xs pull-right">
-                                <li><a href="#"><<</a></li>
-                                <li><a href="#"><</a></li>
-                                <li class="active"><a href="#">3</a></li>
-                                <li><a href="#">></a></li>
-                                <li><a href="#">>></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -111,4 +120,72 @@ checkForMinAccess("Admin");
 </body>
 </html>
 
-<!-- TODO: Refactoring! -->
+
+<script>
+    $(document).ready(function() {
+
+        var table = $('#table').DataTable({
+            "pagingType": "full",
+            "oLanguage": {
+                "sEmptyTable": "Keine Einträge vorhanden",
+                "sInfo": "Zeige Einträge _START_ bis _END_ (von _TOTAL_)",
+                "sInfoEmpty": "Keine Einträge vorhanden",
+                "sInfoFiltered": " - gefiltert aus _MAX_ Einträgen",
+                "sLengthMenu": "Zeige _MENU_ Einträge",
+                "sLoadingRecords": "Einträge werden geladen...",
+                "sProcessing": "Tabelle ist derzeit beschäftigt",
+                "sSearch": "Filtere Einträge nach:",
+                "sZeroRecords": "Keine Einträge vorhanden",
+                "oPaginate": {
+                    "sFirst": "<<",
+                    "sLast": ">>",
+                    "sNext": ">",
+                    "sPrevious": "<"
+                }
+            },
+            "lengthMenu": [[8],[8]],
+            "bLengthChange": false,
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 2, 3],
+                    visible: true
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -1
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -2
+                },
+                {
+                    "width": "5%",
+                    "bSortable": false,
+                    "searchable": false,
+                    visible: true,
+                    "targets": -3
+                },
+                {
+                    targets: '_all',
+                    visible: false
+                }
+            ]
+        });
+
+        $('a.toggle-vis').on( 'click', function (e) {
+            e.preventDefault();
+
+            //Auswählen der entsprechenden Spalte
+            var column = table.column( $(this).attr('data-column') );
+
+            //Sichtbar/Unsichtbar
+            column.visible( ! column.visible() );
+        } );
+    });
+</script>
