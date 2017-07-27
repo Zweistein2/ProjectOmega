@@ -51,7 +51,7 @@ define("K_DELETED", 'ha_ausgemustert');
 //--attribute
 define("A_ID", 'hat_id');
 define("A_DESC", 'hat_bezeichnung');
-define("A_DELETED", 'hat_ausgemusters');
+define("A_DELETED", 'hat_ausgemustert');
 
 //--wird_beschrieben_durch
 define("KA_K_ID", 'hardwarearten_ha_id');
@@ -95,8 +95,8 @@ define("SR_R_ID", 'sir_r_id');
 define("SR_S_ID", 'sir_h_id');
 
 //--ausgemustert flag
-define("FLAG_DELETED", 1);
-define("FLAG_UNDELETED", 0);
+define("FLAG_DELETED", 'TRUE');
+define("FLAG_UNDELETED", 'FALSE');
 define("DELETED_ROOM_ID", 1);
 
 $prims = [
@@ -147,6 +147,7 @@ function getSoftwarePlus(){
 }
 function getKindAttributesByHardwareID($h_id){
     global $connection;
+    /*
     $query = 'SELECT kinds.* FROM '.HARDWARE_KINDS.' AS kinds'
             .' INNER JOIN '.HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID
             .' WHERE comp.'.H_ID.'='.$h_id;
@@ -166,6 +167,32 @@ function getKindAttributesByHardwareID($h_id){
     $ret[K_NAME] = $kind[K_NAME];
     $ret['Attributes'] = $h_attr;
     return $ret;
+    */
+    $kind = getKindOfHardware($h_id);
+    $attr = getAttributesByKindID($kind[K_ID]);
+    $ret = array();
+    $ret[K_NAME] = $kind[K_NAME];
+    $all = array();
+    while($data = mysqli_query($attr)){
+        $one = array();
+        $one[A_ID] = $data[A_ID];
+        $one[A_DESC] = $data[A_DESC];
+        $one[HA_VALUE] = getAttributesByKindID($h_id, $data[A_ID]);
+        $all[] = $one;
+    }
+    $ret['Attributes'] = $all;
+    return $ret;
+}
+function getKindOfHardware($h_id){
+    global $connection;
+    $query = 'SELECT * FROM '.HARDWARE_KINDS.' AS kinds INNER JOIN '
+        . HARDWARE.' AS comp ON comp.'.H_KIND_ID.'=kinds.'.K_ID.' WHERE comp.'.H_ID.'='.$h_id;
+    $result = mysqli_query($connection, $query);
+    if($result){
+        return mysqli_fetch_assoc($result);
+    }else{
+        return null;
+    }
 }
 function getAttributeValue($h_id, $a_id){
     global $connection;
@@ -180,18 +207,19 @@ function getAttributeValue($h_id, $a_id){
     }
 }
 
-
-
 /**
  * zusätzliche Attribute einer Hardwareart
  * @param $ka_id: Primärschlüssel der Hardwareart
+ * @param $exclude: wenn true werden Attribute ausgegeben, die der gegebenen Art noch nicht zugeordnet sind
  * @return bool|mysqli_result
  */
 function getAttributesByKindID($ka_id, $exclude = false){
     global $connection;
     $query = 'SELECT attr.* FROM '.ATTRIBUTES.' AS attr '
-            .' INNER JOIN '.DESCRIBED.' AS bes ON attr.'.A_ID.' = bes.'.KA_A_ID
-            .' WHERE '.($exclude ? 'NOT ' : '').'bes.'.KA_K_ID.' = ' . $ka_id . ' AND attr.'.A_DELETED.'='.FLAG_UNDELETED;
+            .' WHERE '
+            .' attr.'.A_DELETED.'='.FLAG_UNDELETED.' AND '
+            .' attr.'.A_ID.($exclude ? ' NOT':'').' IN (SELECT descr.'.KA_A_ID.' FROM '.DESCRIBED
+            .' AS descr WHERE descr.'.KA_K_ID.'='.$ka_id.');';
     return mysqli_query($connection, $query);
 }
 /**
@@ -318,10 +346,6 @@ function softDeleteWithFlag($connection, $tabname, $id){
  */
 function deleteRoomByID($r_id){
     global $connection;
-    /*
-    $query = 'UPDATE '.ROOMS.' SET '.R_DELETED.'='.FLAG_DELETED.' WHERE '.R_ID.'='.$r_id;
-    mysqli_query($connection, $query);
-    */
     softDeleteWithFlag($connection, ROOMS, $r_id);
 }
 /**
@@ -330,10 +354,6 @@ function deleteRoomByID($r_id){
  */
 function deleteSupplierByID($l_id){
     global $connection;
-    /*
-    $query = 'UPDATE '.SUPPLIERS.' SET '.L_DELETED.'='.FLAG_DELETED.' WHERE '.L_ID.'='.$l_id;
-    mysqli_query($connection, $query);
-    */
     softDeleteWithFlag($connection, SUPPLIERS, $l_id);
 }
 /**
@@ -342,10 +362,6 @@ function deleteSupplierByID($l_id){
  */
 function deleteAttributeByID($kat_id){
     global $connection;
-    /*
-    $query = 'DELETE FROM '.ATTRIBUTES.' WHERE '.A_ID.'='.$kat_id;
-    mysqli_query($connection, $query);
-    */
     softDeleteWithFlag($connection, ATTRIBUTES, $kat_id);
 }
 /**
@@ -354,10 +370,6 @@ function deleteAttributeByID($kat_id){
  */
 function deleteKindByID($ka_id){
     global $connection;
-    /*
-    $query = 'DELETE FROM '.HARDWARE_KINDS.' WHERE '.K_ID.'='.$ka_id;
-    mysqli_query($connection, $query);
-    */
     softDeleteWithFlag($connection, HARDWARE_KINDS, $ka_id);
 }
 

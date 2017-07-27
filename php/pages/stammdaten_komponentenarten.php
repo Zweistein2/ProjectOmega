@@ -112,7 +112,7 @@ function checkKAModal(){
                 $id,
                 $title,
                 'formName',
-                $type . ' ' . $operation,
+                $title,
                 $body);
         }
     }
@@ -167,14 +167,13 @@ function showModalAddEditKind($k_id = 0, $name = ''){
 function showModalAddEditAttribute($k_id, $a_desc = ''){
     $attr = getAttributesByKindID($k_id, true);
     $html = '';
-    $html . '<p>Vorhandenes Attribut wählen oder Textfeld benutzen</p>';
-    $html .= '<select name="modal_kind_attributes[]">';
-    $html .= '<option value="0">--Textfeld benutzen</option>';
+    $html .= '<select name="modal_kind_attributes[]">
+                <option value="0">--Textfeld benutzen</option>';
     while($data = mysqli_fetch_assoc($attr)){
         $html .= '<option value="'.$data[A_ID].'">'.$data[A_DESC].'</option>';
     }
-    $html .= '</select>';
-    $html .= '<input type="text" class="form-control" name="attribute_name" value="'.$a_desc.'"/>';
+    $html .= '</select>
+        <input type="text" class="form-control" name="attribute_name" value="'.$a_desc.'"/>';
     return $html;
 }
 
