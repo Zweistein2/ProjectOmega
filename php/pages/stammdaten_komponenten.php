@@ -19,7 +19,19 @@
     <div class="row">
         <div class="col col-md-10">
             <?php
-            echo "<a class='btn btn-primary' href='?type=$type&operation=new'>Neuen Datensatz anlegen</a>";
+            function hrefGen()
+            {
+                global $type;
+                $href = "";
+                if ($type == "hardware") {
+                    $href = "verwaltung_neuanlage.php";
+                } else {
+                    $href = "?type=$type&operation=new";
+                }
+                echo "<a class='btn btn-primary' href='$href'>Neuen Datensatz anlegen</a>";
+            }
+
+            echo hrefGen();
             ?>
             <div class="panel panel-default panel-table">
                 <div class="panel-body">
