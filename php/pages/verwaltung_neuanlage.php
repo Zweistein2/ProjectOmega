@@ -57,7 +57,7 @@ checkForMinAccess("Admin");
                             <select class="selectpicker" data-style="btn-default form-control" id="Raum">
                                 <?php
                                 //Auslesen aller vorhandenen Räume für das Dropdown-Element
-                                $result = getRooms();
+                                $result = getRoomsForVerwaltung();
 
                                 foreach($result as $array)
                                 {
@@ -78,7 +78,7 @@ checkForMinAccess("Admin");
                             <select class="selectpicker" data-style="btn-default form-control" id="Lieferant">
                                 <?php
                                 //Auslesen aller vorhandenen Lieferanten für das Dropdown-Element
-                                $result = getSuppliers();
+                                $result = getSuppliersForVerwaltung();
 
                                 foreach($result as $array)
                                 {

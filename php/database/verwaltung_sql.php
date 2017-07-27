@@ -44,14 +44,14 @@ function getFilledHardwareTypes()
     return mysqli_fetch_all($result);
 }
 
-function getSuppliers() {
+function getSuppliersForVerwaltung() {
     global $connection;
     $query = 'SELECT l_firmenname FROM lieferant';
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result);
 }
 
-function getRooms() {
+function getRoomsForVerwaltung() {
     global $connection;
     $query = 'SELECT r_nr FROM raeume WHERE raeume.r_id != 1';
     $result = mysqli_query($connection, $query);
