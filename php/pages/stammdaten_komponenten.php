@@ -19,8 +19,7 @@
     <div class="row">
         <div class="col col-md-10">
             <?php
-            function hrefGen()
-            {
+            function hrefGen() {
                 global $type;
                 $href = "";
                 if ($type == "hardware") {

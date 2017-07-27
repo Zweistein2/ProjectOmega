@@ -224,12 +224,26 @@ function generateHtml($query, $type)
                 $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
             }
             $html .= "</select></td></tr>";
+
+
         } else {
             $readonlyTag = "";
             if (strtolower($columnName) == "username" && $query != null) {
                 $readonlyTag = "readonly";
             }
             $html .= "<tr><td>$modalText</td><td><input $readonlyTag type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
+        }
+    }
+
+    if ($type == "hardware") {
+        $html .= "<hr />";
+        $kinds = getKindAttributesByHardwareID($query[$idColumn]);
+        $attributes = $kinds["Attributes"];
+        foreach ($attributes as $i) {
+            $bezeichnung = $i['hat_bezeichnung'];
+            $hatId = $i['hat_id'];
+            $hatWert = $i['hhhat_wert'];
+            $html .= "<tr><td>$bezeichnung</td><td><input type='text' class='form-control' name='$hatId' value='$hatWert'></td></tr>";
         }
     }
     $html .= "</table>";
