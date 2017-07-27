@@ -89,7 +89,7 @@ function dbElements()
     ];
 
     $userElementOptions = [
-        "ROLE_OPTIONS" => array("table" => USERS, "id" => H_ROOM_ID, "value" => R_NR, "originalId" => R_ID),
+        "ROLE_OPTIONS" => array("table" => USERS, "id" => U_ROLES_ID, "value" => U_ROLES_ROLE, "originalId" => "id"),
     ];
 
     $userElement = [
@@ -97,12 +97,15 @@ function dbElements()
         "NAME_PLURAL" => "Benutzer",
         "TABLE_NAME" => "users",
         "ID_COLUMN" => U_ID,
+        "HIDDEN_COLUMNS" => array(U_ROLES_ID),
         "NAME_COLUMN" => U_USERNAME,
         "ROLE_OPTIONS" => array(U_ROLES_ROLE),
+        "PASSWORD_COLUMN" => U_PASSWORD,
         "OPTION_REFERENCE" => $userElementOptions,
         U_ID => "#",
         U_USERNAME => "Benutzername",
         U_ROLES_ID => "Rolle #",
+        U_PASSWORD => "Passwort",
         U_ROLES_ROLE => "Rolle",
     ];
 

@@ -77,7 +77,7 @@ define("S_INSTALL", 's_installhinweis');
 //--nutzer
 define("U_ID", "id");
 define("U_USERNAME", "username");
-define("U_PASSWORD", "password");
+define("U_PASSWORD", "PASSWORD");
 
 //--nutzer-rollen
 define("U_ROLES_ID", "U_ROLES_ID");

@@ -14,17 +14,22 @@ $type = getStammdatenType();
  *           um den Type auf Richtigkeit zu prüfen.
  */
 
-function getColumnNames($type, $includeId)
+function filterPassword($arr)
 {
-    return getColumn($type, false, $includeId);
+
 }
 
-function getColumnText($type, $includeId)
+function getColumnNames($type, $includeId, $excludePassword)
 {
-    return getColumn($type, true, $includeId);
+    return getColumn($type, false, $includeId, $excludePassword);
 }
 
-function getColumn($type, $value, $includeId)
+function getColumnText($type, $includeId, $excludePassword)
+{
+    return getColumn($type, true, $includeId, $excludePassword);
+}
+
+function getColumn($type, $value, $includeId, $excludePassword)
 {
     global $dbElements;
     $element = $dbElements[$type];
@@ -50,6 +55,14 @@ function getColumn($type, $value, $includeId)
         $idColumn = $element["ID_COLUMN"];
         unset($element[$idColumn]);
     }
+
+    if ($excludePassword) {
+        if (isset($element['PASSWORD_COLUMN'])) {
+            $passwordColumn = $element['PASSWORD_COLUMN'];
+            unset($element[$passwordColumn]);
+        }
+    }
+    unset($element["PASSWORD_COLUMN"]);
     unset($element['HIDDEN_COLUMNS']);
     unset($element['OPTION_REFERENCE']);
     unset($element['ID_COLUMN']);
@@ -142,6 +155,8 @@ function getQuery($type, $id = null)
         if ($id == null) {
             $return = getAllUsersWithRoles();
             return $return;
+        } else {
+            return getUserWithRoleById($id);
         }
     } else {
         if ($id == null) {
@@ -152,6 +167,14 @@ function getQuery($type, $id = null)
     }
 }
 
+function findOption($table, $id)
+{
+    if ($table == "users") {
+        return getUserOptions($id);
+    } else {
+        return getOptions($table, $id);
+    }
+}
 include("stammdaten_modal.php");
 
 ?>

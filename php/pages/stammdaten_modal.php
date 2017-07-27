@@ -68,20 +68,33 @@ function executeOperation($formName)
 {
     global $type;
     if ($formName == "newEntry") {
-        $data = $_POST;
-        unset($data["formName"]);
-        insertIntoTable($type, $data);
+        if ($type == "users") {
+            createUser($_POST['username'], $_POST['PASSWORD'], $_POST[U_ROLES_ID]);
+        } else {
+            $data = $_POST;
+            unset($data["formName"]);
+            insertIntoTable($type, $data);
+        }
     }
 
     if ($formName == "editEntry") {
         $data = $_POST;
-        unset($data["formName"]);
-        updateEntry($type, $data);
+        if ($type == "users") {
+            updateUser($_POST['username'], $_POST['PASSWORD'], $_POST[U_ROLES_ID]);
+        } else {
+            unset($data["formName"]);
+            updateEntry($type, $data);
+        }
     }
 
     if ($formName == "deleteEntry") {
         $id = $_POST["id"];
-        deleteEntryByTableAndID($type, $id);
+        if ($type == "users") {
+            deleteUserById($id);
+        } else {
+            deleteEntryByTableAndID($type, $id);
+        }
+
     }
 }
 
@@ -171,42 +184,52 @@ function editEntry($id, $name)
     $btnTitle = "Speichern";
     $query = getQuery($type, $id);
     $html = generateHtml($query, $type);
-
     return generateModal($formName, $title, $btnTitle, $html, $id);
 }
 
 function generateHtml($query, $type)
 {
     global $type;
-    $columnNames = getColumnNames($type, false);
+    $columnNames = getColumnNames($type, false, false);
     $idColumn = getIDColumn($type);
     $html = "<table>";
     if ($query != null) {
         $html .= "<input type='hidden' name='$idColumn' value='$query[$idColumn]'>";
     }
-    $columnText = getColumnText($type, false);
+
+    $columnText = getColumnText($type, false, false);
 
     for ($i = 0; $i < sizeof($columnNames); $i++) {
         $columnName = $columnNames[$i];
         $modalText = $columnText[$i];
         $options = getOptionAttributes($type, $columnName);
 
+        if ($query != null && (strtolower($modalText) == "password" || strtolower($modalText) == "passwort")) {
+            $query[$columnName] = "";
+        }
+
         if ($options != null) {
-            $optionList = getOptions($options["table"], $query[$idColumn]);
+            $optionList = findOption($options["table"], $query[$idColumn]);
             $html .= "<tr><td>$modalText</td><td><select class=\"form-control\" name=\"" . $options["id"] . "\">";
             foreach ($optionList as $j) {
                 $selectedTag = "";
                 $optionObj = $j["Elem"];
                 $optionNr = $optionObj[$options["value"]];
                 $optionId = $optionObj[$options["originalId"]];
-                if ($optionId == $query[$options["id"]]) {
-                    $selectedTag = "selected";
+                if ($query != null) {
+                    if ($optionId == $query[$options["id"]]) {
+                        $selectedTag = "selected";
+                    }
                 }
                 $html .= "<option $selectedTag value=\"$optionId\">$optionNr</option>";
             }
             $html .= "</select></td></tr>";
         } else {
-            $html .= "<tr><td>$modalText</td><td><input type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
+            $readonlyTag = "";
+            if (strtolower($columnName) == "username" && $query != null) {
+                $readonlyTag = "readonly";
+            }
+            $html .= "<tr><td>$modalText</td><td><input $readonlyTag type='text' class='form-control' name='$columnName' value='$query[$columnName]'></td></tr>";
         }
     }
     $html .= "</table>";
@@ -222,8 +245,8 @@ function generateHtml($query, $type)
 function newEntry()
 {
     global $type;
-    $columnNames = getColumnNames($type, false);
-    $columnText = getColumnText($type, false);
+    $columnNames = getColumnNames($type, false, false);
+    $columnText = getColumnText($type, false, false);
     $typeName = getTypeName($type, false);
     $formName = "newEntry";
     $title = "$typeName anlegen";

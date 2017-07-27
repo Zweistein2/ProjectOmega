@@ -25,8 +25,8 @@
                         <thead>
                         <tr>
                             <?php
-                            $columnText = getColumnText($type, false);
-                            $columnNames = getColumnNames($type, false);
+                            $columnText = getColumnText($type, false, true);
+                            $columnNames = getColumnNames($type, false, true);
                             $idColumn = getIDColumn($type);
                             $nameColumn = getNameColumn($type);
                             foreach ($columnText as $i) {
@@ -46,7 +46,6 @@
                             $selected = $_GET["selected"];
                         }
                         while ($result = mysqli_fetch_assoc($query)) {
-                            print_r($result);
                             $highlighter = "";
                             $id = $result[$idColumn];
                             $name = $result[$nameColumn];
