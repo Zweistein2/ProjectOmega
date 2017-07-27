@@ -398,9 +398,9 @@ function copyEntryFunction($tabname, $id, $count){
 function softDeleteWithFlag($connection, $tabname, $id){
     global $prims;
     global $dels;
-    $query = 'UPDATE '.$tabname.' SET '.$dels[$tabname].'='.FLAG_UNDELETED
+    $query = 'UPDATE '.$tabname.' SET '.$dels[$tabname].'='.FLAG_DELETED
         .' WHERE '.$prims[$tabname].'='.$id;
-    mysqli_query($connection, $tabname);
+    mysqli_query($connection, $query);
 }
 /**
  * löscht einen Raum
@@ -555,7 +555,7 @@ function addNewAttributeToKind($k_id, $val){
 function addExistingAttributeToKind($k_id, $a_id){
     global $connection;
     $query = 'INSERT INTO '.DESCRIBED.' ('.KA_K_ID.','.KA_A_ID.') VALUES ('.$k_id.','.$a_id.')';
-    mysqli_query($query);
+    mysqli_query($connection, $query);
 }
 function removeAttributeFromKind($k_id, $a_id){
     global $connection;
