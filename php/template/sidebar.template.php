@@ -47,6 +47,7 @@
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <?php
+                require_once("../authentication/sessionhandler.php");
                 if (strcmp(getUserGroupSession(), "Lehrer") !== 0) { ?>
                     <li class="dropdown" id="stammdaten">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stammdaten<span
@@ -55,7 +56,7 @@
                     <ul class="dropdown-menu forAnimate" role="menu">
                         <li><a href="./stammdaten_komponenten.php?type=lieferant">Lieferanten</a></li>
                         <li><a href="./stammdaten_komponenten.php?type=raeume">Räume</a></li>
-                        <li><a href="./stammdaten_komponenten.php?type=benutzer">Benutzer</a></li>
+                        <li><a href="./stammdaten_komponenten.php?type=users">Benutzer</a></li>
                         <li><a href="./stammdaten_komponenten.php?type=hardware">Komponenten</a></li>
                         <li><a href="./stammdaten_komponentenarten.php">Komponentenarten</a></li>
                     </ul>
