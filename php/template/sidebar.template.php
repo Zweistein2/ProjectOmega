@@ -1,6 +1,6 @@
 <!--
  * Created by PhpStorm.
- * Author: Sebastian Reuter, Thomas Wolf
+ * Author: Sebastian Reuter, Thomas Wolf, Fabian Karolat
  * Date: 24.07.2017
  * Time: 13:24
  -->
@@ -47,9 +47,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <!--<li class="active"><a href="#">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>-->
                 <?php
-                require_once ("../authentication/auth_filter.php");
                 if(strcmp(getUserGroupSession(), "Lehrer") !== 0){ ?>
                 <li class="dropdown" id="stammdaten">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stammdaten<span
