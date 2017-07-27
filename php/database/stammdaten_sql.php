@@ -176,7 +176,7 @@ function getKindOfHardware($h_id){
 function getAttributeValue($h_id, $a_id){
     global $connection;
     $query = 'SELECT '.HA_VALUE.' FROM '.HARDWARE_ATTRIBUTES
-        .' WHERE '.HA_ID.'='.$h_id.' AND '.HA_A_ID.'='.$a_id;
+        .' WHERE '.HA_H_ID.'='.$h_id.' AND '.HA_A_ID.'='.$a_id;
     $result = mysqli_query($connection, $query);
     if($result){
         $data = mysqli_fetch_assoc($result);
