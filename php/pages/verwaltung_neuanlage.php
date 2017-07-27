@@ -110,13 +110,13 @@ checkForMinAccess("Admin");
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"  id="closeButton">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">title</h4>
                     </div>
                     <div class="modal-body">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeButton">Abbrechen</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
                         <button type="button" class="btn btn-success" id="saveButton">Anlegen</button>
                     </div>
                 </div>
@@ -158,10 +158,19 @@ checkForMinAccess("Admin");
             }
             htmlstring += "</div>";
 
-            var modal = $('#warningModal');
-            modal.modal();
-            modal.find('.modal-title').text('Fehlende Daten eintragen');
-            modal.find('.modal-body').html(htmlstring);
+            if(inputValue > 1) {
+                var modal = $('#warningModal');
+                modal.modal();
+                modal.find('.modal-title').text('Fehlende Daten eintragen');
+                modal.find('.modal-body').html(htmlstring);
+
+                $('#saveButton').click(function(){
+                    //Absenden
+                    $('#closeButton').click();
+                });
+            }else {
+                //Absenden?
+            }
         });
     });
 
