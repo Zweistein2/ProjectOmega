@@ -29,7 +29,7 @@ function getComponentsByRoomNumber($number) {
     return mysqli_fetch_all($result);
 }
 
-function getFilledHardwareTypes()
+function getFilledHardwareTypesForReporting()
 {
     global $connection;
     $query = 'SELECT ha_hardwareart AS art
@@ -37,7 +37,6 @@ function getFilledHardwareTypes()
               WHERE 0 < (SELECT SUM(ha_id)
                          FROM hardware
                          WHERE hardwarearten_ha_id = haArt.ha_id
-                         AND hardwarearten.ha_ausgemustert = 0
                          GROUP BY  hardwarearten_ha_id)';
     $result = mysqli_query($connection, $query);
     return mysqli_fetch_all($result);
