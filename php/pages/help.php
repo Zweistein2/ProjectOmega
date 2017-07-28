@@ -80,14 +80,23 @@ checkForMinAccess("Lehrer");
                                 <div class="panel-heading">
                                     <a data-toggle="collapse" data-parent="#accordion-cat-1" href="#faq-cat-1-sub-1">
                                         <h4 class="panel-title">
-                                            FAQ Item Category #1
+                                            Stammdaten - Komponenten
                                             <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
                                         </h4>
                                     </a>
                                 </div>
                                 <div id="faq-cat-1-sub-1" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <p>Klickt man auf "Neuen Datensatz anlegen" öffnet sich ein kleines Popup-Fenster, in welchem man die entsprechenden Daten
+                                            eintragen kann. (bei Hardware leitet auf die Verwaltung - Neuanlage weiter. Dort kann man dann über das entsprechende
+                                            Formular neue Hardwarekomponenten anlegen).</p>
+                                        <p>Klickt man auf Ändern, Kopieren oder Löschen (dargestellt durch die jeweiligen Symbole), so wird man dazu aufgefordert
+                                            die Aktion zu bestätigen. Ist dies getan, wird diese durchgeführt.</p>
+                                        <p>Klickt man auf "Weitere Spalten anzeigen", so hat man die Möglichkeit, Spalten ein- und auszublenden, damit die Tabelle
+                                            nicht zu groß wird. Klickt man auf einen Namen, dessen Spalte unsichtbar ist, so wird diese sichtbar (und vice-versa).</p>
+                                        <p>Die Tabelle lässt sich durchsuchen und nach den Spalten auf- oder absteigend sortieren. Desweiteren sind die Tabellen
+                                            paginiert, so wird immer eine begrenzte Anzahl an Datensätzen angezeigt, mit den Buttons unten rechts an der Tabelle kann
+                                            man bequem zwischen den einzelnen Seiten umschalten, links stehen die aktuellen Datensätze (und deren Gesamtzahl).</p>
                                     </div>
                                 </div>
                             </div>
@@ -95,14 +104,21 @@ checkForMinAccess("Lehrer");
                                 <div class="panel-heading">
                                     <a data-toggle="collapse" data-parent="#accordion-cat-1" href="#faq-cat-1-sub-2">
                                         <h4 class="panel-title">
-                                            FAQ Item Category #1
+                                            Stammdaten - Komponentenarten
                                             <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
                                         </h4>
                                     </a>
                                 </div>
                                 <div id="faq-cat-1-sub-2" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <p>Klickt man auf "Neuen Datensatz anlegen" öffnet sich ein kleines Popup-Fenster, in welchem man die entsprechenden Daten
+                                            eintragen kann.</p>
+                                        <p>Klickt man auf Anzeigen, Ändern oder Löschen (dargestellt durch die jeweiligen Symbole), so wird man dazu aufgefordert
+                                            die Aktion zu bestätigen. Ist dies getan, wird diese durchgeführt. Anzeigen zeigt die Attribute zu der jeweiligen
+                                            Hardwareart an.</p>
+                                        <p>Die Tabelle lässt sich durchsuchen und nach den Spalten auf- oder absteigend sortieren. Desweiteren sind die Tabellen
+                                            paginiert, so wird immer eine begrenzte Anzahl an Datensätzen angezeigt, mit den Buttons unten rechts an der Tabelle kann
+                                            man bequem zwischen den einzelnen Seiten umschalten, links stehen die aktuellen Datensätze (und deren Gesamtzahl).</p>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +131,7 @@ checkForMinAccess("Lehrer");
                                 <div class="panel-heading">
                                     <a data-toggle="collapse" data-parent="#accordion-cat-2" href="#faq-cat-2-sub-1">
                                         <h4 class="panel-title">
-                                            FAQ Item Category #2
+                                            Verwaltung - Neuanlage -> Wie lege ich Komponenten neu an?
                                             <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
                                         </h4>
                                     </a>
@@ -123,9 +139,9 @@ checkForMinAccess("Lehrer");
                                 <div id="faq-cat-2-sub-1" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <p><strong>Schritt 1:</strong> Auswahl einer Geräteart</p>
-                                        <p><strong>Schritt 2:</strong> Alle Geräte auswählen die ausgemustert werden sollen</p>
-                                        <p><strong>Schritt 3:</strong> Auf den Button <em> „Ausmustern“</em> klicken</p>
-                                        <p><strong>Schritt 4:</strong> Ausmustern bestätigen</p>
+                                        <p><strong>Schritt 2:</strong> OPTIONAL: Menge angeben, falls mehrere Komponenten diesselben techn. Daten</p>
+                                        <p><strong>Schritt 3:</strong> Auf den Button <em> „Anlegen“</em> klicken</p>
+                                        <p><strong>Schritt 4:</strong> Evtl. Seriennummern nachtragen und bestätigen</p>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +149,7 @@ checkForMinAccess("Lehrer");
                                 <div class="panel-heading">
                                     <a data-toggle="collapse" data-parent="#accordion-cat-2" href="#faq-cat-2-sub-2">
                                         <h4 class="panel-title">
-                                            Verwaltung Ausmusterung - Wie mustert man Komponenten aus?
+                                            Verwaltung - Ausmusterung -> Wie mustert man Komponenten aus?
                                             <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
                                         </h4>
                                     </a>
@@ -156,29 +172,20 @@ checkForMinAccess("Lehrer");
                                 <div class="panel-heading">
                                     <a data-toggle="collapse" data-parent="#accordion-cat-3" href="#faq-cat-3-sub-1">
                                         <h4 class="panel-title">
-                                            FAQ Item Category #3
+                                            Reporting
                                             <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
                                         </h4>
                                     </a>
                                 </div>
                                 <div id="faq-cat-3-sub-1" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default panel-faq">
-                                <div class="panel-heading">
-                                    <a data-toggle="collapse" data-parent="#accordion-cat-3" href="#faq-cat-3-sub-2">
-                                        <h4 class="panel-title">
-                                            FAQ Item Category #3
-                                            <span class="pull-right"><i class="glyphicon glyphicon-plus"></i></span>
-                                        </h4>
-                                    </a>
-                                </div>
-                                <div id="faq-cat-3-sub-2" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <p>Hier erhält man eine Übersicht über alle Räume, die gewisse Hardware beinhalten, bzw. kann sich zu einem
+                                            bestimmten Raum die Ausstattung anzeigen lassen.</p>
+                                        <p>Um nach einem Raum mit Geräten zu suchen, wählt man die entsprechende Geräteart im Dropdownmenü aus, die Tabelle
+                                            aktualisiert sich daraufhin automatisch.</p>
+                                        <p>Will man wissen, welche Ausstattung in einem Raum vorhanden ist, wählt man im Dropdownmenü "Raum" aus und
+                                            gibt in dem erschienenen Input-Feld die Raumnummer ein. Danach wird mit einem Klick der Enter-Taste bestätigt
+                                            und die Tabelle aktualisiert sich wieder von selbst.</p>
                                     </div>
                                 </div>
                             </div>
