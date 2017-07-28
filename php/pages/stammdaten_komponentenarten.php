@@ -29,7 +29,8 @@ $ka_titles = [
 $ka_tables = [
     SD_KIND => HARDWARE_KINDS,
     SD_ATTR => ATTRIBUTES
-]
+];
+checkKAModal();
 ?>
 <div class="container">
     <h2>Stammdaten</h2>
@@ -89,7 +90,6 @@ $ka_tables = [
             </div>
         </div>
         <?php
-        checkKAModal();
         showAttributes($_SESSION['selectedKindToShow']);
         ?>
     </div>
@@ -173,6 +173,7 @@ function executeKAOperation($formName, $type){
                 }else{
                     removeAttributeFromKind($k_id, $id);
                     addExistingAttributeToKind($k_id, $sel);
+                    updateHardwareAttributesAfterKindChange($id, $sel, $k_id);
                 }
             }
             break;
@@ -204,6 +205,9 @@ function executeKAOperation($formName, $type){
             break;
         default:
             break;
+    }
+    if($type == SD_KIND){
+
     }
 }
 

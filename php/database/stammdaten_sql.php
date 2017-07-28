@@ -562,3 +562,11 @@ function removeAttributeFromKind($k_id, $a_id){
     $query = 'DELETE FROM '.DESCRIBED.' WHERE '.KA_K_ID.'='.$k_id.' AND '.KA_A_ID.'='.$a_id;
     mysqli_query($connection, $query);
 }
+function updateHardwareAttributesAfterKindChange($old, $new, $k_id){
+    global $connection;
+    $query = 'UPDATE '.HARDWARE_ATTRIBUTES.' SET '.HA_A_ID.'='.$new.' WHERE '.HA_A_ID.'='.$old
+            .' AND '.HA_H_ID.' IN (SELECT comp.'.H_ID.' FROM '.HARDWARE
+            .' AS comp INNER JOIN '.HARDWARE_KINDS.' AS kinds ON kinds.'.K_ID.'=comp.'.H_KIND_ID
+            .' WHERE kinds.'.K_ID.'='.$k_id.')';
+    mysqli_query($connection, $query);
+}
