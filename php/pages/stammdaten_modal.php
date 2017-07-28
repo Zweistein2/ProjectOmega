@@ -183,6 +183,9 @@ function copyEntry($id, $name)
     if($type == "hardware") {
         copyComponent($id, 1);
     }
+    else {
+        copyEntryFunction($type, $id, 1);
+    }
 
 
 }
