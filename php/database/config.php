@@ -11,12 +11,12 @@ $environment = "local";
 
 // Datenbank Informationen fuer die Verwaltungs Datenbank.
 $db = "softwareTest";
-$user = "root";
-$pass = "";
-$ip = "localhost";
+$user = "dev";
+$pass = "dev";
+$ip = "192.168.20.1";
 
 // Datenbank Informationen fuer die Nutzer Datenbank
 $db_userDatabase = "nutzer";
-$user_userDatabase = "root";
-$pass_userDatabase = "";
-$ip_userDatabase = "localhost";
+$user_userDatabase = "dev";
+$pass_userDatabase = "dev";
+$ip_userDatabase = "192.168.20.1";
