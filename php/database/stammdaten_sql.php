@@ -398,9 +398,9 @@ function copyEntryFunction($tabname, $id, $count){
 function softDeleteWithFlag($connection, $tabname, $id){
     global $prims;
     global $dels;
-    $query = 'UPDATE '.$tabname.' SET '.$dels[$tabname].'='.FLAG_UNDELETED
+    $query = 'UPDATE '.$tabname.' SET '.$dels[$tabname].'='.FLAG_DELETED
         .' WHERE '.$prims[$tabname].'='.$id;
-    mysqli_query($connection, $tabname);
+    mysqli_query($connection, $query);
 }
 /**
  * löscht einen Raum
@@ -555,10 +555,18 @@ function addNewAttributeToKind($k_id, $val){
 function addExistingAttributeToKind($k_id, $a_id){
     global $connection;
     $query = 'INSERT INTO '.DESCRIBED.' ('.KA_K_ID.','.KA_A_ID.') VALUES ('.$k_id.','.$a_id.')';
-    mysqli_query($query);
+    mysqli_query($connection, $query);
 }
 function removeAttributeFromKind($k_id, $a_id){
     global $connection;
     $query = 'DELETE FROM '.DESCRIBED.' WHERE '.KA_K_ID.'='.$k_id.' AND '.KA_A_ID.'='.$a_id;
+    mysqli_query($connection, $query);
+}
+function updateHardwareAttributesAfterKindChange($old, $new, $k_id){
+    global $connection;
+    $query = 'UPDATE '.HARDWARE_ATTRIBUTES.' SET '.HA_A_ID.'='.$new.' WHERE '.HA_A_ID.'='.$old
+            .' AND '.HA_H_ID.' IN (SELECT comp.'.H_ID.' FROM '.HARDWARE
+            .' AS comp INNER JOIN '.HARDWARE_KINDS.' AS kinds ON kinds.'.K_ID.'=comp.'.H_KIND_ID
+            .' WHERE kinds.'.K_ID.'='.$k_id.')';
     mysqli_query($connection, $query);
 }
