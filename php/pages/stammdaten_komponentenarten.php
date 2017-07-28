@@ -175,6 +175,7 @@ function executeKAOperation($formName, $type){
                 }else{
                     removeAttributeFromKind($k_id, $id);
                     addExistingAttributeToKind($k_id, $sel);
+                    updateHardwareAttributesAfterKindChange($id, $sel, $k_id);
                 }
             }
             break;
